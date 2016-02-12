@@ -10,6 +10,12 @@
             android:summary="@string/pref_lock_enabled_summary"
             android:defaultValue="false" />
 
+        <net.polybugger.apollot.UnlockPasswordDialogPreference
+            android:key="@string/pref_unlock_password_key"
+            android:title="@string/pref_unlock_password_title"
+            android:summary="@string/pref_unlock_password_summary"
+            android:defaultValue="" />
+
     </android.support.v7.preference.PreferenceCategory>
 
 </android.support.v7.preference.PreferenceScreen>

@@ -21,4 +21,12 @@
     <string name="pref_unlock_password_title">Unlock Password</string>
     <string name="pref_unlock_password_summary">Change unlock password.</string>
 
+    <string name="current_password_hint">Current Password</string>
+    <string name="new_password_hint">New Password</string>
+    <string name="change_button">Change</string>
+    <string name="close_button">Close</string>
+    <string name="pref_status_incorrect_password">Incorrect current password!</string>
+    <string name="pref_status_password_cleared">Unlock password cleared!</string>
+    <string name="pref_status_password_changed">Unlock password changed!</string>
+
 </resources>
