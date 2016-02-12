@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_unlock_password"></string>
+
+    <string name="default_academic_term_0">Fall</string>
+    <string name="default_academic_term_1">Spring</string>
+    <string name="default_academic_term_2">Summer</string>
+    <string name="default_academic_term_3">Winter</string>
+
+    <string name="default_academic_term_4">1st Semester</string>
+    <string name="default_academic_term_5">2nd Semester</string>
+
+    <string name="default_academic_term_6">1st Trimester</string>
+    <string name="default_academic_term_7">2nd Trimester</string>
+    <string name="default_academic_term_8">3rd Trimester</string>
+
+    <string name="default_academic_term_9">1st Quarter</string>
+    <string name="default_academic_term_10">2nd Quarter</string>
+    <string name="default_academic_term_11">3rd Quarter</string>
+    <string name="default_academic_term_12">4th Quarter</string>
+
+</resources>
