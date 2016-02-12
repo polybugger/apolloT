@@ -1,5 +1,6 @@
 package net.polybugger.apollot;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
@@ -44,8 +45,10 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean lockEnabled = sharedPref.getBoolean(getString(R.string.pref_lock_enabled_key), true);
+        boolean lockEnabled = sharedPref.getBoolean(getString(R.string.pref_lock_enabled_key), false);
 
         if(lockEnabled && !lockAuthenticated) {
             FragmentManager fm = getSupportFragmentManager();
@@ -76,9 +79,10 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
