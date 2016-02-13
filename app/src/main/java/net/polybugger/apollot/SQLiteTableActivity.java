@@ -13,10 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.polybugger.apollot.db.ApolloDbAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import net.polybugger.apollot.db.ApolloDbAdapter;
 
 public class SQLiteTableActivity extends AppCompatActivity {
 

@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
             academicTermsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent academicTermsIntent = new Intent(getActivity().getApplicationContext(), SQLiteTableActivity.class);
+                    Intent academicTermsIntent = new Intent(getActivity(), SQLiteTableActivity.class);
                     academicTermsIntent.putExtra(SQLiteTableActivity.TABLE_NAME_ARG, getString(R.string.db_academic_terms_table));
                     academicTermsIntent.putExtra(SQLiteTableActivity.ID_COLUMN_ARG, getString(R.string.db_academic_terms_id_column));
                     academicTermsIntent.putExtra(SQLiteTableActivity.DATA_COLUMN_ARG, getString(R.string.db_academic_terms_data_column));

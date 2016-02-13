@@ -22,7 +22,7 @@ public class UnlockPasswordDialogFragment extends DialogFragment {
 
     public static UnlockPasswordDialogFragment newInstance() {
         UnlockPasswordDialogFragment fragment = new UnlockPasswordDialogFragment();
-        // fragment.setCancelable(false);
+        fragment.setCancelable(false);
         return fragment;
     }
 
