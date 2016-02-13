@@ -22,6 +22,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import net.polybugger.apollot.db.AcademicTermDbAdapter;
+import net.polybugger.apollot.db.ApolloDbAdapter;
+
 public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordListener {
 
     private static boolean lockAuthenticated = false;
@@ -46,6 +49,13 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         super.onCreate(savedInstanceState);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        ApolloDbAdapter.setAppContext(getApplicationContext());
+        AcademicTermDbAdapter.setTableName(getString(R.string.db_academic_terms_table));
+        AcademicTermDbAdapter.setIdColumnName(getString(R.string.db_academic_terms_id_column));
+        AcademicTermDbAdapter.setDataColumnName(getString(R.string.db_academic_terms_data_column));
+        ApolloDbAdapter.open();
+        ApolloDbAdapter.close();
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean lockEnabled = sharedPref.getBoolean(getString(R.string.pref_lock_enabled_key), false);

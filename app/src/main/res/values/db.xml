@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="db_academic_terms_table">AcademicTerms</string>
+    <string name="db_academic_terms_id_column">AcademicTermId</string>
+    <string name="db_academic_terms_data_column">Description</string>
+
+    <string name="db_class_item_types_table">ClassItemTypes</string>
+    <string name="db_class_item_types_id_column">ItemTypeId</string>
+    <string name="db_class_item_types_data_column">Description</string>
+
+</resources>
