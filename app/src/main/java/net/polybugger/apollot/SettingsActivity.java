@@ -1,5 +1,6 @@
 package net.polybugger.apollot;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.widget.Toolbar;
 
 public class SettingsActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,22 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+
+            Preference academicTermsPref = findPreference(getString(R.string.pref_academic_terms_key));
+            academicTermsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent academicTermsIntent = new Intent(getActivity().getApplicationContext(), SQLiteTableActivity.class);
+                    academicTermsIntent.putExtra(SQLiteTableActivity.TABLE_NAME_ARG, getString(R.string.db_academic_terms_table));
+                    academicTermsIntent.putExtra(SQLiteTableActivity.ID_COLUMN_ARG, getString(R.string.db_academic_terms_id_column));
+                    academicTermsIntent.putExtra(SQLiteTableActivity.DATA_COLUMN_ARG, getString(R.string.db_academic_terms_data_column));
+                    academicTermsIntent.putExtra(SQLiteTableActivity.TITLE_ARG, getString(R.string.pref_academic_terms_title));
+                    academicTermsIntent.putExtra(SQLiteTableActivity.DIALOG_TITLE_ARG, getString(R.string.pref_academic_terms_dialog_title));
+                    startActivity(academicTermsIntent);
+                    return true;
+                }
+            });
+
         }
 
         @Override

@@ -12,10 +12,16 @@
     <string name="activity_settings_title">Settings</string>
 
     <string name="pref_category_security_title">Security</string>
+    <string name="pref_category_app_data_title">Application Data</string>
 
-    <string name="pref_lock_enabled_key">net.polybugger.apollo.lock_enabled</string>
+    <string name="pref_lock_enabled_key">net.polybugger.apollot.lock_enabled</string>
     <string name="pref_lock_enabled_title">Lock Enabled</string>
     <string name="pref_lock_enabled_summary">Require a password to unlock on startup.</string>
+
+    <string name="pref_academic_terms_key">net.polybugger.apollot.academic_terms</string>
+    <string name="pref_academic_terms_title">Academic Terms</string>
+    <string name="pref_academic_terms_summary">Academic terms for classes.</string>
+    <string name="pref_academic_terms_dialog_title">Academic Term</string>
 
     <string name="pref_unlock_password_key">net.polybugger.apollo.unlock_password</string>
     <string name="pref_unlock_password_title">Unlock Password</string>
@@ -28,5 +34,15 @@
     <string name="pref_status_incorrect_password">Incorrect current password!</string>
     <string name="pref_status_password_cleared">Unlock password cleared!</string>
     <string name="pref_status_password_changed">Unlock password changed!</string>
+
+    <string name="new_">New</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="type_new_entry">Type new entry</string>
+    <string name="add_button">Add</string>
+    <string name="save_button">Save</string>
+    <string name="yes_button">Yes</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="no_button">No</string>
 
 </resources>

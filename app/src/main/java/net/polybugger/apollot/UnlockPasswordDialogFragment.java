@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class UnlockPasswordDialogFragment extends DialogFragment {
 
-    public static final String TAG = "net.polybugger.apollo.unlock_password_dialog_fragment";
+    public static final String TAG = "net.polybugger.apollot.unlock_password_dialog_fragment";
 
     public interface UnlockPasswordListener {
         void onUnlockPassword();
