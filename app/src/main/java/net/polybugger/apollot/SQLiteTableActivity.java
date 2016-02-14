@@ -4,12 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,7 +20,7 @@ import java.util.List;
 
 import net.polybugger.apollot.db.ApolloDbAdapter;
 
-public class SQLiteTableActivity extends AppCompatActivity {
+public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTableNewEditDialogFragment.NewEditListener {
 
     public static final String TABLE_NAME_ARG = "net.polybugger.apollot.table_name_arg";
     public static final String ID_COLUMN_ARG = "net.polybugger.apollot.id_column_arg";
@@ -51,6 +53,20 @@ public class SQLiteTableActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setTitle(mTitle);
+
+        findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = getString(R.string.new_) + " " + mDialogTitle;
+                FragmentManager fm = getSupportFragmentManager();
+                SQLiteTableNewEditDialogFragment nedf = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
+                if(nedf == null) {
+                    nedf = SQLiteTableNewEditDialogFragment.newInstance(title, getString(R.string.add_button));
+                    nedf.show(fm, SQLiteTableNewEditDialogFragment.TAG);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -73,6 +89,11 @@ public class SQLiteTableActivity extends AppCompatActivity {
         cursor.close();
         ApolloDbAdapter.close();
         return list;
+    }
+
+    @Override
+    public void onNewEdit() {
+
     }
 
     private class ListArrayAdapter extends ArrayAdapter<SQLiteRow> {
@@ -122,7 +143,6 @@ public class SQLiteTableActivity extends AppCompatActivity {
             return convertView;
         }
     }
-
 
     private class SQLiteRow {
         private long mId;
