@@ -7,7 +7,14 @@
         <android.support.v7.preference.Preference
             android:key="@string/pref_academic_terms_key"
             android:title="@string/pref_academic_terms_title"
-            android:summary="@string/pref_academic_terms_summary" />
+            android:summary="@string/pref_academic_terms_summary"
+            android:defaultValue="" />
+
+        <android.support.v7.preference.Preference
+            android:key="@string/pref_class_item_types_key"
+            android:title="@string/pref_class_item_types_title"
+            android:summary="@string/pref_class_item_types_summary"
+            android:defaultValue="" />
 
     </android.support.v7.preference.PreferenceCategory>
 

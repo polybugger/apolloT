@@ -43,6 +43,20 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            Preference classItemTypesPref = findPreference(getString(R.string.pref_class_item_types_key));
+            classItemTypesPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent classItemTypesIntent = new Intent(getActivity(), SQLiteTableActivity.class);
+                    classItemTypesIntent.putExtra(SQLiteTableActivity.TABLE_NAME_ARG, getString(R.string.db_class_item_types_table));
+                    classItemTypesIntent.putExtra(SQLiteTableActivity.ID_COLUMN_ARG, getString(R.string.db_class_item_types_id_column));
+                    classItemTypesIntent.putExtra(SQLiteTableActivity.DATA_COLUMN_ARG, getString(R.string.db_class_item_types_data_column));
+                    classItemTypesIntent.putExtra(SQLiteTableActivity.TITLE_ARG, getString(R.string.pref_class_item_types_title));
+                    classItemTypesIntent.putExtra(SQLiteTableActivity.DIALOG_TITLE_ARG, getString(R.string.pref_class_item_types_dialog_title));
+                    startActivity(classItemTypesIntent);
+                    return true;
+                }
+            });
         }
 
         @Override

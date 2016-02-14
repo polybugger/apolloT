@@ -3,7 +3,6 @@ package net.polybugger.apollot;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import net.polybugger.apollot.db.AcademicTermDbAdapter;
 import net.polybugger.apollot.db.ApolloDbAdapter;
+import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 
 public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordListener {
 
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         AcademicTermDbAdapter.setTableName(getString(R.string.db_academic_terms_table));
         AcademicTermDbAdapter.setIdColumnName(getString(R.string.db_academic_terms_id_column));
         AcademicTermDbAdapter.setDataColumnName(getString(R.string.db_academic_terms_data_column));
+        ClassItemTypeDbAdapter.setTableName(getString(R.string.db_class_item_types_table));
+        ClassItemTypeDbAdapter.setIdColumnName(getString(R.string.db_class_item_types_id_column));
+        ClassItemTypeDbAdapter.setDataColumnName(getString(R.string.db_class_item_types_data_column));
         ApolloDbAdapter.open();
         ApolloDbAdapter.close();
 
@@ -57,9 +61,7 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         else {
             onUnlockPassword();
         }
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -176,8 +178,7 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));

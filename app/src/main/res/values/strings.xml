@@ -23,7 +23,12 @@
     <string name="pref_academic_terms_summary">Academic terms for classes.</string>
     <string name="pref_academic_terms_dialog_title">Academic Term</string>
 
-    <string name="pref_unlock_password_key">net.polybugger.apollo.unlock_password</string>
+    <string name="pref_class_item_types_key">net.polybugger.apollot.class_item_types</string>
+    <string name="pref_class_item_types_title">Class Activities</string>
+    <string name="pref_class_item_types_summary">Activities for classes.</string>
+    <string name="pref_class_item_types_dialog_title">Class Activity</string>
+
+    <string name="pref_unlock_password_key">net.polybugger.apollot.unlock_password</string>
     <string name="pref_unlock_password_title">Unlock Password</string>
     <string name="pref_unlock_password_summary">Change unlock password.</string>
 

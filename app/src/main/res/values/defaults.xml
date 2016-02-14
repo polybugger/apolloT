@@ -19,4 +19,16 @@
     <string name="default_academic_term_11">3rd Quarter</string>
     <string name="default_academic_term_12">4th Quarter</string>
 
+    <string name="default_class_item_type_0">Lesson</string>
+    <string name="default_class_item_type_1">Homework</string>
+    <string name="default_class_item_type_2">Exercise</string>
+    <string name="default_class_item_type_3">Short Quiz</string>
+    <string name="default_class_item_type_4">Long Exam</string>
+    <string name="default_class_item_type_5">Project</string>
+    <string name="default_class_item_type_6">Essay</string>
+    <string name="default_class_item_type_7">Report</string>
+    <string name="default_class_item_type_8">Quarter Exam</string>
+    <string name="default_class_item_type_9">Midterm Exam</string>
+    <string name="default_class_item_type_10">Final Exam</string>
+
 </resources>
