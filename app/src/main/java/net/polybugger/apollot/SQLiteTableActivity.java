@@ -23,7 +23,7 @@ import java.util.List;
 
 import net.polybugger.apollot.db.ApolloDbAdapter;
 
-public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTableNewEditDialogFragment.NewEditListener {
+public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTableNewEditDialogFragment.NewEditListener, SQLiteTableRemoveDialogFragment.RemoveListener {
 
     public static final String TABLE_NAME_ARG = "net.polybugger.apollot.table_name_arg";
     public static final String ID_COLUMN_ARG = "net.polybugger.apollot.id_column_arg";
@@ -38,7 +38,6 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
     private String mDialogTitle;
     private ListArrayAdapter mListAdapter;
     private ListView mListView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +108,16 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         ContentValues values = new ContentValues();
         values.put(dataColumn, data);
         SQLiteDatabase db = ApolloDbAdapter.open();
-        int rowsUpdated = db.update(tableName, values, idColumn + "=?", new String[] { String.valueOf(id) });
+        int rowsUpdated = db.update(tableName, values, idColumn + "=?", new String[]{String.valueOf(id)});
         ApolloDbAdapter.close();
         return rowsUpdated;
+    }
+
+    public int delete(String tableName, String idColumn, long id) {
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        int rowsDeleted = db.delete(tableName, idColumn + "=?", new String[]{String.valueOf(id)});
+        ApolloDbAdapter.close();
+        return rowsDeleted;
     }
 
     private void scrollListViewToBottom() {
@@ -149,6 +155,23 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         mListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onRemove(SQLiteRow sqliteRow) {
+        long id = sqliteRow.getId();
+        SQLiteRow item;
+        int i, count = mListAdapter.getCount();
+        for(i = 0; i < count; ++i) {
+            item = mListAdapter.getItem(i);
+            if(item.getId() == id) {
+                if(delete(mTableName, mIdColumn, id) >= 1) {
+                    mListAdapter.remove(item);
+                    mListAdapter.notifyDataSetChanged();
+                }
+                break;
+            }
+        }
+    }
+
     private class ListArrayAdapter extends ArrayAdapter<SQLiteRow> {
 
         private View.OnClickListener mEditClickListener;
@@ -177,17 +200,14 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
             mRemoveClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*
-                    if(mIsAlertDialogShown)
-                        return;
-                    mIsAlertDialogShown = true;
-                    String title = mContext.getString(R.string.remove) + " " + mDialogTitle + "?";
-                    SQLiteRow sqliteRow = (SQLiteRow) view.getTag();
-                    RemoveDialog d = new RemoveDialog(mContext);
-                    d.setDialogArgs(title);
-                    d.setData(sqliteRow);
-                    mCurrentAlertDialog = d.show();
-                    */
+                    String title = getString(R.string.remove) + " " + mDialogTitle;
+                    FragmentManager fm = getSupportFragmentManager();
+                    SQLiteTableRemoveDialogFragment redf = (SQLiteTableRemoveDialogFragment) fm.findFragmentByTag(SQLiteTableRemoveDialogFragment.TAG);
+                    if(redf == null) {
+                        SQLiteRow sqliteRow = (SQLiteRow) view.getTag();
+                        redf = SQLiteTableRemoveDialogFragment.newInstance(title, sqliteRow);
+                        redf.show(fm, SQLiteTableRemoveDialogFragment.TAG);
+                    }
                 }
             };
 

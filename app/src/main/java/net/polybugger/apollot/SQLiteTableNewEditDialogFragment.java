@@ -27,7 +27,7 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
     private EditText mEditText;
 
     public interface NewEditListener {
-        void onNewEdit(SQLiteTableActivity.SQLiteRow sqLiteRow);
+        void onNewEdit(SQLiteTableActivity.SQLiteRow sqliteRow);
     }
 
     public static SQLiteTableNewEditDialogFragment newInstance(String dialogTitle, String buttonText, SQLiteTableActivity.SQLiteRow sqliteRow) {
@@ -60,8 +60,7 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
         final Activity activity = getActivity();
         View view = activity.getLayoutInflater().inflate(R.layout.fragment_sqlite_table_new_edit_dialog, null);
 
-        TextView titleTextView = (TextView) view.findViewById(R.id.title_text_view);
-        titleTextView.setText(mDialogTitle);
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
 
         mEditText = (EditText) view.findViewById(R.id.edit_text);
         if(mSQLiteRow.getId() != -1) {
