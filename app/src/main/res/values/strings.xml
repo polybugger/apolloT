@@ -44,5 +44,6 @@
     <string name="yes_button">Yes</string>
     <string name="cancel_button">Cancel</string>
     <string name="no_button">No</string>
+    <string name="fragment_status_blank_entry">Entry cannot be blank!</string>
 
 </resources>

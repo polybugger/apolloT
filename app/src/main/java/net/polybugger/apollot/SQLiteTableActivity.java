@@ -1,5 +1,6 @@
 package net.polybugger.apollot;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
     private String mTitle;
     private String mDialogTitle;
     private ListArrayAdapter mListAdapter;
+    private ListView mListView;
 
 
     @Override
@@ -61,7 +65,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
                 FragmentManager fm = getSupportFragmentManager();
                 SQLiteTableNewEditDialogFragment nedf = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
                 if(nedf == null) {
-                    nedf = SQLiteTableNewEditDialogFragment.newInstance(title, getString(R.string.add_button));
+                    nedf = SQLiteTableNewEditDialogFragment.newInstance(title, getString(R.string.add_button), new SQLiteRow(-1, null));
                     nedf.show(fm, SQLiteTableNewEditDialogFragment.TAG);
                 }
             }
@@ -73,7 +77,8 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
     protected void onResume() {
         super.onResume();
         mListAdapter = new ListArrayAdapter(this, getList());
-        ((ListView) findViewById(R.id.list_view)).setAdapter(mListAdapter);
+        mListView = (ListView) findViewById(R.id.list_view);
+        mListView.setAdapter(mListAdapter);
 
     }
 
@@ -91,17 +96,67 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         return list;
     }
 
-    @Override
-    public void onNewEdit() {
+    private long insert(String tableName, String dataColumn, String data) {
+        ContentValues values = new ContentValues();
+        values.put(dataColumn, data);
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        long id = db.insert(tableName, null, values);
+        ApolloDbAdapter.close();
+        return id;
+    }
 
+    private int update(String tableName, String idColumn, long id, String dataColumn, String data) {
+        ContentValues values = new ContentValues();
+        values.put(dataColumn, data);
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        int rowsUpdated = db.update(tableName, values, idColumn + "=?", new String[] { String.valueOf(id) });
+        ApolloDbAdapter.close();
+        return rowsUpdated;
+    }
+
+    private void scrollListViewToBottom() {
+        mListView.post(new Runnable() {
+            @Override
+            public void run() {
+                mListView.smoothScrollToPosition(mListAdapter.getCount() - 1);
+            }
+        });
+    }
+
+    @Override
+    public void onNewEdit(SQLiteRow sqliteRow) {
+        long id = sqliteRow.getId();
+        String data = sqliteRow.getData();
+        if(id == -1) {
+            id = insert(mTableName, mDataColumn, data);
+            if(id != -1) {
+                mListAdapter.add(new SQLiteRow(id, data));
+                scrollListViewToBottom();
+            }
+        }
+        else {
+            SQLiteRow item;
+            int i, count = mListAdapter.getCount();
+            for(i = 0; i < count; ++i) {
+                item = mListAdapter.getItem(i);
+                if(item.getId() == id) {
+                    if(update(mTableName, mIdColumn, id, mDataColumn, data) >= 1)
+                        item.setData(data);
+                    break;
+                }
+            }
+        }
+        mListAdapter.notifyDataSetChanged();
     }
 
     private class ListArrayAdapter extends ArrayAdapter<SQLiteRow> {
 
         private View.OnClickListener mEditClickListener;
+        private View.OnClickListener mRemoveClickListener;
 
         private class ViewHolder {
             TextView textView;
+            ImageButton imageButton;
         }
 
         public ListArrayAdapter(Context context, List<SQLiteRow> objects) {
@@ -109,19 +164,33 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
             mEditClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    String title = getString(R.string.edit) + " " + mDialogTitle;
+                    FragmentManager fm = getSupportFragmentManager();
+                    SQLiteTableNewEditDialogFragment nedf = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
+                    if(nedf == null) {
+                        SQLiteRow sqliteRow = (SQLiteRow) view.getTag();
+                        nedf = SQLiteTableNewEditDialogFragment.newInstance(title, getString(R.string.save_button), sqliteRow);
+                        nedf.show(fm, SQLiteTableNewEditDialogFragment.TAG);
+                    }
+                }
+            };
+            mRemoveClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     /*
                     if(mIsAlertDialogShown)
                         return;
                     mIsAlertDialogShown = true;
-                    String title = mContext.getString(R.string.edit) + " " + mDialogTitle;
+                    String title = mContext.getString(R.string.remove) + " " + mDialogTitle + "?";
                     SQLiteRow sqliteRow = (SQLiteRow) view.getTag();
-                    NewEditDialog d = new NewEditDialog(mContext);
-                    d.setDialogArgs(title, "", mContext.getString(R.string.save_button));
+                    RemoveDialog d = new RemoveDialog(mContext);
+                    d.setDialogArgs(title);
                     d.setData(sqliteRow);
                     mCurrentAlertDialog = d.show();
                     */
                 }
             };
+
         }
 
         @Override
@@ -133,6 +202,8 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
                 convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.listview_sqlite_table_row, parent, false);
                 viewHolder.textView = (TextView) convertView.findViewById(R.id.text_view);
                 viewHolder.textView.setOnClickListener(mEditClickListener);
+                viewHolder.imageButton = (ImageButton) convertView.findViewById(R.id.remove_button);
+                viewHolder.imageButton.setOnClickListener(mRemoveClickListener);
                 convertView.setTag(viewHolder);
             }
             else {
@@ -140,11 +211,12 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
             }
             viewHolder.textView.setText(sqliteRow.getData());
             viewHolder.textView.setTag(sqliteRow);
+            viewHolder.imageButton.setTag(sqliteRow);
             return convertView;
         }
     }
 
-    private class SQLiteRow {
+    public static class SQLiteRow implements Serializable {
         private long mId;
         private String mData;
         public SQLiteRow(long id, String data) {
