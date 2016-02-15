@@ -105,6 +105,8 @@ public class ApolloDbAdapter {
             _insertDefaultClassItemTypes(db);
 
             long classId = _insertDummyClass1(db);
+            _insertDummyClassPassword(db, classId, "test");
+
             _insertDummyClass2(db);
 
 
@@ -207,4 +209,7 @@ public class ApolloDbAdapter {
         ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.W.getValue(), "302", "AS", "TC");
     }
 
+    private static void _insertDummyClassPassword(SQLiteDatabase db, long classId, String password) {
+        ClassPasswordDbAdapter._insert(db, classId, password);
+    }
 }

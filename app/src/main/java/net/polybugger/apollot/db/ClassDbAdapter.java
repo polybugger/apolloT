@@ -133,6 +133,74 @@ public class ClassDbAdapter {
         return classes;
     }
 
+    public static Class getClass(long classId) {
+        long prevClassId = -1; boolean locked = false;
+        Date timeStart, timeEnd; AcademicTermDbAdapter.AcademicTerm academicTerm; ClassScheduleDbAdapter.ClassSchedule classSchedule;
+        SimpleDateFormat sdf = new SimpleDateFormat(ClassScheduleDbAdapter.SDF_DB_TEMPLATE, ApolloDbAdapter.getAppContext().getResources().getConfiguration().locale);
+        Class class_ = null;
+        final String sql = "SELECT c." + CLASS_ID.getName() + // 0
+                ", " + CODE.getName() + // 1
+                ", c." + DESCRIPTION.getName() + // 2
+                ", at." + AcademicTermDbAdapter.ACADEMIC_TERM_ID.getName() + // 3
+                ", at." + AcademicTermDbAdapter.DESCRIPTION.getName() + // 4
+                " AS AcademicTerm, " + YEAR.getName() + // 5
+                ", " + CURRENT.getName() + // 6
+                ", " + ClassScheduleDbAdapter.SCHEDULE_ID.getName() + // 7
+                ", " + ClassScheduleDbAdapter.TIME_START.getName() + // 8
+                ", " + ClassScheduleDbAdapter.TIME_END.getName() + // 9
+                ", " + ClassScheduleDbAdapter.DAYS.getName() + // 10
+                ", " + ClassScheduleDbAdapter.ROOM.getName() + // 11
+                ", " + ClassScheduleDbAdapter.BUILDING.getName() + // 12
+                ", " + ClassScheduleDbAdapter.CAMPUS.getName() + // 13
+                ", " + ClassPasswordDbAdapter.PASSWORD.getName() + // 14
+                " FROM " + TABLE_NAME + " AS c LEFT OUTER JOIN " + AcademicTermDbAdapter.TABLE_NAME +
+                " AS at ON c." + ACADEMIC_TERM_ID.getName() + "=at." + AcademicTermDbAdapter.ACADEMIC_TERM_ID.getName() +
+                " LEFT OUTER JOIN " + ClassScheduleDbAdapter.TABLE_NAME +
+                " AS cs ON c." + CLASS_ID.getName() + "=cs." + ClassScheduleDbAdapter.CLASS_ID.getName() +
+                " LEFT OUTER JOIN " + ClassPasswordDbAdapter.TABLE_NAME +
+                " AS cp ON c." + CLASS_ID.getName() + "=cp." + ClassPasswordDbAdapter.CLASS_ID.getName() +
+                " WHERE c." + CLASS_ID.getName() + "=" + String.valueOf(classId) +
+                " ORDER BY c." + CLASS_ID.getName() + ", cs." + ClassScheduleDbAdapter.SCHEDULE_ID.getName();
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            classId = cursor.getLong(0);
+            if(classId != prevClassId) {
+                try {
+                    timeStart = sdf.parse(cursor.getString(8));
+                }
+                catch(Exception e) {
+                    timeStart = null;
+                }
+                try {
+                    timeEnd = sdf.parse(cursor.getString(9));
+                }
+                catch(Exception e) {
+                    timeEnd = null;
+                }
+                if(cursor.isNull(3))
+                    academicTerm = null;
+                else
+                    academicTerm = new AcademicTermDbAdapter.AcademicTerm(cursor.getLong(3), cursor.getString(4));
+                if(cursor.isNull(7))
+                    classSchedule = null;
+                else
+                    classSchedule = new ClassScheduleDbAdapter.ClassSchedule(classId, cursor.getLong(7), timeStart, timeEnd, cursor.getInt(10), cursor.getString(11), cursor.getString(12), cursor.getString(13));
+                locked = cursor.isNull(14) ? false : true;
+                class_ = new Class(classId, cursor.getString(1), cursor.getString(2), academicTerm, cursor.getString(5), cursor.getInt(6) == 0 ? false : true, classSchedule, locked);
+            }
+            else {
+                class_.setMultiSchedule(true);
+            }
+            prevClassId = classId;
+            cursor.moveToNext();
+        }
+        cursor.close();
+        ApolloDbAdapter.close();
+        return class_;
+    }
+
     @SuppressWarnings("serial")
     public static class Class implements Serializable {
 
