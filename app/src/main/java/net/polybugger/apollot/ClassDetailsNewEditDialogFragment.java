@@ -27,7 +27,6 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
     public static final String DIALOG_ARG = "net.polybugger.apollot.dialog_arg";
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String FRAGMENT_TAG_ARG = "net.polybugger.apollot.fragment_tag_arg";
-    public static final String STATE_ACADEMIC_TERM_POS = "net.polybugger.apollot.academic_term_pos";
 
     private Activity mActivity;
     private ClassDbAdapter.Class mClass;
@@ -79,28 +78,11 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
         ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogArgs.getTitle());
         mCodeEditText = (EditText) view.findViewById(R.id.code_edit_text);
         mDescriptionEditText = (EditText) view.findViewById(R.id.description_edit_text);
-        // http://stackoverflow.com/questions/6602339/android-spinner-hint
-        ArrayAdapter<AcademicTermDbAdapter.AcademicTerm> spinnerAdapter = new ArrayAdapter<AcademicTermDbAdapter.AcademicTerm>(mActivity, android.R.layout.simple_spinner_item, AcademicTermDbAdapter.getList()) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                if (position == getCount()) {
-                    ((TextView) v.findViewById(android.R.id.text1)).setText("");
-                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount()).toString()); // Hint to be displayed
-                }
-                return v;
-            }
-            @Override
-            public int getCount() {
-                return super.getCount() - 1; // you don't display last item. It is used as hint.
-            }
-        };
+
+        ArrayAdapter<AcademicTermDbAdapter.AcademicTerm> spinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, AcademicTermDbAdapter.getList());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAdapter.add(new AcademicTermDbAdapter.AcademicTerm(-1, getString(R.string.academic_term_hint)));
         mAcademicTermSpinner = (Spinner) view.findViewById(R.id.academic_term_spinner);
-        mAcademicTermSpinner.setSaveEnabled(false);
         mAcademicTermSpinner.setAdapter(spinnerAdapter);
-        mAcademicTermSpinner.setSelection(spinnerAdapter.getCount());
         mYearEditText = (EditText) view.findViewById(R.id.year_edit_text);
         mCurrentCheckBox = (CheckBox) view.findViewById(R.id.current_checkbox);
         view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
@@ -158,18 +140,9 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
             mCurrentCheckBox.setChecked(mClass.isCurrent());
         }
 
-        if(savedInstanceState != null && savedInstanceState.containsKey(STATE_ACADEMIC_TERM_POS))
-            mAcademicTermSpinner.setSelection(savedInstanceState.getInt(STATE_ACADEMIC_TERM_POS));
-
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setTitle(null).setView(view).setPositiveButton(null, null).setNegativeButton(null, null);
         return builder.create();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(STATE_ACADEMIC_TERM_POS, mAcademicTermSpinner.getSelectedItemPosition());
-        super.onSaveInstanceState(outState);
     }
 
     @SuppressWarnings("serial")
