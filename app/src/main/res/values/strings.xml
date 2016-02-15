@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Apollo</string>
+    <string name="action_new_class">New Class</string>
     <string name="action_settings">Settings</string>
 
     <string name="unlock_password_hint">Unlock Password</string>
@@ -52,8 +53,16 @@
     <string name="current_tab">Current</string>
     <string name="past_tab">Past</string>
 
+    <string name="new_class_details">New Class Details</string>
+    <string name="edit_class_details">Edit Class Details</string>
+    <string name="code_hint">Class Code</string>
+    <string name="description_hint">Description</string>
+    <string name="academic_term_hint">Academic Term</string>
+    <string name="year_hint">Year</string>
     <string name="current">Current</string>
     <string name="past">Past</string>
+    <string name="fragment_status_code_required">Code cannot be blank.</string>
+    <string name="fragment_status_description_required">Description cannot be blank.</string>
 
     <string name="days_mf">M-F</string>
     <string name="days_mwf">MWF</string>

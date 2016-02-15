@@ -10,5 +10,6 @@
     <dimen name="large_text_size">18sp</dimen>
 
     <dimen name="normal_margin">10sp</dimen>
+    <dimen name="normal_margin_spinner">12sp</dimen>
 
 </resources>

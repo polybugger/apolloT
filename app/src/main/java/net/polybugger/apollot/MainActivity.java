@@ -19,9 +19,10 @@ import android.view.View;
 
 import net.polybugger.apollot.db.AcademicTermDbAdapter;
 import net.polybugger.apollot.db.ApolloDbAdapter;
+import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 
-public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordListener {
+public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordListener, ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener {
 
     private static boolean lockAuthenticated = false;
     private static final int CURRENT_TAB = 0;
@@ -73,12 +74,22 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         int id = item.getItemId();
 
         switch(id) {
+            case R.id.action_new_class:
+                showNewClassDialog();
+                return true;
+
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showNewClassDialog() {
+        ClassDetailsNewEditDialogFragment.DialogArgs dialogArgs = new ClassDetailsNewEditDialogFragment.DialogArgs(getString(R.string.new_class_details), getString(R.string.add_button));
+        ClassDetailsNewEditDialogFragment f = ClassDetailsNewEditDialogFragment.newInstance(dialogArgs, null, null);
+        f.show(getSupportFragmentManager(), ClassDetailsNewEditDialogFragment.TAG);
     }
 
     @Override
@@ -98,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+    }
+
+    @Override
+    public void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag) {
 
     }
 
