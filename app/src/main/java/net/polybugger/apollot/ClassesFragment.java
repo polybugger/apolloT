@@ -99,6 +99,11 @@ public class ClassesFragment extends Fragment {
         super.onDestroyView();
     }
 
+    public void addClass(ClassDbAdapter.Class class_) {
+        mListAdapter.add(class_);
+        mListAdapter.notifyDataSetChanged();
+    }
+
     private class ListArrayAdapter extends ArrayAdapter<ClassDbAdapter.Class> {
 
         private class ViewHolder {

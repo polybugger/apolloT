@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,7 +13,6 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import net.polybugger.apollot.db.AcademicTermDbAdapter;
 import net.polybugger.apollot.db.ApolloDbAdapter;
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -114,7 +111,27 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
     @Override
     public void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag) {
+        AcademicTermDbAdapter.AcademicTerm academicTerm = class_.getAcademicTerm();
+        long academicTermId = academicTerm == null ? -1 : academicTerm.getId();
+        long classId = ClassDbAdapter.insert(class_.getCode(), class_.getDescription(), academicTermId, class_.getYear(), class_.isCurrent());
+        if(classId != -1) {
+            FragmentManager fm = getSupportFragmentManager();
+            ClassesFragment classesFragment;
+            try {
+                classesFragment = (ClassesFragment) fm.findFragmentByTag(getFragmentTag(class_.isCurrent() ? CURRENT_TAB : PAST_TAB));
+                classesFragment.addClass(class_);
+            }
+            catch(Exception e) { }
+            class_.setClassId(classId);
+            //Intent intent = new Intent(this, ClassActivity.class);
+            //intent.putExtra(ClassActivity.CLASS_ARG, class_);
+            //startActivity(intent);
+        }
 
+    }
+
+    private String getFragmentTag(int position) {
+        return "android:switcher:" + R.id.pager + ":" + position;
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

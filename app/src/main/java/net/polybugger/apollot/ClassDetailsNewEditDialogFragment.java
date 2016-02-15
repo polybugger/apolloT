@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.polybugger.apollot.db.AcademicTermDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
@@ -96,9 +99,9 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
         addSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
+
                 String code = mCodeEditText.getText().toString();
-                if(StringUtils.isBlank(code)) {
+                if(TextUtils.isEmpty(code)) {
                     mCodeEditText.requestFocus();
                     Toast toast = Toast.makeText(mActivity, R.string.fragment_status_code_required, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -106,11 +109,11 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
                     return;
                 }
                 String description = mDescriptionEditText.getText().toString();
-                AcademicTerm academicTerm = (mAcademicTermSpinner.getSelectedItemPosition() == mAcademicTermSpinner.getCount()) ? null : (AcademicTerm) mAcademicTermSpinner.getSelectedItem();
+                AcademicTermDbAdapter.AcademicTerm academicTerm = (mAcademicTermSpinner.getSelectedItemPosition() == mAcademicTermSpinner.getCount()) ? null : (AcademicTermDbAdapter.AcademicTerm) mAcademicTermSpinner.getSelectedItem();
                 String year = mYearEditText.getText().toString();
                 boolean current = mCurrentCheckBox.isChecked();
                 if(mClass == null) {
-                    mClass = new Class(-1, code, description, academicTerm, year, current);
+                    mClass = new ClassDbAdapter.Class(-1, code, description, academicTerm, year, current);
                 }
                 else {
                     mClass.setCode(code);
@@ -119,7 +122,6 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
                     mClass.setYear(year);
                     mClass.setCurrent(current);
                 }
-                */
                 try {
                     ((ClassDetailsDialogListener) mActivity).onClassDetailsDialogSubmit(mClass, mFragmentTag);
                 }
