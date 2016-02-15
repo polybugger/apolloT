@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import net.polybugger.apollot.R;
 
+import java.util.Calendar;
+
 public class ApolloDbAdapter {
 
     public static final String DATABASE_NAME = "ApolloDb.sqlite3";
@@ -66,8 +68,45 @@ public class ApolloDbAdapter {
                             ClassItemTypeDbAdapter.DESCRIPTION.getName() + " " + ClassItemTypeDbAdapter.DESCRIPTION.getType() + " NOT NULL)";
             db.execSQL(CREATE_TABLE_CLASS_ITEM_TYPES);
 
+            final String CREATE_TABLE_CLASSES =
+                    "CREATE TABLE " + ClassDbAdapter.TABLE_NAME + " (" +
+                            ClassDbAdapter.CLASS_ID.getName() + " " + ClassDbAdapter.CLASS_ID.getType() + " PRIMARY KEY, " +
+                            ClassDbAdapter.CODE.getName() + " " + ClassDbAdapter.CODE.getType() + " NOT NULL, " +
+                            ClassDbAdapter.DESCRIPTION.getName() + " " + ClassDbAdapter.DESCRIPTION.getType() + " NULL, " +
+                            ClassDbAdapter.ACADEMIC_TERM_ID.getName() + " " + ClassDbAdapter.ACADEMIC_TERM_ID.getType() + " NULL REFERENCES " +
+                            AcademicTermDbAdapter.TABLE_NAME + " (" + AcademicTermDbAdapter.ACADEMIC_TERM_ID.getName() + "), " +
+                            ClassDbAdapter.YEAR.getName() + " " + ClassDbAdapter.YEAR.getType() + " NULL, " +
+                            ClassDbAdapter.CURRENT.getName() + " " + ClassDbAdapter.CURRENT.getType() + " NOT NULL DEFAULT 1)";
+            db.execSQL(CREATE_TABLE_CLASSES);
+
+            final String CREATE_TABLE_CLASS_PASSWORDS =
+                    "CREATE TABLE " + ClassPasswordDbAdapter.TABLE_NAME + " (" +
+                            ClassPasswordDbAdapter.CLASS_ID.getName() + " " + ClassPasswordDbAdapter.CLASS_ID.getType() + " NOT NULL REFERENCES " +
+                            ClassDbAdapter.TABLE_NAME + " (" + ClassDbAdapter.CLASS_ID.getName() + "), " +
+                            ClassPasswordDbAdapter.PASSWORD.getName() + " " + ClassPasswordDbAdapter.PASSWORD.getType() + " NOT NULL, " +
+                            "UNIQUE (" + ClassPasswordDbAdapter.CLASS_ID.getName() + "))";
+            db.execSQL(CREATE_TABLE_CLASS_PASSWORDS);
+
+            final String CREATE_TABLE_CLASS_SCHEDULES =
+                    "CREATE TABLE " + ClassScheduleDbAdapter.TABLE_NAME + " (" +
+                            ClassScheduleDbAdapter.SCHEDULE_ID.getName() + " " + ClassScheduleDbAdapter.SCHEDULE_ID.getType() + " PRIMARY KEY, " +
+                            ClassScheduleDbAdapter.CLASS_ID.getName() + " " + ClassScheduleDbAdapter.CLASS_ID.getType() + " NOT NULL REFERENCES " +
+                            ClassDbAdapter.TABLE_NAME + " (" + ClassDbAdapter.CLASS_ID.getName() + "), " +
+                            ClassScheduleDbAdapter.TIME_START.getName() + " " + ClassScheduleDbAdapter.TIME_START.getType() + " NOT NULL, " +
+                            ClassScheduleDbAdapter.TIME_END.getName() + " " + ClassScheduleDbAdapter.TIME_END.getType() + " NULL, " +
+                            ClassScheduleDbAdapter.DAYS.getName() + " " + ClassScheduleDbAdapter.DAYS.getType() + " NOT NULL DEFAULT 0, " +
+                            ClassScheduleDbAdapter.ROOM.getName() + " " + ClassScheduleDbAdapter.ROOM.getType() + " NULL, " +
+                            ClassScheduleDbAdapter.BUILDING.getName() + " " + ClassScheduleDbAdapter.BUILDING.getType() + " NULL, " +
+                            ClassScheduleDbAdapter.CAMPUS.getName() + " " + ClassScheduleDbAdapter.CAMPUS.getType() + " NULL)";
+            db.execSQL(CREATE_TABLE_CLASS_SCHEDULES);
+
+
             _insertDefaultAcademicTerms(db);
             _insertDefaultClassItemTypes(db);
+
+            long classId = _insertDummyClass1(db);
+            _insertDummyClass2(db);
+
 
         }
 
@@ -106,4 +145,66 @@ public class ApolloDbAdapter {
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_9));
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_10));
     }
+
+    private static long _insertDummyClass1(SQLiteDatabase db) {
+        long id = ClassDbAdapter._insert(db, "Math 311", "Abstract Algebra", 1, "2014", true);
+        Calendar calTimeStart = Calendar.getInstance();
+        calTimeStart.set(Calendar.HOUR, 8);
+        calTimeStart.set(Calendar.MINUTE, 45);
+        calTimeStart.set(Calendar.AM_PM, Calendar.AM);
+        Calendar calTimeEnd = Calendar.getInstance();
+        calTimeEnd.set(Calendar.HOUR, 9);
+        calTimeEnd.set(Calendar.MINUTE, 45);
+        calTimeEnd.set(Calendar.AM_PM, Calendar.AM);
+        ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.MWF.getValue(), "214", "Arts & Sciences", "North");
+        return id;
+    }
+
+    private static void _insertDummyClass2(SQLiteDatabase db) {
+        long id = ClassDbAdapter._insert(db, "IT 116", "Advanced Programming", 1, "2014", true);
+        Calendar calTimeStart = Calendar.getInstance();
+        calTimeStart.set(Calendar.HOUR, 7);
+        calTimeStart.set(Calendar.MINUTE, 45);
+        calTimeStart.set(Calendar.AM_PM, Calendar.AM);
+        Calendar calTimeEnd = Calendar.getInstance();
+        calTimeEnd.set(Calendar.HOUR, 8);
+        calTimeEnd.set(Calendar.MINUTE, 45);
+        calTimeEnd.set(Calendar.AM_PM, Calendar.AM);
+        ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.MWF.getValue(), "202", "AS", "TC");
+
+        id = ClassDbAdapter._insert(db, "IT 126", "Data Structures II", 1, "2014", false);
+        calTimeStart.set(Calendar.HOUR, 2);
+        calTimeStart.set(Calendar.MINUTE, 45);
+        calTimeStart.set(Calendar.AM_PM, Calendar.PM);
+        calTimeEnd.set(Calendar.HOUR, 3);
+        calTimeEnd.set(Calendar.MINUTE, 45);
+        calTimeEnd.set(Calendar.AM_PM, Calendar.PM);
+        ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.MWF.getValue(), "204", "AS", "TC");
+
+        id = ClassDbAdapter._insert(db, "IT 128", "Multimedia Systems", 1, "2014", false);
+        calTimeStart.set(Calendar.HOUR, 2);
+        calTimeStart.set(Calendar.MINUTE, 15);
+        calTimeStart.set(Calendar.AM_PM, Calendar.PM);
+        calTimeEnd.set(Calendar.HOUR, 3);
+        calTimeEnd.set(Calendar.MINUTE, 45);
+        calTimeEnd.set(Calendar.AM_PM, Calendar.PM);
+        ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.TTh.getValue(), "304", "AS", "TC");
+
+        id = ClassDbAdapter._insert(db, "IT 134", "Object-Oriented Technology", 1, "2014", true);
+        calTimeStart.set(Calendar.HOUR, 3);
+        calTimeStart.set(Calendar.MINUTE, 45);
+        calTimeStart.set(Calendar.AM_PM, Calendar.PM);
+        calTimeEnd.set(Calendar.HOUR, 5);
+        calTimeEnd.set(Calendar.MINUTE, 15);
+        calTimeEnd.set(Calendar.AM_PM, Calendar.PM);
+        ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.M.getValue(), "302", "AS", "TC");
+        calTimeStart.set(Calendar.HOUR, 9);
+        calTimeStart.set(Calendar.MINUTE, 45);
+        calTimeStart.set(Calendar.AM_PM, Calendar.AM);
+        calTimeEnd.set(Calendar.HOUR, 11);
+        calTimeEnd.set(Calendar.MINUTE, 15);
+        calTimeEnd.set(Calendar.AM_PM, Calendar.AM);
+        ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.W.getValue(), "302", "AS", "TC");
+    }
+
 }

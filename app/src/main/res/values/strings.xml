@@ -51,4 +51,33 @@
     <string name="no_button">No</string>
     <string name="fragment_status_blank_entry">Entry cannot be blank!</string>
 
+    <string name="current">Current</string>
+    <string name="past">Past</string>
+
+    <string name="days_mf">M-F</string>
+    <string name="days_mwf">MWF</string>
+    <string name="days_tth">TTh</string>
+    <string name="days_mon">Mon</string>
+    <string name="days_tue">Tue</string>
+    <string name="days_wed">Wed</string>
+    <string name="days_thu">Thu</string>
+    <string name="days_fri">Fri</string>
+    <string name="days_sat">Sat</string>
+    <string name="days_sun">Sun</string>
+    <string name="days_m">M</string>
+    <string name="days_t">T</string>
+    <string name="days_w">W</string>
+    <string name="days_th">Th</string>
+    <string name="days_f">F</string>
+    <string name="days_s">S</string>
+    <string name="days_su">Su</string>
+
+    <string name="days_monday">Monday</string>
+    <string name="days_tuesday">Tuesday</string>
+    <string name="days_wednesday">Wednesday</string>
+    <string name="days_thursday">Thursday</string>
+    <string name="days_friday">Friday</string>
+    <string name="days_saturday">Saturday</string>
+    <string name="days_sunday">Sunday</string>
+
 </resources>
