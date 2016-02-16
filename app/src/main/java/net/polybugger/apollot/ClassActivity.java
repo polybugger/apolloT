@@ -14,7 +14,8 @@ import android.view.MenuItem;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
 
-public class ClassActivity extends AppCompatActivity implements ClassPasswordDialogFragment.ClassPasswordDialogListener {
+public class ClassActivity extends AppCompatActivity implements ClassPasswordDialogFragment.ClassPasswordDialogListener,
+        ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -127,6 +128,21 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         super.onBackPressed();
         MainActivity.CLASS_REQUERY_CALLBACK = true;
         MainActivity.CLASS_REQUERY = mClass;
+    }
+
+    @Override
+    public void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag) {
+        mClass = class_;
+        setTitle(mClass.getTitle());
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener) f).onClassDetailsDialogSubmit(mClass, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener.class.toString());
+            }
+        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
 
-public class ClassInfoFragment extends Fragment {
+public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -70,14 +70,9 @@ public class ClassInfoFragment extends Fragment {
         editClassDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                NewEditClassDetailsDialogFragment.DialogArgs dialogArgs = new NewEditClassDetailsDialogFragment.DialogArgs(getString(R.string.edit_class_details), getString(R.string.save_button));
-                NewEditClassDetailsDialogFragment f = NewEditClassDetailsDialogFragment.newInstance(dialogArgs, mClass, getTag());
-                f.show(getFragmentManager(), NewEditClassDetailsDialogFragment.TAG);
-                */
+                ClassDetailsNewEditDialogFragment.DialogArgs dialogArgs = new ClassDetailsNewEditDialogFragment.DialogArgs(getString(R.string.edit_class_details), getString(R.string.save_button));
+                ClassDetailsNewEditDialogFragment f = ClassDetailsNewEditDialogFragment.newInstance(dialogArgs, mClass, getTag());
+                f.show(getFragmentManager(), ClassDetailsNewEditDialogFragment.TAG);
             }
         });
 
@@ -210,5 +205,13 @@ public class ClassInfoFragment extends Fragment {
         else
             mAcademicTermTextView.setVisibility(View.GONE);
         mCurrentTextView.setText(mClass.getCurrent());
+    }
+
+    @Override
+    public void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag) {
+        if(ClassDbAdapter.update(class_.getClassId(), class_.getCode(), class_.getDescription(), class_.getAcademicTerm().getId(), class_.getYear(), class_.isCurrent()) >= 1) {
+            mClass = class_;
+            populateClassDetailsViews();
+        }
     }
 }

@@ -47,7 +47,7 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
         void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag);
     }
 
-    public static ClassDetailsNewEditDialogFragment newInstance(DialogArgs dialogArgs, Class class_, String fragmentTag) {
+    public static ClassDetailsNewEditDialogFragment newInstance(DialogArgs dialogArgs, ClassDbAdapter.Class class_, String fragmentTag) {
         ClassDetailsNewEditDialogFragment f = new ClassDetailsNewEditDialogFragment();
         Bundle args = new Bundle();
         args.putSerializable(DIALOG_ARG, dialogArgs);
@@ -99,7 +99,6 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
         addSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String code = mCodeEditText.getText().toString();
                 if(TextUtils.isEmpty(code)) {
                     mCodeEditText.requestFocus();
