@@ -9,10 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,6 +54,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle(mTitle);
 
@@ -79,6 +80,19 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         mListView = (ListView) findViewById(R.id.list_view);
         mListView.setAdapter(mListAdapter);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch(id) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private ArrayList<SQLiteRow> getList() {

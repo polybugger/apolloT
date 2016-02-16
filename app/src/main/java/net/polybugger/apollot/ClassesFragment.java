@@ -2,6 +2,7 @@ package net.polybugger.apollot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,7 +71,7 @@ public class ClassesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ClassDbAdapter.Class class_ = (ClassDbAdapter.Class) view.findViewById(R.id.class_title_text_view).getTag();
-                if (class_.isLocked()) {
+                if(class_.isLocked()) {
                     /*
                     if(mDialogFragmentShown)
                         return;
@@ -79,8 +80,9 @@ public class ClassesFragment extends Fragment {
                     ClassPasswordDialogFragment f = ClassPasswordDialogFragment.newInstance(dialogArgs, class_, getTag());
                     f.show(getFragmentManager(), ClassPasswordDialogFragment.TAG);
                     */
-                } else {
-                    //startClassActivity(class_);
+                }
+                else {
+                    startClassActivity(class_);
                 }
             }
         });
@@ -97,6 +99,14 @@ public class ClassesFragment extends Fragment {
         if(mRequeryTask != null)
             mRequeryTask.cancel(true);
         super.onDestroyView();
+    }
+
+    private void startClassActivity(ClassDbAdapter.Class class_) {
+        Intent intent = new Intent(mActivity, ClassActivity.class);
+        Bundle args = new Bundle();
+        args.putSerializable(ClassActivity.CLASS_ARG, class_);
+        intent.putExtras(args);
+        startActivity(intent);
     }
 
     public void addClass(ClassDbAdapter.Class class_) {

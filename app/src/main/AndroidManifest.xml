@@ -19,6 +19,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ClassActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/activity_settings_title"
             android:theme="@style/AppTheme.NoActionBar" >
