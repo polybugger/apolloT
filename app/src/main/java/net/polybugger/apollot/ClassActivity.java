@@ -98,7 +98,7 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case android.R.id.home:
-                super.onBackPressed();
+                onBackPressed();
                 return true;
         }
 
@@ -120,6 +120,13 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             mUnlockMenuItem.setVisible(false);
             mLockMenuItem.setVisible(true);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        MainActivity.CLASS_REQUERY_CALLBACK = true;
+        MainActivity.CLASS_REQUERY = mClass;
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

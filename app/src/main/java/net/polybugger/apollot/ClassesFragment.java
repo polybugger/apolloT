@@ -109,6 +109,22 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
         mListAdapter.notifyDataSetChanged();
     }
 
+    public void removeClass(ClassDbAdapter.Class class_) {
+        mListAdapter.remove(class_);
+        mListAdapter.notifyDataSetChanged();
+    }
+
+    public void requeryClass(ClassDbAdapter.Class class_) {
+        if(mListAdapter.getPosition(class_) != -1) {
+            mRequeryTask = new DbRequeryTask();
+            mRequeryTask.execute(class_.getClassId());
+        }
+    }
+
+    public int getClassPosition(ClassDbAdapter.Class class_) {
+        return mListAdapter.getPosition(class_);
+    }
+
     @Override
     public void onClassPasswordDialogSubmit(ClassDbAdapter.Class class_, ClassPasswordDialogFragment.ClassPasswordOption option, String fragmentTag) {
         startClassActivity(class_);

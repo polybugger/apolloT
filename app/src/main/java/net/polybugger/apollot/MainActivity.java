@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
         ClassPasswordDialogFragment.ClassPasswordDialogListener {
 
+    public static boolean CLASS_REQUERY_CALLBACK = false;
+    public static ClassDbAdapter.Class CLASS_REQUERY = null;
+
     private static boolean lockAuthenticated = false;
     private static final int CURRENT_TAB = 0;
     private static final int PAST_TAB = 1;
@@ -83,6 +86,42 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(CLASS_REQUERY_CALLBACK) {
+            ClassDbAdapter.Class class_ = CLASS_REQUERY;
+            if(class_ != null) {
+                FragmentManager fm = getSupportFragmentManager();
+                ClassesFragment currentFragment = null, pastFragment = null;
+                try {
+                    currentFragment = (ClassesFragment) fm.findFragmentByTag(getFragmentTag(CURRENT_TAB));
+                    pastFragment = (ClassesFragment) fm.findFragmentByTag(getFragmentTag(PAST_TAB));
+                }
+                catch(Exception e) { }
+                if(currentFragment != null && pastFragment != null) {
+                    int currentPosition = currentFragment.getClassPosition(class_);
+                    int pastPosition = pastFragment.getClassPosition(class_);
+
+                    if(class_.isCurrent() && currentPosition == -1) {
+                        pastFragment.removeClass(class_);
+                        currentFragment.addClass(class_);
+                    }
+                    else if(!class_.isCurrent() && pastPosition == -1) {
+                        currentFragment.removeClass(class_);
+                        pastFragment.addClass(class_);
+                    }
+                    if(class_.isCurrent())
+                        currentFragment.requeryClass(class_);
+                    else
+                        pastFragment.requeryClass(class_);
+                }
+                CLASS_REQUERY = null;
+            }
+            CLASS_REQUERY_CALLBACK = false;
+        }
     }
 
     private void showNewClassDialog() {
