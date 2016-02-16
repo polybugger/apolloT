@@ -42,7 +42,7 @@ public class ClassActivity extends AppCompatActivity {
 
         mClass = (ClassDbAdapter.Class) args.getSerializable(CLASS_ARG);
 
-        setTitle(mClass.getCode());
+        setTitle(mClass.getTitle());
         setContentView(R.layout.activity_class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -105,11 +105,11 @@ public class ClassActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch(position) {
                 case INFO_TAB:
-                    return ClassesFragment.newInstance(true);
+                    return ClassInfoFragment.newInstance(mClass);
                 case ITEMS_TAB:
-                    return ClassesFragment.newInstance(false);
+                    return ClassInfoFragment.newInstance(mClass);
                 case STUDENTS_TAB:
-                    return ClassesFragment.newInstance(false);
+                    return ClassInfoFragment.newInstance(mClass);
             }
             return null;
         }
