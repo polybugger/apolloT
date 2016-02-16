@@ -20,7 +20,7 @@ import java.util.List;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
 
-public class ClassesFragment extends Fragment {
+public class ClassesFragment extends Fragment implements ClassPasswordDialogFragment.ClassPasswordDialogListener {
 
     public static final String CURRENT_PAST_ARG = "net.polybugger.apollot.current_past_arg";
 
@@ -72,14 +72,9 @@ public class ClassesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ClassDbAdapter.Class class_ = (ClassDbAdapter.Class) view.findViewById(R.id.class_title_text_view).getTag();
                 if(class_.isLocked()) {
-                    /*
-                    if(mDialogFragmentShown)
-                        return;
-                    mDialogFragmentShown = true;
                     ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.unlock_class), getString(R.string.unlock_button), ClassPasswordDialogFragment.ClassPasswordOption.UNLOCK_CLASS);
                     ClassPasswordDialogFragment f = ClassPasswordDialogFragment.newInstance(dialogArgs, class_, getTag());
                     f.show(getFragmentManager(), ClassPasswordDialogFragment.TAG);
-                    */
                 }
                 else {
                     startClassActivity(class_);
@@ -112,6 +107,11 @@ public class ClassesFragment extends Fragment {
     public void addClass(ClassDbAdapter.Class class_) {
         mListAdapter.add(class_);
         mListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClassPasswordDialogSubmit(ClassDbAdapter.Class class_, ClassPasswordDialogFragment.ClassPasswordOption option, String fragmentTag) {
+        startClassActivity(class_);
     }
 
     private class ListArrayAdapter extends ArrayAdapter<ClassDbAdapter.Class> {

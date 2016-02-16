@@ -19,7 +19,9 @@ import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 
-public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordListener, ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener {
+public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordListener,
+        ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
+        ClassPasswordDialogFragment.ClassPasswordDialogListener {
 
     private static boolean lockAuthenticated = false;
     private static final int CURRENT_TAB = 0;
@@ -132,6 +134,19 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
     private String getFragmentTag(int position) {
         return "android:switcher:" + R.id.pager + ":" + position;
+    }
+
+    @Override
+    public void onClassPasswordDialogSubmit(ClassDbAdapter.Class class_, ClassPasswordDialogFragment.ClassPasswordOption option, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassPasswordDialogFragment.ClassPasswordDialogListener) f).onClassPasswordDialogSubmit(class_, option, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassPasswordDialogFragment.ClassPasswordDialogListener.class.toString());
+            }
+        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

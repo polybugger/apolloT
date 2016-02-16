@@ -41,6 +41,13 @@
 
     <string name="unlock_password_hint">Unlock Password</string>
     <string name="unlock_button">Unlock</string>
+    <string name="protect_password_hint">Protect Password</string>
+    <string name="unlock_class">Password Protected Class</string>
+    <string name="lock_class">Password Protect Class</string>
+    <string name="apply_lock_button">Set Password</string>
+    <string name="remove_lock_button">Remove Password</string>
+    <string name="fragment_status_class_password_protection_applied">Class password protection applied!</string>
+    <string name="fragment_status_class_password_protection_removed">Class password protection removed!</string>
     <string name="fragment_status_incorrect_password">Incorrect unlock password!</string>
 
     <string name="current_password_hint">Current Password</string>

@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
 
-public class ClassActivity extends AppCompatActivity {
+public class ClassActivity extends AppCompatActivity implements ClassPasswordDialogFragment.ClassPasswordDialogListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -80,6 +80,20 @@ public class ClassActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch(id) {
+            case R.id.action_lock:
+                if(!mClass.isLocked()) {
+                    ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.lock_class), getString(R.string.apply_lock_button), ClassPasswordDialogFragment.ClassPasswordOption.APPLY_LOCK);
+                    ClassPasswordDialogFragment f = ClassPasswordDialogFragment.newInstance(dialogArgs, mClass, null);
+                    f.show(getSupportFragmentManager(), ClassPasswordDialogFragment.TAG);
+                }
+                return true;
+            case R.id.action_unlock:
+                if(mClass.isLocked()) {
+                    ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.unlock_class), getString(R.string.remove_lock_button), ClassPasswordDialogFragment.ClassPasswordOption.REMOVE_LOCK);
+                    ClassPasswordDialogFragment f = ClassPasswordDialogFragment.newInstance(dialogArgs, mClass, null);
+                    f.show(getSupportFragmentManager(), ClassPasswordDialogFragment.TAG);
+                }
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
@@ -93,6 +107,19 @@ public class ClassActivity extends AppCompatActivity {
 
     private String getFragmentTag(int position) {
         return "android:switcher:" + R.id.pager + ":" + position;
+    }
+
+    @Override
+    public void onClassPasswordDialogSubmit(ClassDbAdapter.Class class_, ClassPasswordDialogFragment.ClassPasswordOption option, String fragmentTag) {
+        mClass = class_;
+        if(mClass.isLocked()) {
+            mUnlockMenuItem.setVisible(true);
+            mLockMenuItem.setVisible(false);
+        }
+        else {
+            mUnlockMenuItem.setVisible(false);
+            mLockMenuItem.setVisible(true);
+        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
