@@ -10,32 +10,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class SQLiteTableRemoveDialogFragment extends DialogFragment {
+import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
-    public static final String TAG = "net.polybugger.apollot.remove_dialog_fragment";
+public class ClassScheduleRemoveDialogFragment extends DialogFragment {
+
+    public static final String TAG = "net.polybugger.apollot.class_schedule_remove_dialog_fragment";
     public static final String DIALOG_TITLE_ARG = "net.polybugger.apollot.dialog_title_arg";
-    public static final String SQLITE_ROW_ARG = "net.polybugger.apollot.sqlite_row_arg";
+    public static final String SCHEDULE_ARG = "net.polybugger.apollot.schedule_arg";
+    public static final String FRAGMENT_TAG_ARG = "net.polybugger.apollot.fragment_tag_arg";
 
     private Activity mActivity;
     private String mDialogTitle;
-    private SQLiteTableActivity.SQLiteRow mSQLiteRow;
+    private ClassScheduleDbAdapter.ClassSchedule mSchedule;
+    private String mFragmentTag;
 
     public interface RemoveListener {
-        void onRemove(SQLiteTableActivity.SQLiteRow sqliteRow);
+        void onRemoveSchedule(ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag);
     }
 
-    public static SQLiteTableRemoveDialogFragment newInstance(String dialogTitle, SQLiteTableActivity.SQLiteRow sqliteRow) {
-        SQLiteTableRemoveDialogFragment fragment = new SQLiteTableRemoveDialogFragment();
+    public ClassScheduleRemoveDialogFragment() {}
 
+    public static ClassScheduleRemoveDialogFragment newInstance(String dialogTitle, ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
+        ClassScheduleRemoveDialogFragment f = new ClassScheduleRemoveDialogFragment();
         Bundle args = new Bundle();
-        args.putString(DIALOG_TITLE_ARG, dialogTitle);
-        args.putSerializable(SQLITE_ROW_ARG, sqliteRow);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public SQLiteTableRemoveDialogFragment() {
-
+        args.putSerializable(DIALOG_TITLE_ARG, dialogTitle);
+        args.putSerializable(SCHEDULE_ARG, schedule);
+        args.putString(FRAGMENT_TAG_ARG, fragmentTag);
+        f.setArguments(args);
+        return f;
     }
 
     @Override
@@ -43,16 +45,18 @@ public class SQLiteTableRemoveDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mDialogTitle = args.getString(DIALOG_TITLE_ARG);
-        mSQLiteRow = (SQLiteTableActivity.SQLiteRow) args.getSerializable(SQLITE_ROW_ARG);
+        mSchedule = (ClassScheduleDbAdapter.ClassSchedule) args.getSerializable(SCHEDULE_ARG);
+        mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
     }
 
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_sqlite_table_remove_dialog, null);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_class_schedule_remove_dialog, null);
 
         ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
-        ((TextView) view.findViewById(R.id.text_view)).setText(mSQLiteRow.getData());
+        ((TextView) view.findViewById(R.id.time_text_view)).setText(mSchedule.getTime());
+        ((TextView) view.findViewById(R.id.location_text_view)).setText(mSchedule.getLocation());
 
         view.findViewById(R.id.no_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +70,7 @@ public class SQLiteTableRemoveDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 try {
-                    ((RemoveListener) mActivity).onRemove(mSQLiteRow);
+                    ((RemoveListener) mActivity).onRemoveSchedule(mSchedule, mFragmentTag);
                 } catch (ClassCastException e) {
                     throw new ClassCastException(mActivity.toString() + " must implement " + RemoveListener.class.toString());
                 }

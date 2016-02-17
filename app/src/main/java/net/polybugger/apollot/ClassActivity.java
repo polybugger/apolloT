@@ -13,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
 public class ClassActivity extends AppCompatActivity implements ClassPasswordDialogFragment.ClassPasswordDialogListener,
-        ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener {
+        ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
+        ClassScheduleRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -141,6 +143,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onRemoveSchedule(ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassScheduleRemoveDialogFragment.RemoveListener) f).onRemoveSchedule(schedule, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassScheduleRemoveDialogFragment.RemoveListener.class.toString());
             }
         }
     }

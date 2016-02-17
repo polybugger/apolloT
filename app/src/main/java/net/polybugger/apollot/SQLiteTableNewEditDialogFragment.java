@@ -21,6 +21,7 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
     public static final String BUTTON_TEXT_ARG = "net.polybugger.apollot.button_text_arg";
     public static final String SQLITE_ROW_ARG = "net.polybugger.apollot.sqlite_row_arg";
 
+    private Activity mActivity;
     private String mDialogTitle;
     private String mButtonText;
     private SQLiteTableActivity.SQLiteRow mSQLiteRow;
@@ -57,8 +58,7 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Activity activity = getActivity();
-        View view = activity.getLayoutInflater().inflate(R.layout.fragment_sqlite_table_new_edit_dialog, null);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_sqlite_table_new_edit_dialog, null);
 
         ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
 
@@ -83,15 +83,15 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 String academicTerm = mEditText.getText().toString();
                 if (TextUtils.isEmpty(academicTerm)) {
-                    Toast toast = Toast.makeText(activity, R.string.fragment_status_blank_entry, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(mActivity, R.string.fragment_status_blank_entry, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
                     try {
                         mSQLiteRow.setData(academicTerm);
-                        ((NewEditListener) activity).onNewEdit(mSQLiteRow);
+                        ((NewEditListener) mActivity).onNewEdit(mSQLiteRow);
                     } catch (ClassCastException e) {
-                        throw new ClassCastException(activity.toString() + " must implement " + NewEditListener.class.toString());
+                        throw new ClassCastException(mActivity.toString() + " must implement " + NewEditListener.class.toString());
                     }
                     dismiss();
 
@@ -99,8 +99,20 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setTitle(null).setView(view).setPositiveButton(null, null).setNegativeButton(null, null);
         return builder.create();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
+    }
+
+    @Override
+    public void onDetach() {
+        mActivity = null;
+        super.onDetach();
     }
 }

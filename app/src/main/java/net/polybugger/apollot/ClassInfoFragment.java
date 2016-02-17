@@ -1,9 +1,12 @@
 package net.polybugger.apollot;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,8 +17,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
-public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener {
+import java.util.ArrayList;
+
+public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
+        ClassScheduleRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -24,6 +31,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     private TextView mClassTitleTextView;
     private TextView mAcademicTermTextView;
     private TextView mCurrentTextView;
+
+    private LinearLayoutCompat mScheduleLinearLayout;
+    private ArrayList<ClassScheduleDbAdapter.ClassSchedule> mScheduleList;
+    private DbQuerySchedulesTask mScheduleTask;
+    private View.OnClickListener mEditScheduleClickListener;
+    private View.OnClickListener mRemoveScheduleClickListener;
 
     public ClassInfoFragment() { }
 
@@ -76,50 +89,27 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             }
         });
 
-        /*
-        mScheduleLinearLayout = (LinearLayout) view.findViewById(R.id.schedule_linear_layout);
-        mNoteAttachmentLinearLayout = (LinearLayout) view.findViewById(R.id.note_attachment_linear_layout);
-        mEditScheduleClickListener = new OnClickListener() {
+        mScheduleLinearLayout = (LinearLayoutCompat) view.findViewById(R.id.schedule_linear_layout);
+        mEditScheduleClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
+                /*
                 NewEditClassScheduleDialogFragment.DialogArgs dialogArgs = new NewEditClassScheduleDialogFragment.DialogArgs(getString(R.string.edit_class_schedule), getString(R.string.save_button));
                 NewEditClassScheduleDialogFragment f = NewEditClassScheduleDialogFragment.newInstance(dialogArgs, (ClassSchedule) view.getTag(), getTag());
                 f.show(getFragmentManager(), NewEditClassScheduleDialogFragment.TAG);
+                */
             }
         };
-        mRemoveScheduleClickListener = new OnClickListener() {
+        mRemoveScheduleClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                final ClassSchedule schedule = (ClassSchedule) view.getTag();
-                RemoveClassScheduleDialog removeDialog = new RemoveClassScheduleDialog(mActivity, schedule,
-                        new RemoveClassScheduleDialog.RemoveClassScheduleListener() {
-                            @Override
-                            public void onRemove() {
-                                if(ClassScheduleDbAdapter.delete(schedule.getClassId(), schedule.getScheduleId()) >= 1) {
-                                    int childPosition = mScheduleList.indexOf(schedule);
-                                    if(childPosition != -1) {
-                                        mScheduleList.remove(childPosition);
-                                        mScheduleLinearLayout.removeViewAt(childPosition);
-                                    }
-                                }
-                            }
-                        });
-                removeDialog.setOnDismissListener(new OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        mDialogFragmentShown = false;
-                    }
-                });
-                mCurrentDialog = removeDialog.show();
+                ClassScheduleRemoveDialogFragment f = ClassScheduleRemoveDialogFragment.newInstance(getString(R.string.remove_class_schedule), (ClassScheduleDbAdapter.ClassSchedule) view.getTag(), getTag());
+                f.show(getFragmentManager(), ClassScheduleRemoveDialogFragment.TAG);
             }
         };
 
+        /*
+        mNoteAttachmentLinearLayout = (LinearLayout) view.findViewById(R.id.note_attachment_linear_layout);
         mEditNoteClickListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,14 +172,14 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             }
         };
 
+        */
 
         mScheduleTask = new DbQuerySchedulesTask();
         mScheduleTask.execute(mClass.getClassId());
 
-        mNoteTask = new DbQueryNotesTask();
-        mNoteTask.execute(mClass.getClassId());
+        //mNoteTask = new DbQueryNotesTask();
+        //mNoteTask.execute(mClass.getClassId());
 
-        */
         populateClassDetailsViews();
 
         return view;
@@ -214,4 +204,68 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             populateClassDetailsViews();
         }
     }
+
+    @Override
+    public void onRemoveSchedule(ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
+        if(ClassScheduleDbAdapter.delete(schedule.getClassId(), schedule.getScheduleId()) >= 1) {
+            int childPosition = mScheduleList.indexOf(schedule);
+            if(childPosition != -1) {
+                mScheduleList.remove(childPosition);
+                mScheduleLinearLayout.removeViewAt(childPosition);
+            }
+        }
+    }
+
+    private class DbQuerySchedulesTask extends AsyncTask<Long, Integer, ArrayList<ClassScheduleDbAdapter.ClassSchedule>> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO initialize loader
+        }
+
+        @Override
+        protected ArrayList<ClassScheduleDbAdapter.ClassSchedule> doInBackground(Long... classId) {
+            return ClassScheduleDbAdapter.getClassSchedules(classId[0]);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... percent) {
+            // TODO updates loader
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO cleanup loader on cancel
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ClassScheduleDbAdapter.ClassSchedule> scheduleList) {
+            mScheduleList = scheduleList;
+            for(ClassScheduleDbAdapter.ClassSchedule schedule : mScheduleList) {
+                mScheduleLinearLayout.addView(getScheduleView(mActivity.getLayoutInflater(), schedule, mEditScheduleClickListener, mRemoveScheduleClickListener));
+            }
+        }
+    }
+
+    @SuppressLint("InflateParams")
+    private View getScheduleView(LayoutInflater inflater, ClassScheduleDbAdapter.ClassSchedule schedule, View.OnClickListener editScheduleClickListener, View.OnClickListener removeScheduleClickListener) {
+        return _getScheduleView(inflater.inflate(R.layout.class_schedule_row, null), schedule, editScheduleClickListener, removeScheduleClickListener);
+    }
+
+    private View _getScheduleView(View rowView, ClassScheduleDbAdapter.ClassSchedule schedule, View.OnClickListener editScheduleClickListener, View.OnClickListener removeScheduleClickListener) {
+        View scheduleView = rowView.findViewById(R.id.schedule_view);
+        scheduleView.setTag(schedule);
+        if(editScheduleClickListener != null) {
+            scheduleView.setOnClickListener(editScheduleClickListener);
+        }
+
+        ((TextView) rowView.findViewById(R.id.time_location_text_view)).setText(schedule.getTime() + "\r\n" + schedule.getLocation());
+
+        ImageButton removeButton = (ImageButton) rowView.findViewById(R.id.remove_button);
+        removeButton.setTag(schedule);
+        if(removeScheduleClickListener != null)
+            removeButton.setOnClickListener(removeScheduleClickListener);
+        return rowView;
+    }
+
 }

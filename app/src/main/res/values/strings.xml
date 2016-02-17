@@ -81,6 +81,10 @@
     <string name="fragment_status_code_required">Code cannot be blank.</string>
     <string name="fragment_status_description_required">Description cannot be blank.</string>
 
+    <string name="new_class_schedule">New Class Schedule</string>
+    <string name="edit_class_schedule">Edit Class Schedule</string>
+    <string name="remove_class_schedule">Remove Class Schedule</string>
+
     <string name="days_mf">M-F</string>
     <string name="days_mwf">MWF</string>
     <string name="days_tth">TTh</string>
