@@ -6,7 +6,7 @@
     android:layout_height="wrap_content" >
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/schedule_text_view"
+        android:id="@+id/note_text_view"
         android:background="@drawable/text_view_pressed_states"
         android:clickable="true"
         android:layout_weight="1"

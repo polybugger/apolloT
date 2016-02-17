@@ -1,10 +1,12 @@
 package net.polybugger.apollot.db;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ClassNoteDbAdapter {
@@ -40,11 +42,10 @@ public class ClassNoteDbAdapter {
         return id;
     }
 
-
     public static int delete(long classId, long noteId) {
         SQLiteDatabase db = ApolloDbAdapter.open();
         int rowsDeleted = db.delete(TABLE_NAME, CLASS_ID.getName() + "=? AND " + NOTE_ID.getName() + "=?",
-                new String[] { String.valueOf(classId), String.valueOf(noteId)});
+                new String[]{String.valueOf(classId), String.valueOf(noteId)});
         ApolloDbAdapter.close();
         return rowsDeleted;
     }
@@ -59,11 +60,35 @@ public class ClassNoteDbAdapter {
         values.put(DATE_CREATED.getName(), fDateCreated);
         SQLiteDatabase db = ApolloDbAdapter.open();
         int rowsUpdated = db.update(TABLE_NAME, values, CLASS_ID.getName() + "=? AND " + NOTE_ID.getName() + "=?",
-                new String[] { String.valueOf(classId), String.valueOf(noteId)});
+                new String[]{String.valueOf(classId), String.valueOf(noteId)});
         ApolloDbAdapter.close();
         return rowsUpdated;
     }
 
+    public static ArrayList<ClassNote> getClassNotes(long classId) {
+        ArrayList<ClassNote> list = new ArrayList<ClassNote>();
+        final SimpleDateFormat sdf = new SimpleDateFormat(SDF_DB_TEMPLATE, ApolloDbAdapter.getAppContext().getResources().getConfiguration().locale);
+        Date dateCreated;
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        Cursor cursor = db.query(TABLE_NAME, new String[] {NOTE_ID.getName(), // 0
+                        NOTE.getName(), // 1
+                        DATE_CREATED.getName()}, // 2
+                CLASS_ID.getName() + "=?", new String[] {String.valueOf(classId)}, null, null, "date(" + DATE_CREATED.getName() + ") DESC");
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            try {
+                dateCreated = sdf.parse(cursor.getString(2));
+            }
+            catch(Exception e) {
+                dateCreated = null;
+            }
+            list.add(new ClassNote(classId, cursor.getLong(0), cursor.getString(1), dateCreated));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        ApolloDbAdapter.close();
+        return list;
+    }
 
     @SuppressWarnings("serial")
     public static class ClassNote implements Serializable {

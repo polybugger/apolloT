@@ -113,7 +113,7 @@
                 android:textSize="@dimen/large_text_size" />
 
             <android.support.v7.widget.LinearLayoutCompat
-                android:id="@+id/note_attachment_linear_layout"
+                android:id="@+id/note_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />

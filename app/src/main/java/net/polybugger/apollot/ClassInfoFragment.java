@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassNoteDbAdapter;
 import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
 import java.util.ArrayList;
@@ -37,6 +38,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     private DbQuerySchedulesTask mScheduleTask;
     private View.OnClickListener mEditScheduleClickListener;
     private View.OnClickListener mRemoveScheduleClickListener;
+
+    private LinearLayoutCompat mNoteLinearLayout;
+    private ArrayList<ClassNoteDbAdapter.ClassNote> mNoteList;
+    private DbQueryNotesTask mNoteTask;
+    private View.OnClickListener mEditNoteClickListener;
+    private View.OnClickListener mRemoveNoteClickListener;
 
     public ClassInfoFragment() { }
 
@@ -108,46 +115,19 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             }
         };
 
-        /*
-        mNoteAttachmentLinearLayout = (LinearLayout) view.findViewById(R.id.note_attachment_linear_layout);
-        mEditNoteClickListener = new OnClickListener() {
+        mNoteLinearLayout = (LinearLayoutCompat) view.findViewById(R.id.note_linear_layout);
+        mEditNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                NewEditClassNoteAttachmentDialogFragment.DialogArgs noteDialogArgs = new NewEditClassNoteAttachmentDialogFragment.DialogArgs(getString(R.string.edit_class_note_attachment), getString(R.string.save_button));
-                NewEditClassNoteAttachmentDialogFragment f = NewEditClassNoteAttachmentDialogFragment.newInstance(noteDialogArgs, (ClassNoteAttachment) view.getTag(), getTag());
-                f.show(getFragmentManager(), NewEditClassNoteAttachmentDialogFragment.TAG);
+                //NewEditClassNoteAttachmentDialogFragment.DialogArgs noteDialogArgs = new NewEditClassNoteAttachmentDialogFragment.DialogArgs(getString(R.string.edit_class_note_attachment), getString(R.string.save_button));
+                //NewEditClassNoteAttachmentDialogFragment f = NewEditClassNoteAttachmentDialogFragment.newInstance(noteDialogArgs, (ClassNoteAttachment) view.getTag(), getTag());
+                //f.show(getFragmentManager(), NewEditClassNoteAttachmentDialogFragment.TAG);
             }
         };
-        mLinkClickListener = new OnClickListener() {
+        mRemoveNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String link = String.valueOf(view.getTag());
-                if(!StringUtils.isBlank(link)) {
-                    if(link.startsWith("http://") || link.startsWith("https://")) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-                        startActivity(browserIntent);
-                    }
-                    else {
-                        Intent intent = new Intent();
-                        intent.setAction(android.content.Intent.ACTION_VIEW);
-                        File file = new File(link);
-                        MimeTypeMap mime = MimeTypeMap.getSingleton();
-                        String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-                        intent.setDataAndType(Uri.fromFile(file), mime.getMimeTypeFromExtension(ext));
-                        startActivity(intent);
-                    }
-                }
-            }
-        };
-        mRemoveNoteClickListener = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
+                /*
                 final ClassNoteAttachment note = (ClassNoteAttachment) view.getTag();
                 RemoveClassNoteAttachmentDialog removeDialog = new RemoveClassNoteAttachmentDialog(mActivity, note, getString(R.string.remove_class_note),
                         new RemoveClassNoteAttachmentDialog.RemoveClassNoteAttachmentListener() {
@@ -169,16 +149,15 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                     }
                 });
                 mCurrentDialog = removeDialog.show();
+                */
             }
         };
-
-        */
 
         mScheduleTask = new DbQuerySchedulesTask();
         mScheduleTask.execute(mClass.getClassId());
 
-        //mNoteTask = new DbQueryNotesTask();
-        //mNoteTask.execute(mClass.getClassId());
+        mNoteTask = new DbQueryNotesTask();
+        mNoteTask.execute(mClass.getClassId());
 
         populateClassDetailsViews();
 
@@ -253,13 +232,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     }
 
     private View _getScheduleView(View rowView, ClassScheduleDbAdapter.ClassSchedule schedule, View.OnClickListener editScheduleClickListener, View.OnClickListener removeScheduleClickListener) {
-        View scheduleView = rowView.findViewById(R.id.schedule_view);
-        scheduleView.setTag(schedule);
+        TextView scheduleTextView = (TextView) rowView.findViewById(R.id.schedule_text_view);
+        scheduleTextView.setTag(schedule);
         if(editScheduleClickListener != null) {
-            scheduleView.setOnClickListener(editScheduleClickListener);
+            scheduleTextView.setOnClickListener(editScheduleClickListener);
         }
-
-        ((TextView) rowView.findViewById(R.id.time_location_text_view)).setText(schedule.getTime() + "\r\n" + schedule.getLocation());
+        scheduleTextView.setText(schedule.getTime() + "\r\n" + schedule.getLocation());
 
         ImageButton removeButton = (ImageButton) rowView.findViewById(R.id.remove_button);
         removeButton.setTag(schedule);
@@ -268,4 +246,54 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         return rowView;
     }
 
+    private class DbQueryNotesTask extends AsyncTask<Long, Integer, ArrayList<ClassNoteDbAdapter.ClassNote>> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO initialize loader
+        }
+
+        @Override
+        protected ArrayList<ClassNoteDbAdapter.ClassNote> doInBackground(Long... classId) {
+            return ClassNoteDbAdapter.getClassNotes(classId[0]);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... percent) {
+            // TODO updates loader
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO cleanup loader on cancel
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ClassNoteDbAdapter.ClassNote> noteList) {
+            mNoteList = noteList;
+            for(ClassNoteDbAdapter.ClassNote note : mNoteList) {
+                mNoteLinearLayout.addView(getNoteView(mActivity.getLayoutInflater(), note, mEditNoteClickListener, mRemoveNoteClickListener));
+            }
+        }
+    }
+
+    private View _getNoteView(View rowView, ClassNoteDbAdapter.ClassNote note, View.OnClickListener editNoteClickListener, View.OnClickListener removeNoteClickListener) {
+        TextView noteTextView = (TextView) rowView.findViewById(R.id.note_text_view);
+        noteTextView.setTag(note);
+        if(editNoteClickListener != null) {
+            noteTextView.setOnClickListener(editNoteClickListener);
+        }
+        noteTextView.setText(note.getDateNoteText());
+
+        ImageButton removeButton = (ImageButton) rowView.findViewById(R.id.remove_button);
+        removeButton.setTag(note);
+        if(removeNoteClickListener != null)
+            removeButton.setOnClickListener(removeNoteClickListener);
+        return rowView;
+    }
+
+    @SuppressLint("InflateParams")
+    private View getNoteView(LayoutInflater inflater, ClassNoteDbAdapter.ClassNote note, View.OnClickListener editNoteClickListener, View.OnClickListener removeNoteClickListener) {
+        return _getNoteView(inflater.inflate(R.layout.class_note_row, null), note, editNoteClickListener, removeNoteClickListener);
+    }
 }
