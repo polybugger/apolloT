@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import net.polybugger.apollot.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ApolloDbAdapter {
 
@@ -100,12 +102,21 @@ public class ApolloDbAdapter {
                             ClassScheduleDbAdapter.CAMPUS.getName() + " " + ClassScheduleDbAdapter.CAMPUS.getType() + " NULL)";
             db.execSQL(CREATE_TABLE_CLASS_SCHEDULES);
 
+            final String CREATE_TABLE_CLASS_NOTES =
+                    "CREATE TABLE " + ClassNoteDbAdapter.TABLE_NAME + " (" +
+                            ClassNoteDbAdapter.NOTE_ID.getName() + " " + ClassNoteDbAdapter.NOTE_ID.getType() + " PRIMARY KEY, " +
+                            ClassNoteDbAdapter.CLASS_ID.getName() + " " + ClassNoteDbAdapter.CLASS_ID.getType() + " NOT NULL REFERENCES " +
+                            ClassDbAdapter.TABLE_NAME + " (" + ClassDbAdapter.CLASS_ID.getName() + "), " +
+                            ClassNoteDbAdapter.NOTE.getName() + " " + ClassNoteDbAdapter.NOTE.getType() + " NOT NULL, " +
+                            ClassNoteDbAdapter.DATE_CREATED.getName() + " " + ClassNoteDbAdapter.DATE_CREATED.getType() + " NOT NULL)";
+            db.execSQL(CREATE_TABLE_CLASS_NOTES);
 
             _insertDefaultAcademicTerms(db);
             _insertDefaultClassItemTypes(db);
 
             long classId = _insertDummyClass1(db);
             _insertDummyClassPassword(db, classId, "test");
+            _insertDummyNotes(db, classId);
 
             _insertDummyClass2(db);
 
@@ -160,6 +171,19 @@ public class ApolloDbAdapter {
         calTimeEnd.set(Calendar.AM_PM, Calendar.AM);
         ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.MWF.getValue(), "214", "Arts & Sciences", "North");
         return id;
+    }
+
+    private static void _insertDummyNotes(SQLiteDatabase db, long classId) {
+        final SimpleDateFormat sdf = new SimpleDateFormat(ClassNoteDbAdapter.SDF_DISPLAY_TEMPLATE, sAppContext.getResources().getConfiguration().locale);
+        Date noteDate;
+        try {
+            noteDate = sdf.parse("Oct 11, 2014");
+        }
+        catch(Exception e) {
+            noteDate = new Date();
+        }
+        ClassNoteDbAdapter._insert(db, classId, "Textbook - A First Course in Abstract Algebra, 7th Edition by John B. Fraleigh", noteDate);
+        ClassNoteDbAdapter._insert(db, classId, "Syllabus - http://www.extension.harvard.edu/sites/default/files/openlearning/math222/files/OLI_MathE222_Syllabus.pdf", noteDate);
     }
 
     private static void _insertDummyClass2(SQLiteDatabase db) {

@@ -8,6 +8,12 @@
         android:orderInCategory="9997"
         app:showAsAction="ifRoom" />
 
+    <item android:id="@+id/action_students"
+        android:title="@string/action_students"
+        android:icon="@drawable/ic_action_group"
+        android:orderInCategory="9998"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_action_settings"
