@@ -83,7 +83,6 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
         ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
         mCodeEditText = (EditText) view.findViewById(R.id.code_edit_text);
         mDescriptionEditText = (EditText) view.findViewById(R.id.description_edit_text);
-
         ArrayAdapter<AcademicTermDbAdapter.AcademicTerm> spinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, AcademicTermDbAdapter.getList());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mAcademicTermSpinner = (Spinner) view.findViewById(R.id.academic_term_spinner);

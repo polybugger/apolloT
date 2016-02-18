@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -86,12 +87,17 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mClassTitleTextView = (TextView) view.findViewById(R.id.class_title_text_view);
         mAcademicTermTextView = (TextView) view.findViewById(R.id.academic_term_text_view);
         mCurrentTextView = (TextView) view.findViewById(R.id.current_text_view);
+
         ImageButton editClassDetailsButton = (ImageButton) view.findViewById(R.id.edit_class_details_button);
         editClassDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClassDetailsNewEditDialogFragment f = ClassDetailsNewEditDialogFragment.newInstance(getString(R.string.edit_class_details), getString(R.string.save_button), mClass, getTag());
-                f.show(getFragmentManager(), ClassDetailsNewEditDialogFragment.TAG);
+                FragmentManager fm = getFragmentManager();
+                ClassDetailsNewEditDialogFragment df = (ClassDetailsNewEditDialogFragment) fm.findFragmentByTag(ClassDetailsNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassDetailsNewEditDialogFragment.newInstance(getString(R.string.edit_class_details), getString(R.string.save_button), mClass, getTag());
+                    df.show(fm, ClassDetailsNewEditDialogFragment.TAG);
+                }
             }
         });
 
@@ -109,8 +115,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mRemoveScheduleClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClassScheduleRemoveDialogFragment f = ClassScheduleRemoveDialogFragment.newInstance(getString(R.string.remove_class_schedule), (ClassScheduleDbAdapter.ClassSchedule) view.getTag(), getTag());
-                f.show(getFragmentManager(), ClassScheduleRemoveDialogFragment.TAG);
+                FragmentManager fm = getFragmentManager();
+                ClassScheduleRemoveDialogFragment df = (ClassScheduleRemoveDialogFragment) fm.findFragmentByTag(ClassScheduleRemoveDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassScheduleRemoveDialogFragment.newInstance(getString(R.string.remove_class_schedule), (ClassScheduleDbAdapter.ClassSchedule) view.getTag(), getTag());
+                    df.show(fm, ClassScheduleRemoveDialogFragment.TAG);
+                }
             }
         };
 

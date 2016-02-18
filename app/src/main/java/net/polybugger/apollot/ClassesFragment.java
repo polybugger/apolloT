@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,9 +73,13 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ClassDbAdapter.Class class_ = (ClassDbAdapter.Class) view.findViewById(R.id.class_title_text_view).getTag();
                 if(class_.isLocked()) {
-                    ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.unlock_class), getString(R.string.unlock_button), ClassPasswordDialogFragment.ClassPasswordOption.UNLOCK_CLASS);
-                    ClassPasswordDialogFragment f = ClassPasswordDialogFragment.newInstance(dialogArgs, class_, getTag());
-                    f.show(getFragmentManager(), ClassPasswordDialogFragment.TAG);
+                    FragmentManager fm = getFragmentManager();
+                    ClassPasswordDialogFragment df = (ClassPasswordDialogFragment) fm.findFragmentByTag(ClassPasswordDialogFragment.TAG);
+                    if(df == null) {
+                        ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.unlock_class), getString(R.string.unlock_button), ClassPasswordDialogFragment.ClassPasswordOption.UNLOCK_CLASS);
+                        df = ClassPasswordDialogFragment.newInstance(dialogArgs, class_, getTag());
+                        df.show(fm, ClassPasswordDialogFragment.TAG);
+                    }
                 }
                 else {
                     startClassActivity(class_);

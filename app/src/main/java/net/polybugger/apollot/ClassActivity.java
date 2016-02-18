@@ -80,21 +80,28 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        FragmentManager fm = getSupportFragmentManager();
+        ClassPasswordDialogFragment df;
         int id = item.getItemId();
-
         switch(id) {
             case R.id.action_lock:
                 if(!mClass.isLocked()) {
-                    ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.lock_class), getString(R.string.apply_lock_button), ClassPasswordDialogFragment.ClassPasswordOption.APPLY_LOCK);
-                    ClassPasswordDialogFragment f = ClassPasswordDialogFragment.newInstance(dialogArgs, mClass, null);
-                    f.show(getSupportFragmentManager(), ClassPasswordDialogFragment.TAG);
+                    df = (ClassPasswordDialogFragment) fm.findFragmentByTag(ClassPasswordDialogFragment.TAG);
+                    if(df == null) {
+                        ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.lock_class), getString(R.string.apply_lock_button), ClassPasswordDialogFragment.ClassPasswordOption.APPLY_LOCK);
+                        df = ClassPasswordDialogFragment.newInstance(dialogArgs, mClass, null);
+                        df.show(fm, ClassPasswordDialogFragment.TAG);
+                    }
                 }
                 return true;
             case R.id.action_unlock:
                 if(mClass.isLocked()) {
-                    ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.unlock_class), getString(R.string.remove_lock_button), ClassPasswordDialogFragment.ClassPasswordOption.REMOVE_LOCK);
-                    ClassPasswordDialogFragment f = ClassPasswordDialogFragment.newInstance(dialogArgs, mClass, null);
-                    f.show(getSupportFragmentManager(), ClassPasswordDialogFragment.TAG);
+                    df = (ClassPasswordDialogFragment) fm.findFragmentByTag(ClassPasswordDialogFragment.TAG);
+                    if(df == null) {
+                        ClassPasswordDialogFragment.DialogArgs dialogArgs = new ClassPasswordDialogFragment.DialogArgs(getString(R.string.unlock_class), getString(R.string.remove_lock_button), ClassPasswordDialogFragment.ClassPasswordOption.REMOVE_LOCK);
+                        df = ClassPasswordDialogFragment.newInstance(dialogArgs, mClass, null);
+                        df.show(fm, ClassPasswordDialogFragment.TAG);
+                    }
                 }
                 return true;
             case R.id.action_settings:
@@ -127,9 +134,9 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         MainActivity.CLASS_REQUERY_CALLBACK = true;
         MainActivity.CLASS_REQUERY = mClass;
+        super.onBackPressed();
     }
 
     @Override
