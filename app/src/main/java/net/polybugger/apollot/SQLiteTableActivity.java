@@ -23,7 +23,8 @@ import java.util.List;
 
 import net.polybugger.apollot.db.ApolloDbAdapter;
 
-public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTableNewEditDialogFragment.NewEditListener, SQLiteTableRemoveDialogFragment.RemoveListener {
+public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTableNewEditDialogFragment.NewEditListener,
+        SQLiteTableRemoveDialogFragment.RemoveListener {
 
     public static final String TABLE_NAME_ARG = "net.polybugger.apollot.table_name_arg";
     public static final String ID_COLUMN_ARG = "net.polybugger.apollot.id_column_arg";
@@ -61,12 +62,11 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = getString(R.string.new_) + " " + mDialogTitle;
                 FragmentManager fm = getSupportFragmentManager();
-                SQLiteTableNewEditDialogFragment nedf = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
-                if(nedf == null) {
-                    nedf = SQLiteTableNewEditDialogFragment.newInstance(title, getString(R.string.add_button), new SQLiteRow(-1, null));
-                    nedf.show(fm, SQLiteTableNewEditDialogFragment.TAG);
+                SQLiteTableNewEditDialogFragment df = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = SQLiteTableNewEditDialogFragment.newInstance(getString(R.string.new_) + " " + mDialogTitle, getString(R.string.add_button), new SQLiteRow(-1, null));
+                    df.show(fm, SQLiteTableNewEditDialogFragment.TAG);
                 }
             }
         });
@@ -79,19 +79,16 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         mListAdapter = new ListArrayAdapter(this, getList());
         mListView = (ListView) findViewById(R.id.list_view);
         mListView.setAdapter(mListAdapter);
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch(id) {
             case android.R.id.home:
                 super.onBackPressed();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -201,26 +198,22 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
             mEditClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String title = getString(R.string.edit) + " " + mDialogTitle;
                     FragmentManager fm = getSupportFragmentManager();
-                    SQLiteTableNewEditDialogFragment nedf = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
-                    if(nedf == null) {
-                        SQLiteRow sqliteRow = (SQLiteRow) view.getTag();
-                        nedf = SQLiteTableNewEditDialogFragment.newInstance(title, getString(R.string.save_button), sqliteRow);
-                        nedf.show(fm, SQLiteTableNewEditDialogFragment.TAG);
+                    SQLiteTableNewEditDialogFragment df = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
+                    if(df == null) {
+                        df = SQLiteTableNewEditDialogFragment.newInstance(getString(R.string.edit) + " " + mDialogTitle, getString(R.string.save_button), (SQLiteRow) view.getTag());
+                        df.show(fm, SQLiteTableNewEditDialogFragment.TAG);
                     }
                 }
             };
             mRemoveClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String title = getString(R.string.remove) + " " + mDialogTitle;
                     FragmentManager fm = getSupportFragmentManager();
-                    SQLiteTableRemoveDialogFragment redf = (SQLiteTableRemoveDialogFragment) fm.findFragmentByTag(SQLiteTableRemoveDialogFragment.TAG);
-                    if(redf == null) {
-                        SQLiteRow sqliteRow = (SQLiteRow) view.getTag();
-                        redf = SQLiteTableRemoveDialogFragment.newInstance(title, sqliteRow);
-                        redf.show(fm, SQLiteTableRemoveDialogFragment.TAG);
+                    SQLiteTableRemoveDialogFragment df = (SQLiteTableRemoveDialogFragment) fm.findFragmentByTag(SQLiteTableRemoveDialogFragment.TAG);
+                    if(df == null) {
+                        df = SQLiteTableRemoveDialogFragment.newInstance(getString(R.string.remove) + " " + mDialogTitle, (SQLiteRow) view.getTag());
+                        df.show(fm, SQLiteTableRemoveDialogFragment.TAG);
                     }
                 }
             };

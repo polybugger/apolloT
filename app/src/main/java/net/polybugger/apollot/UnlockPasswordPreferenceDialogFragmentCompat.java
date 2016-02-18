@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class UnlockPasswordPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 
+    private UnlockPasswordDialogPreference mPreference;
     private EditText mCurrentPasswordEditText;
     private EditText mNewPasswordEditText;
 
@@ -29,14 +30,14 @@ public class UnlockPasswordPreferenceDialogFragmentCompat extends PreferenceDial
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
-        final UnlockPasswordDialogPreference dp = (UnlockPasswordDialogPreference) getPreference();
-        ((TextView) view.findViewById(R.id.title_text_view)).setText(dp.getTitle());
+        mPreference = (UnlockPasswordDialogPreference) getPreference();
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(mPreference.getTitle());
         mCurrentPasswordEditText = (EditText) view.findViewById(R.id.current_password_edit_text);
         mNewPasswordEditText = (EditText) view.findViewById(R.id.new_password_edit_text);
         view.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getDialog().dismiss();
+                dismiss();
             }
         });
 
@@ -44,14 +45,14 @@ public class UnlockPasswordPreferenceDialogFragmentCompat extends PreferenceDial
             @Override
             public void onClick(View view) {
                 int textResId;
-                String savedPassword = dp.getPersistedString(getContext().getString(R.string.default_unlock_password));
+                String savedPassword = mPreference.getPersistedString(getContext().getString(R.string.default_unlock_password));
                 String currentPassword = mCurrentPasswordEditText.getText().toString();
                 String newPassword = mNewPasswordEditText.getText().toString();
-                if (!savedPassword.equals(currentPassword))
+                if(!savedPassword.equals(currentPassword))
                     textResId = R.string.pref_status_incorrect_password;
                 else {
-                    dp.persistString(newPassword);
-                    if (newPassword.equals(""))
+                    mPreference.persistString(newPassword);
+                    if(newPassword.equals(""))
                         textResId = R.string.pref_status_password_cleared;
                     else
                         textResId = R.string.pref_status_password_changed;

@@ -90,8 +90,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         editClassDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClassDetailsNewEditDialogFragment.DialogArgs dialogArgs = new ClassDetailsNewEditDialogFragment.DialogArgs(getString(R.string.edit_class_details), getString(R.string.save_button));
-                ClassDetailsNewEditDialogFragment f = ClassDetailsNewEditDialogFragment.newInstance(dialogArgs, mClass, getTag());
+                ClassDetailsNewEditDialogFragment f = ClassDetailsNewEditDialogFragment.newInstance(getString(R.string.edit_class_details), getString(R.string.save_button), mClass, getTag());
                 f.show(getFragmentManager(), ClassDetailsNewEditDialogFragment.TAG);
             }
         });

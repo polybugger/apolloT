@@ -27,13 +27,11 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch(id) {
             case android.R.id.home:
                 super.onBackPressed();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -83,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onDisplayPreferenceDialog(Preference preference) {
             DialogFragment fragment;
-            if (preference instanceof UnlockPasswordDialogPreference) {
+            if(preference instanceof UnlockPasswordDialogPreference) {
                 fragment = UnlockPasswordPreferenceDialogFragmentCompat.newInstance(preference);
                 fragment.setTargetFragment(this, 0);
                 fragment.show(getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");

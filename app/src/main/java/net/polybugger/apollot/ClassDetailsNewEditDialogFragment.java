@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,7 +26,8 @@ import java.io.Serializable;
 public class ClassDetailsNewEditDialogFragment extends DialogFragment {
 
     public static final String TAG = "net.polybugger.apollot.new_edit_class_details_dialog_fragment";
-    public static final String DIALOG_ARG = "net.polybugger.apollot.dialog_arg";
+    public static final String DIALOG_TITLE_ARG = "net.polybugger.apollot.dialog_title_arg";
+    public static final String BUTTON_TEXT_ARG = "net.polybugger.apollot.button_text_arg";
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String FRAGMENT_TAG_ARG = "net.polybugger.apollot.fragment_tag_arg";
 
@@ -47,10 +47,11 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
         void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag);
     }
 
-    public static ClassDetailsNewEditDialogFragment newInstance(DialogArgs dialogArgs, ClassDbAdapter.Class class_, String fragmentTag) {
+    public static ClassDetailsNewEditDialogFragment newInstance(String dialogTitle, String buttonText, ClassDbAdapter.Class class_, String fragmentTag) {
         ClassDetailsNewEditDialogFragment f = new ClassDetailsNewEditDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(DIALOG_ARG, dialogArgs);
+        args.putString(DIALOG_TITLE_ARG, dialogTitle);
+        args.putString(BUTTON_TEXT_ARG, buttonText);
         args.putSerializable(CLASS_ARG, class_);
         args.putString(FRAGMENT_TAG_ARG, fragmentTag);
         f.setArguments(args);
@@ -73,12 +74,13 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
-        DialogArgs dialogArgs = (DialogArgs) args.getSerializable(DIALOG_ARG);
+        String dialogTitle = args.getString(DIALOG_TITLE_ARG);
+        String buttonText = args.getString(BUTTON_TEXT_ARG);
         mClass = (ClassDbAdapter.Class) args.getSerializable(CLASS_ARG);
         mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
 
         View view = LayoutInflater.from(mActivity).inflate(R.layout.fragment_class_details_new_edit_dialog, null);
-        ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogArgs.getTitle());
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
         mCodeEditText = (EditText) view.findViewById(R.id.code_edit_text);
         mDescriptionEditText = (EditText) view.findViewById(R.id.description_edit_text);
 
@@ -95,7 +97,7 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
             }
         });
         Button addSaveButton = (Button) view.findViewById(R.id.add_save_button);
-        addSaveButton.setText(dialogArgs.getAddSaveButtonText());
+        addSaveButton.setText(buttonText);
         addSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,25 +147,4 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
         builder.setTitle(null).setView(view).setPositiveButton(null, null).setNegativeButton(null, null);
         return builder.create();
     }
-
-    @SuppressWarnings("serial")
-    public static class DialogArgs implements Serializable {
-
-        private String mTitle;
-        private String mAddSaveButtonText;
-
-        public DialogArgs(String title, String addSaveButtonText) {
-            mTitle = title;
-            mAddSaveButtonText = addSaveButtonText;
-        }
-
-        public String getTitle() {
-            return mTitle;
-        }
-
-        public String getAddSaveButtonText() {
-            return mAddSaveButtonText;
-        }
-    }
-
 }

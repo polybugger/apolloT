@@ -26,7 +26,6 @@ public class SQLiteTableRemoveDialogFragment extends DialogFragment {
 
     public static SQLiteTableRemoveDialogFragment newInstance(String dialogTitle, SQLiteTableActivity.SQLiteRow sqliteRow) {
         SQLiteTableRemoveDialogFragment fragment = new SQLiteTableRemoveDialogFragment();
-
         Bundle args = new Bundle();
         args.putString(DIALOG_TITLE_ARG, dialogTitle);
         args.putSerializable(SQLITE_ROW_ARG, sqliteRow);
@@ -61,8 +60,7 @@ public class SQLiteTableRemoveDialogFragment extends DialogFragment {
             }
         });
 
-        Button yesButton = (Button) view.findViewById(R.id.yes_button);
-        yesButton.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.yes_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

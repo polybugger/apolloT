@@ -19,10 +19,11 @@ import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 
-public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordListener,
+public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordDialogListener,
         ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
         ClassPasswordDialogFragment.ClassPasswordDialogListener {
 
+    // for backpress from class activity, to requery data on affected class, a hack
     public static boolean CLASS_REQUERY_CALLBACK = false;
     public static ClassDbAdapter.Class CLASS_REQUERY = null;
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         if(lockEnabled && !lockAuthenticated) {
             FragmentManager fm = getSupportFragmentManager();
             UnlockPasswordDialogFragment df = (UnlockPasswordDialogFragment) fm.findFragmentByTag(UnlockPasswordDialogFragment.TAG);
-            if (df == null) {
+            if(df == null) {
                 df = UnlockPasswordDialogFragment.newInstance();
                 df.show(fm, UnlockPasswordDialogFragment.TAG);
             }
@@ -74,17 +75,14 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch(id) {
             case R.id.action_new_class:
                 showNewClassDialog();
                 return true;
-
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -102,14 +100,13 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
                 }
                 catch(Exception e) { }
                 if(currentFragment != null && pastFragment != null) {
-                    int currentPosition = currentFragment.getClassPosition(class_);
-                    int pastPosition = pastFragment.getClassPosition(class_);
-
-                    if(class_.isCurrent() && currentPosition == -1) {
+                    int currentPos = currentFragment.getClassPosition(class_);
+                    int pastPos = pastFragment.getClassPosition(class_);
+                    if(class_.isCurrent() && currentPos == -1) {
                         pastFragment.removeClass(class_);
                         currentFragment.addClass(class_);
                     }
-                    else if(!class_.isCurrent() && pastPosition == -1) {
+                    else if(!class_.isCurrent() && pastPos == -1) {
                         currentFragment.removeClass(class_);
                         pastFragment.addClass(class_);
                     }
@@ -125,9 +122,12 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
     }
 
     private void showNewClassDialog() {
-        ClassDetailsNewEditDialogFragment.DialogArgs dialogArgs = new ClassDetailsNewEditDialogFragment.DialogArgs(getString(R.string.new_class_details), getString(R.string.add_button));
-        ClassDetailsNewEditDialogFragment f = ClassDetailsNewEditDialogFragment.newInstance(dialogArgs, null, null);
-        f.show(getSupportFragmentManager(), ClassDetailsNewEditDialogFragment.TAG);
+        FragmentManager fm = getSupportFragmentManager();
+        ClassDetailsNewEditDialogFragment df = (ClassDetailsNewEditDialogFragment) fm.findFragmentByTag(ClassDetailsNewEditDialogFragment.TAG);
+        if(df == null) {
+            df = ClassDetailsNewEditDialogFragment.newInstance(getString(R.string.new_class_details), getString(R.string.add_button), null, null);
+            df.show(fm, ClassDetailsNewEditDialogFragment.TAG);
+        }
     }
 
     @Override
@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
     }
 
     @Override
@@ -164,9 +163,9 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
             }
             catch(Exception e) { }
             class_.setClassId(classId);
-            //Intent intent = new Intent(this, ClassActivity.class);
-            //intent.putExtra(ClassActivity.CLASS_ARG, class_);
-            //startActivity(intent);
+            Intent intent = new Intent(this, ClassActivity.class);
+            intent.putExtra(ClassActivity.CLASS_ARG, class_);
+            startActivity(intent);
         }
 
     }

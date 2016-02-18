@@ -16,7 +16,7 @@ public class UnlockPasswordDialogFragment extends DialogFragment {
 
     public static final String TAG = "net.polybugger.apollot.unlock_password_dialog_fragment";
 
-    public interface UnlockPasswordListener {
+    public interface UnlockPasswordDialogListener {
         void onUnlockPassword();
     }
 
@@ -49,9 +49,9 @@ public class UnlockPasswordDialogFragment extends DialogFragment {
                 String unlockPassword = unlockPasswordEditText.getText().toString();
                 if (savedPassword.equals(unlockPassword)) {
                     try {
-                        ((UnlockPasswordListener) activity).onUnlockPassword();
+                        ((UnlockPasswordDialogListener) activity).onUnlockPassword();
                     } catch (ClassCastException e) {
-                        throw new ClassCastException(activity.toString() + " must implement " + UnlockPasswordListener.class.toString());
+                        throw new ClassCastException(activity.toString() + " must implement " + UnlockPasswordDialogListener.class.toString());
                     }
                     dismiss();
                 } else {
