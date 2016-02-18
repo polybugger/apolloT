@@ -84,6 +84,9 @@
     <string name="new_class_schedule">New Class Schedule</string>
     <string name="edit_class_schedule">Edit Class Schedule</string>
     <string name="remove_class_schedule">Remove Class Schedule</string>
+    <string name="new_class_note">New Class Note</string>
+    <string name="edit_class_note">Edit Class Note</string>
+    <string name="remove_class_note">Remove Class Note</string>
 
     <string name="days_mf">M-F</string>
     <string name="days_mwf">MWF</string>

@@ -16,7 +16,7 @@
         android:textStyle="bold" />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/time_location_text_view"
+        android:id="@+id/note_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/normal_margin"

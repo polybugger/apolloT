@@ -24,7 +24,8 @@ import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 import java.util.ArrayList;
 
 public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
-        ClassScheduleRemoveDialogFragment.RemoveListener {
+        ClassScheduleRemoveDialogFragment.RemoveListener,
+        ClassNoteRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -136,29 +137,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mRemoveNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                final ClassNoteAttachment note = (ClassNoteAttachment) view.getTag();
-                RemoveClassNoteAttachmentDialog removeDialog = new RemoveClassNoteAttachmentDialog(mActivity, note, getString(R.string.remove_class_note),
-                        new RemoveClassNoteAttachmentDialog.RemoveClassNoteAttachmentListener() {
-                            @Override
-                            public void onRemove() {
-                                if(ClassNoteAttachmentDbAdapter.delete(note.getClassId(), note.getNoteId()) >= 1) {
-                                    int childPosition = mNoteList.indexOf(note);
-                                    if(childPosition != -1) {
-                                        mNoteList.remove(childPosition);
-                                        mNoteAttachmentLinearLayout.removeViewAt(childPosition);
-                                    }
-                                }
-                            }
-                        });
-                removeDialog.setOnDismissListener(new OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        mDialogFragmentShown = false;
-                    }
-                });
-                mCurrentDialog = removeDialog.show();
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassNoteRemoveDialogFragment df = (ClassNoteRemoveDialogFragment) fm.findFragmentByTag(ClassNoteRemoveDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassNoteRemoveDialogFragment.newInstance(getString(R.string.remove_class_note), (ClassNoteDbAdapter.ClassNote) view.getTag(), getTag());
+                    df.show(fm, ClassNoteRemoveDialogFragment.TAG);
+                }
             }
         };
 
@@ -200,6 +184,17 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             if(childPosition != -1) {
                 mScheduleList.remove(childPosition);
                 mScheduleLinearLayout.removeViewAt(childPosition);
+            }
+        }
+    }
+
+    @Override
+    public void onRemoveNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
+        if(ClassNoteDbAdapter.delete(note.getClassId(), note.getNoteId()) >= 1) {
+            int childPosition = mNoteList.indexOf(note);
+            if(childPosition != -1) {
+                mNoteList.remove(childPosition);
+                mNoteLinearLayout.removeViewAt(childPosition);
             }
         }
     }
