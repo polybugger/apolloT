@@ -142,11 +142,25 @@ public class ClassScheduleNewEditDialogFragment extends DialogFragment {
         });
         mDaysButton = (Button) view.findViewById(R.id.days_button);
         mDaysButton.setTag(0);
+        mDaysButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mDialogShown)
+                    return;
+                mDialogShown = true;
+                DaysPickerDialog daysPickerDialog = new DaysPickerDialog(mActivity, (Button) view);
+                daysPickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        mDialogShown = false;
+                    }
+                });
+                mCurrentDialog = daysPickerDialog.show();
+            }
+        });
         mRoomEditText = (EditText) view.findViewById(R.id.room_edit_text);
         mBuildingEditText = (EditText) view.findViewById(R.id.building_edit_text);
         mCampusEditText = (EditText) view.findViewById(R.id.campus_edit_text);
-
-
 
         view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
             @Override
