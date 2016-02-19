@@ -16,6 +16,12 @@
             android:summary="@string/pref_class_item_types_summary"
             android:defaultValue="" />
 
+        <net.polybugger.apollot.TimeStartDialogPreference
+            android:key="@string/pref_time_start_key"
+            android:title="@string/pref_time_start_title"
+            android:summary="@string/pref_time_start_summary"
+            android:defaultValue="@string/default_time_start" />
+
     </android.support.v7.preference.PreferenceCategory>
 
     <android.support.v7.preference.PreferenceCategory
@@ -31,7 +37,7 @@
             android:key="@string/pref_unlock_password_key"
             android:title="@string/pref_unlock_password_title"
             android:summary="@string/pref_unlock_password_summary"
-            android:defaultValue="" />
+            android:defaultValue="@string/default_unlock_password" />
 
     </android.support.v7.preference.PreferenceCategory>
 

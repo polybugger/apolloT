@@ -40,6 +40,10 @@
     <string name="pref_unlock_password_title">Unlock Password</string>
     <string name="pref_unlock_password_summary">Change unlock password.</string>
 
+    <string name="pref_time_start_key">net.polybugger.apollot.time_start</string>
+    <string name="pref_time_start_title">Default Time Start</string>
+    <string name="pref_time_start_summary">Default Time Start for schedules.</string>
+
     <string name="unlock_password_hint">Unlock Password</string>
     <string name="unlock_button">Unlock</string>
     <string name="protect_password_hint">Protect Password</string>

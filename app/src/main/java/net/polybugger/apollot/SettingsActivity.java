@@ -85,7 +85,15 @@ public class SettingsActivity extends AppCompatActivity {
                 fragment = UnlockPasswordPreferenceDialogFragmentCompat.newInstance(preference);
                 fragment.setTargetFragment(this, 0);
                 fragment.show(getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
-            } else super.onDisplayPreferenceDialog(preference);
+            }
+            else if(preference instanceof TimeStartDialogPreference) {
+                fragment = TimeStartPreferenceDialogFragmentCompat.newInstance(preference);
+                fragment.setTargetFragment(this, 0);
+                fragment.show(getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
+            }
+            else {
+                super.onDisplayPreferenceDialog(preference);
+            }
         }
     }
 }

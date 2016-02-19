@@ -95,12 +95,12 @@ public class ClassScheduleNewEditDialogFragment extends DialogFragment {
                     return;
                 mDialogShown = true;
                 Date defaultTimeStart = null;
-                //SimpleDateFormat sdfDefault = new SimpleDateFormat(TimeStartDialogPreference.SDF_PREF_TEMPLATE, mActivity.getResources().getConfiguration().locale);
-                //SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mActivity);
-                //try {
-                //    defaultTimeStart = sdfDefault.parse(sharedPref.getString(getString(R.string.pref_time_start_key), getString(R.string.default_time_start)));
-                //}
-                //catch(Exception e) { }
+                SimpleDateFormat sdfDefault = new SimpleDateFormat(TimeStartDialogPreference.SDF_PREF_TEMPLATE, mActivity.getResources().getConfiguration().locale);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mActivity);
+                try {
+                    defaultTimeStart = sdfDefault.parse(sharedPref.getString(getString(R.string.pref_time_start_key), getString(R.string.default_time_start)));
+                }
+                catch(Exception e) { }
                 TimePickerDialog timePickerDialog = new TimePickerDialog(mActivity, (Button) view, defaultTimeStart, new TimePickerDialog.TimePickerDialogCallback() {
                     @Override
                     public void onSet(Date time, Button sourceButton) {

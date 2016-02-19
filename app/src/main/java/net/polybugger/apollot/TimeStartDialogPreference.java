@@ -5,12 +5,14 @@ import android.content.res.TypedArray;
 import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
-public class UnlockPasswordDialogPreference extends DialogPreference {
+public class TimeStartDialogPreference extends DialogPreference {
 
-    public UnlockPasswordDialogPreference(Context context, AttributeSet attrs) {
+    public static final String SDF_PREF_TEMPLATE = "HH:mm:ss";
+
+    public TimeStartDialogPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         setPersistent(true);
-        setDialogLayoutResource(R.layout.pref_unlock_password);
+        setDialogLayoutResource(R.layout.pref_time_start);
     }
 
     @Override
@@ -23,11 +25,12 @@ public class UnlockPasswordDialogPreference extends DialogPreference {
         return super.persistString(value);
     }
 
+
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
         String defaultValue = a.getString(index);
         if(defaultValue == null)
-            defaultValue = getContext().getString(R.string.default_unlock_password);
+            defaultValue = getContext().getString(R.string.default_time_start);
         return defaultValue;
     }
 }
