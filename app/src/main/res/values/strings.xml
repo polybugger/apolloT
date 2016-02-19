@@ -90,6 +90,9 @@
     <string name="room_hint">Room</string>
     <string name="building_hint">Building</string>
     <string name="campus_hint">Campus</string>
+    <string name="clear_button">Clear</string>
+    <string name="set_button">Set</string>
+    <string name="fragment_status_time_start_required">Time Start cannot be blank.</string>
 
     <string name="new_class_note">New Class Note</string>
     <string name="edit_class_note">Edit Class Note</string>

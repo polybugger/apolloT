@@ -222,7 +222,27 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
 
     @Override
     public void onNewEditSchedule(ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
-
+        long classId = mClass.getClassId();
+        if(schedule.getScheduleId() != -1) {
+            if(ClassScheduleDbAdapter.update(classId, schedule.getScheduleId(), schedule.getTimeStart(), schedule.getTimeEnd(), schedule.getDays(), schedule.getRoom(), schedule.getBuilding(), schedule.getCampus()) >= 1) {
+                int childPosition = mScheduleList.indexOf(schedule);
+                if(childPosition != -1) {
+                    mScheduleList.set(childPosition, schedule);
+                    View rowView = mScheduleLinearLayout.getChildAt(childPosition);
+                    if(rowView != null)
+                        _getScheduleView(rowView, schedule, null, null);
+                }
+            }
+        }
+        else {
+            long scheduleId = ClassScheduleDbAdapter.insert(classId, schedule.getTimeStart(), schedule.getTimeEnd(), schedule.getDays(), schedule.getRoom(), schedule.getBuilding(), schedule.getCampus());
+            if(scheduleId != -1) {
+                schedule.setClassId(classId);
+                schedule.setScheduleId(scheduleId);
+                mScheduleList.add(schedule);
+                mScheduleLinearLayout.addView(getScheduleView(mActivity.getLayoutInflater(), schedule, mEditScheduleClickListener, mRemoveScheduleClickListener));
+            }
+        }
     }
 
     private class DbQuerySchedulesTask extends AsyncTask<Long, Integer, ArrayList<ClassScheduleDbAdapter.ClassSchedule>> {
