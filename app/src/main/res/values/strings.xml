@@ -84,6 +84,13 @@
     <string name="new_class_schedule">New Class Schedule</string>
     <string name="edit_class_schedule">Edit Class Schedule</string>
     <string name="remove_class_schedule">Remove Class Schedule</string>
+    <string name="time_start_hint">Time Start</string>
+    <string name="time_end_hint">Time End</string>
+    <string name="days_hint">Days</string>
+    <string name="room_hint">Room</string>
+    <string name="building_hint">Building</string>
+    <string name="campus_hint">Campus</string>
+
     <string name="new_class_note">New Class Note</string>
     <string name="edit_class_note">Edit Class Note</string>
     <string name="remove_class_note">Remove Class Note</string>

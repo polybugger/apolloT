@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -25,7 +26,8 @@ import java.util.ArrayList;
 
 public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
         ClassScheduleRemoveDialogFragment.RemoveListener,
-        ClassNoteRemoveDialogFragment.RemoveListener {
+        ClassNoteRemoveDialogFragment.RemoveListener,
+        ClassScheduleNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -78,6 +80,24 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        FragmentManager fm = getFragmentManager();
+        switch(id) {
+            case R.id.action_new_schedule:
+                ClassScheduleNewEditDialogFragment df = (ClassScheduleNewEditDialogFragment) fm.findFragmentByTag(ClassScheduleNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassScheduleNewEditDialogFragment.newInstance(getString(R.string.new_class_schedule), getString(R.string.add_button), null, getTag());
+                    df.show(fm, ClassDetailsNewEditDialogFragment.TAG);
+                }
+                return true;
+            case R.id.action_new_note:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
@@ -106,11 +126,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mEditScheduleClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                NewEditClassScheduleDialogFragment.DialogArgs dialogArgs = new NewEditClassScheduleDialogFragment.DialogArgs(getString(R.string.edit_class_schedule), getString(R.string.save_button));
-                NewEditClassScheduleDialogFragment f = NewEditClassScheduleDialogFragment.newInstance(dialogArgs, (ClassSchedule) view.getTag(), getTag());
-                f.show(getFragmentManager(), NewEditClassScheduleDialogFragment.TAG);
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassScheduleNewEditDialogFragment df = (ClassScheduleNewEditDialogFragment) fm.findFragmentByTag(ClassScheduleNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassScheduleNewEditDialogFragment.newInstance(getString(R.string.edit_class_schedule), getString(R.string.save_button), (ClassScheduleDbAdapter.ClassSchedule) view.getTag(), getTag());
+                    df.show(fm, ClassDetailsNewEditDialogFragment.TAG);
+                }
             }
         };
         mRemoveScheduleClickListener = new View.OnClickListener() {
@@ -197,6 +218,11 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 mNoteLinearLayout.removeViewAt(childPosition);
             }
         }
+    }
+
+    @Override
+    public void onNewEditSchedule(ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
+
     }
 
     private class DbQuerySchedulesTask extends AsyncTask<Long, Integer, ArrayList<ClassScheduleDbAdapter.ClassSchedule>> {

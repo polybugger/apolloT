@@ -33,7 +33,7 @@ public class ClassScheduleRemoveDialogFragment extends DialogFragment {
     public static ClassScheduleRemoveDialogFragment newInstance(String dialogTitle, ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
         ClassScheduleRemoveDialogFragment f = new ClassScheduleRemoveDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(DIALOG_TITLE_ARG, dialogTitle);
+        args.putString(DIALOG_TITLE_ARG, dialogTitle);
         args.putSerializable(SCHEDULE_ARG, schedule);
         args.putString(FRAGMENT_TAG_ARG, fragmentTag);
         f.setArguments(args);

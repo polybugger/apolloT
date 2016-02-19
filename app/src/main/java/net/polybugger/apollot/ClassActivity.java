@@ -19,7 +19,8 @@ import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 public class ClassActivity extends AppCompatActivity implements ClassPasswordDialogFragment.ClassPasswordDialogListener,
         ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
         ClassScheduleRemoveDialogFragment.RemoveListener,
-        ClassNoteRemoveDialogFragment.RemoveListener {
+        ClassNoteRemoveDialogFragment.RemoveListener,
+        ClassScheduleNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -180,7 +181,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
                 throw new ClassCastException(f.toString() + " must implement " + ClassNoteRemoveDialogFragment.RemoveListener.class.toString());
             }
         }
+    }
 
+    @Override
+    public void onNewEditSchedule(ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassScheduleNewEditDialogFragment.NewEditListener) f).onNewEditSchedule(schedule, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassScheduleNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

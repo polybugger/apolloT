@@ -10,31 +10,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import net.polybugger.apollot.db.ClassNoteDbAdapter;
+import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
-public class ClassNoteRemoveDialogFragment extends DialogFragment {
+public class ClassScheduleNewEditDialogFragment extends DialogFragment {
 
-    public static final String TAG = "net.polybugger.apollot.class_note_remove_dialog_fragment";
+    public static final String TAG = "net.polybugger.apollot.new_edit_class_schedule_dialog_fragment";
     public static final String DIALOG_TITLE_ARG = "net.polybugger.apollot.dialog_title_arg";
-    public static final String NOTE_ARG = "net.polybugger.apollot.note_arg";
+    public static final String BUTTON_TEXT_ARG = "net.polybugger.apollot.button_text_arg";
+    public static final String SCHEDULE_ARG = "net.polybugger.apollot.schedule_arg";
     public static final String FRAGMENT_TAG_ARG = "net.polybugger.apollot.fragment_tag_arg";
 
     private Activity mActivity;
     private String mDialogTitle;
-    private ClassNoteDbAdapter.ClassNote mNote;
+    private String mButtonText;
+    private ClassScheduleDbAdapter.ClassSchedule mSchedule;
     private String mFragmentTag;
 
-    public interface RemoveListener {
-        void onRemoveNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag);
+    public interface NewEditListener {
+        void onNewEditSchedule(ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag);
     }
 
-    public ClassNoteRemoveDialogFragment() {}
+    public ClassScheduleNewEditDialogFragment() {}
 
-    public static ClassNoteRemoveDialogFragment newInstance(String dialogTitle, ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
-        ClassNoteRemoveDialogFragment f = new ClassNoteRemoveDialogFragment();
+    public static ClassScheduleNewEditDialogFragment newInstance(String dialogTitle, String buttonText, ClassScheduleDbAdapter.ClassSchedule schedule, String fragmentTag) {
+        ClassScheduleNewEditDialogFragment f = new ClassScheduleNewEditDialogFragment();
         Bundle args = new Bundle();
         args.putString(DIALOG_TITLE_ARG, dialogTitle);
-        args.putSerializable(NOTE_ARG, note);
+        args.putString(BUTTON_TEXT_ARG, buttonText);
+        args.putSerializable(SCHEDULE_ARG, schedule);
         args.putString(FRAGMENT_TAG_ARG, fragmentTag);
         f.setArguments(args);
         return f;
@@ -45,34 +48,34 @@ public class ClassNoteRemoveDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mDialogTitle = args.getString(DIALOG_TITLE_ARG);
-        mNote = (ClassNoteDbAdapter.ClassNote) args.getSerializable(NOTE_ARG);
+        mButtonText = args.getString(BUTTON_TEXT_ARG);
+        mSchedule = (ClassScheduleDbAdapter.ClassSchedule) args.getSerializable(SCHEDULE_ARG);
         mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
     }
-
 
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_class_note_remove_dialog, null);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_class_schedule_new_edit_dialog, null);
 
         ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
-        ((TextView) view.findViewById(R.id.note_text_view)).setText(mNote.getDateNoteText());
 
-        view.findViewById(R.id.no_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
 
-        Button yesButton = (Button) view.findViewById(R.id.yes_button);
-        yesButton.setOnClickListener(new View.OnClickListener() {
+        Button addSaveButton = (Button) view.findViewById(R.id.add_save_button);
+        addSaveButton.setText(mButtonText);
+        addSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    ((RemoveListener) mActivity).onRemoveNote(mNote, mFragmentTag);
+                    ((NewEditListener) mActivity).onNewEditSchedule(mSchedule, mFragmentTag);
                 } catch (ClassCastException e) {
-                    throw new ClassCastException(mActivity.toString() + " must implement " + RemoveListener.class.toString());
+                    throw new ClassCastException(mActivity.toString() + " must implement " + NewEditListener.class.toString());
                 }
                 dismiss();
             }
@@ -82,6 +85,7 @@ public class ClassNoteRemoveDialogFragment extends DialogFragment {
         builder.setTitle(null).setView(view).setPositiveButton(null, null).setNegativeButton(null, null);
         return builder.create();
     }
+
 
     @Override
     public void onAttach(Activity activity) {
