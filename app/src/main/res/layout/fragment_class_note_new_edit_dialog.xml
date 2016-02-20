@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_marginRight="@dimen/normal_margin"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_marginRight="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
+            android:orientation="vertical" >
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/note_date_button"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingLeft="10sp"
+                android:hint="@string/note_date_hint"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/note_edit_text"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:isScrollContainer="true"
+                android:lines="5"
+                android:maxLength="@integer/note_char_limit"
+                android:gravity="left|top"
+                android:hint="@string/note_char_limit_hint"
+                android:inputType="textFilter|textMultiLine"
+                android:textSize="@dimen/normal_text_size" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/normal_text_size"
+                android:text="@string/cancel_button" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/add_save_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/normal_text_size"
+                android:text="@string/add_button" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</ScrollView>

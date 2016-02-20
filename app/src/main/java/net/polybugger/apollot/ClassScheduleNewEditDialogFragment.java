@@ -35,7 +35,6 @@ public class ClassScheduleNewEditDialogFragment extends DialogFragment {
     public static final String STATE_TIME_END = "net.polybugger.apollot.time_end";
     public static final String STATE_DAYS = "net.polybugger.apollot.days";
 
-
     private Activity mActivity;
     private String mDialogTitle;
     private String mButtonText;

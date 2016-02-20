@@ -20,7 +20,9 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
         ClassScheduleRemoveDialogFragment.RemoveListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
-        ClassScheduleNewEditDialogFragment.NewEditListener {
+        ClassScheduleNewEditDialogFragment.NewEditListener,
+        ClassNoteNewEditDialogFragment.NewEditListener {
+
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -192,6 +194,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassScheduleNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassNoteNewEditDialogFragment.NewEditListener) f).onNewEditNote(note, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassNoteNewEditDialogFragment.NewEditListener.class.toString());
             }
         }
     }

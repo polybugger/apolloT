@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 
 import net.polybugger.apollot.db.DaysBits;
 
-public class DaysPickerDialog  extends AlertDialog.Builder {
+public class DaysPickerDialog extends AlertDialog.Builder {
 
     private Context mContext;
     private Button mSourceButton;

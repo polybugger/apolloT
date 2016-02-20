@@ -27,7 +27,8 @@ import java.util.ArrayList;
 public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
         ClassScheduleRemoveDialogFragment.RemoveListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
-        ClassScheduleNewEditDialogFragment.NewEditListener {
+        ClassScheduleNewEditDialogFragment.NewEditListener,
+        ClassNoteNewEditDialogFragment.NewEditListener{
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -85,13 +86,18 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         FragmentManager fm = getFragmentManager();
         switch(id) {
             case R.id.action_new_schedule:
-                ClassScheduleNewEditDialogFragment df = (ClassScheduleNewEditDialogFragment) fm.findFragmentByTag(ClassScheduleNewEditDialogFragment.TAG);
-                if(df == null) {
-                    df = ClassScheduleNewEditDialogFragment.newInstance(getString(R.string.new_class_schedule), getString(R.string.add_button), null, getTag());
-                    df.show(fm, ClassDetailsNewEditDialogFragment.TAG);
+                ClassScheduleNewEditDialogFragment sdf = (ClassScheduleNewEditDialogFragment) fm.findFragmentByTag(ClassScheduleNewEditDialogFragment.TAG);
+                if(sdf == null) {
+                    sdf = ClassScheduleNewEditDialogFragment.newInstance(getString(R.string.new_class_schedule), getString(R.string.add_button), null, getTag());
+                    sdf.show(fm, ClassScheduleNewEditDialogFragment.TAG);
                 }
                 return true;
             case R.id.action_new_note:
+                ClassNoteNewEditDialogFragment ndf = (ClassNoteNewEditDialogFragment) fm.findFragmentByTag(ClassNoteNewEditDialogFragment.TAG);
+                if(ndf == null) {
+                    ndf = ClassNoteNewEditDialogFragment.newInstance(getString(R.string.new_class_note), getString(R.string.add_button), null, getTag());
+                    ndf.show(fm, ClassNoteNewEditDialogFragment.TAG);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -130,7 +136,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 ClassScheduleNewEditDialogFragment df = (ClassScheduleNewEditDialogFragment) fm.findFragmentByTag(ClassScheduleNewEditDialogFragment.TAG);
                 if(df == null) {
                     df = ClassScheduleNewEditDialogFragment.newInstance(getString(R.string.edit_class_schedule), getString(R.string.save_button), (ClassScheduleDbAdapter.ClassSchedule) view.getTag(), getTag());
-                    df.show(fm, ClassDetailsNewEditDialogFragment.TAG);
+                    df.show(fm, ClassScheduleNewEditDialogFragment.TAG);
                 }
             }
         };
@@ -150,9 +156,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mEditNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //NewEditClassNoteAttachmentDialogFragment.DialogArgs noteDialogArgs = new NewEditClassNoteAttachmentDialogFragment.DialogArgs(getString(R.string.edit_class_note_attachment), getString(R.string.save_button));
-                //NewEditClassNoteAttachmentDialogFragment f = NewEditClassNoteAttachmentDialogFragment.newInstance(noteDialogArgs, (ClassNoteAttachment) view.getTag(), getTag());
-                //f.show(getFragmentManager(), NewEditClassNoteAttachmentDialogFragment.TAG);
+                FragmentManager fm = getFragmentManager();
+                ClassNoteNewEditDialogFragment df = (ClassNoteNewEditDialogFragment) fm.findFragmentByTag(ClassNoteNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassNoteNewEditDialogFragment.newInstance(getString(R.string.edit_class_note), getString(R.string.save_button), (ClassNoteDbAdapter.ClassNote) view.getTag(), getTag());
+                    df.show(fm, ClassNoteNewEditDialogFragment.TAG);
+                }
             }
         };
         mRemoveNoteClickListener = new View.OnClickListener() {
@@ -241,6 +250,31 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 schedule.setScheduleId(scheduleId);
                 mScheduleList.add(schedule);
                 mScheduleLinearLayout.addView(getScheduleView(mActivity.getLayoutInflater(), schedule, mEditScheduleClickListener, mRemoveScheduleClickListener));
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
+        long classId = mClass.getClassId();
+        if(note.getNoteId() != -1) {
+            if(ClassNoteDbAdapter.update(classId, note.getNoteId(), note.getNote(), note.getDateCreated()) >= 1) {
+                int childPosition = mNoteList.indexOf(note);
+                if(childPosition != -1) {
+                    mNoteList.set(childPosition, note);
+                    View rowView = mNoteLinearLayout.getChildAt(childPosition);
+                    if(rowView != null)
+                        _getNoteView(rowView, note, null, null);
+                }
+            }
+        }
+        else {
+            long noteId = ClassNoteDbAdapter.insert(classId, note.getNote(), note.getDateCreated());
+            if(noteId != -1) {
+                note.setClassId(classId);
+                note.setNoteId(noteId);
+                mNoteList.add(note);
+                mNoteLinearLayout.addView(getNoteView(mActivity.getLayoutInflater(), note, mEditNoteClickListener, mRemoveNoteClickListener));
             }
         }
     }

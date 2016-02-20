@@ -101,6 +101,11 @@
     <string name="new_class_note">New Class Note</string>
     <string name="edit_class_note">Edit Class Note</string>
     <string name="remove_class_note">Remove Class Note</string>
+    <string name="note_date_hint">Note Date</string>
+    <string name="note_char_limit_hint">(140 characters limit)</string>
+    <string name="characters_left">character(s) left.</string>
+    <string name="fragment_status_note_required">Note cannot be blank.</string>
+    <string name="fragment_status_note_date_required">Note Date cannot be blank.</string>
 
     <string name="days_mf">M-F</string>
     <string name="days_mwf">MWF</string>
