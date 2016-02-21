@@ -21,7 +21,8 @@ import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 
 public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordDialogListener,
         ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
-        ClassPasswordDialogFragment.ClassPasswordDialogListener {
+        ClassPasswordDialogFragment.ClassPasswordDialogListener,
+        StartupTaskFragment.StartupListener {
 
     // for backpress from class activity, to requery data on affected class, a hack
     public static boolean CLASS_REQUERY_CALLBACK = false;
@@ -145,6 +146,12 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        FragmentManager fm = getSupportFragmentManager();
+
+        if(fm.findFragmentByTag(StartupTaskFragment.TAG) == null) {
+            fm.beginTransaction().add(new StartupTaskFragment(), StartupTaskFragment.TAG).commit();
+        }
     }
 
     @Override
@@ -182,6 +189,21 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassPasswordDialogFragment.ClassPasswordDialogListener.class.toString());
             }
+        }
+    }
+
+    @Override
+    public void onStartup(StartupTaskFragment.StartupOption startupOption) {
+        switch(startupOption) {
+            case SHOW_CURRENT_CLASSES:
+                mViewPager.setCurrentItem(CURRENT_TAB, true);
+                break;
+            case SHOW_PAST_CLASSES:
+                mViewPager.setCurrentItem(PAST_TAB, true);
+                break;
+            case SHOW_NEW_CLASS_DIALOG:
+                showNewClassDialog();
+                break;
         }
     }
 

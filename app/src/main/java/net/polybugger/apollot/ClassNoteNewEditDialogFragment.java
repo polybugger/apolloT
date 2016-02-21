@@ -192,7 +192,6 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

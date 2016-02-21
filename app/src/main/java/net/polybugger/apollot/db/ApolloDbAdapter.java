@@ -120,7 +120,6 @@ public class ApolloDbAdapter {
 
             _insertDummyClass2(db);
 
-
         }
 
         @Override
