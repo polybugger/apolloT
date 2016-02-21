@@ -133,10 +133,8 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
     @Override
     public void onUnlockPassword() {
         lockAuthenticated = true;
-
         setTitle(R.string.activity_classes_title);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -155,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         long academicTermId = academicTerm == null ? -1 : academicTerm.getId();
         long classId = ClassDbAdapter.insert(class_.getCode(), class_.getDescription(), academicTermId, class_.getYear(), class_.isCurrent());
         if(classId != -1) {
+            class_.setClassId(classId);
             FragmentManager fm = getSupportFragmentManager();
             ClassesFragment classesFragment;
             try {
@@ -162,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
                 classesFragment.addClass(class_);
             }
             catch(Exception e) { }
-            class_.setClassId(classId);
             Intent intent = new Intent(this, ClassActivity.class);
             intent.putExtra(ClassActivity.CLASS_ARG, class_);
             startActivity(intent);

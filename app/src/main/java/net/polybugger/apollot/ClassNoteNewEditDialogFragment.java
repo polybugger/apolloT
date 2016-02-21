@@ -34,8 +34,6 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
     public static final String STATE_NOTE_DATE = "net.polybugger.apollot.note_date";
 
     private Activity mActivity;
-    private String mDialogTitle;
-    private String mButtonText;
     private ClassNoteDbAdapter.ClassNote mNote;
     private String mFragmentTag;
 
@@ -62,22 +60,19 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
         return f;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        mDialogTitle = args.getString(DIALOG_TITLE_ARG);
-        mButtonText = args.getString(BUTTON_TEXT_ARG);
-        mNote = (ClassNoteDbAdapter.ClassNote) args.getSerializable(NOTE_ARG);
-        mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
-    }
-
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        Bundle args = getArguments();
+        String dialogTitle = args.getString(DIALOG_TITLE_ARG);
+        String buttonText = args.getString(BUTTON_TEXT_ARG);
+        mNote = (ClassNoteDbAdapter.ClassNote) args.getSerializable(NOTE_ARG);
+        mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
+
         View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_class_note_new_edit_dialog, null);
 
-        ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
 
         final SimpleDateFormat sdf = new SimpleDateFormat(ClassNoteDbAdapter.SDF_DISPLAY_TEMPLATE, mActivity.getResources().getConfiguration().locale);
         mNoteDateButton = (Button) view.findViewById(R.id.note_date_button);
@@ -87,7 +82,7 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
         mNoteDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mDialogShown)
+                if(mDialogShown)
                     return;
                 mDialogShown = true;
                 DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity, (Button) view, new DatePickerDialog.DatePickerDialogCallback() {
@@ -138,7 +133,7 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
             }
         });
         Button addSaveButton = (Button) view.findViewById(R.id.add_save_button);
-        addSaveButton.setText(mButtonText);
+        addSaveButton.setText(buttonText);
         addSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,12 +142,13 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
                 boolean ie = TextUtils.isEmpty(note);
                 if(noteDate == null || ie) {
                     int textResId = 0;
-                    if(ie) {
+                    if(noteDate == null) {
+                        textResId = R.string.fragment_status_note_date_required;
+                    }
+                    else {
                         textResId = R.string.fragment_status_note_required;
                         mNoteEditText.requestFocus();
                     }
-                    else
-                        textResId = R.string.fragment_status_note_date_required;
                     Toast toast = Toast.makeText(mActivity, textResId, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();

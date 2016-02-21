@@ -17,9 +17,7 @@ public class UnlockPasswordPreferenceDialogFragmentCompat extends PreferenceDial
     private EditText mNewPasswordEditText;
 
     @Override
-    public void onDialogClosed(boolean b) {
-
-    }
+    public void onDialogClosed(boolean b) {}
 
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
@@ -40,7 +38,6 @@ public class UnlockPasswordPreferenceDialogFragmentCompat extends PreferenceDial
                 dismiss();
             }
         });
-
         view.findViewById(R.id.change_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

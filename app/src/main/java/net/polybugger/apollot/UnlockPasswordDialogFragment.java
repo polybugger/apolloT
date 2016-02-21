@@ -16,6 +16,8 @@ public class UnlockPasswordDialogFragment extends DialogFragment {
 
     public static final String TAG = "net.polybugger.apollot.unlock_password_dialog_fragment";
 
+    private EditText mUnlockPasswordEditText;
+
     public interface UnlockPasswordDialogListener {
         void onUnlockPassword();
     }
@@ -26,14 +28,7 @@ public class UnlockPasswordDialogFragment extends DialogFragment {
         return fragment;
     }
 
-    public UnlockPasswordDialogFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public UnlockPasswordDialogFragment() {}
 
     @SuppressLint("InflateParams")
     @Override
@@ -41,12 +36,12 @@ public class UnlockPasswordDialogFragment extends DialogFragment {
         final Activity activity = getActivity();
         View view = activity.getLayoutInflater().inflate(R.layout.fragment_unlock_password_dialog, null);
 
-        final EditText unlockPasswordEditText = (EditText) view.findViewById(R.id.edit_text);
+        mUnlockPasswordEditText = (EditText) view.findViewById(R.id.edit_text);
         view.findViewById(R.id.unlock_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String savedPassword = PreferenceManager.getDefaultSharedPreferences(activity).getString(getString(R.string.pref_unlock_password_key), getString(R.string.default_unlock_password));
-                String unlockPassword = unlockPasswordEditText.getText().toString();
+                String unlockPassword = mUnlockPasswordEditText.getText().toString();
                 if (savedPassword.equals(unlockPassword)) {
                     try {
                         ((UnlockPasswordDialogListener) activity).onUnlockPassword();

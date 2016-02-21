@@ -22,8 +22,6 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
     public static final String SQLITE_ROW_ARG = "net.polybugger.apollot.sqlite_row_arg";
 
     private Activity mActivity;
-    private String mDialogTitle;
-    private String mButtonText;
     private SQLiteTableActivity.SQLiteRow mSQLiteRow;
     private EditText mEditText;
 
@@ -33,7 +31,6 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
 
     public static SQLiteTableNewEditDialogFragment newInstance(String dialogTitle, String buttonText, SQLiteTableActivity.SQLiteRow sqliteRow) {
         SQLiteTableNewEditDialogFragment fragment = new SQLiteTableNewEditDialogFragment();
-
         Bundle args = new Bundle();
         args.putString(DIALOG_TITLE_ARG, dialogTitle);
         args.putString(BUTTON_TEXT_ARG, buttonText);
@@ -42,42 +39,31 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
         return fragment;
     }
 
-    public SQLiteTableNewEditDialogFragment() {
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        mDialogTitle = args.getString(DIALOG_TITLE_ARG);
-        mButtonText = args.getString(BUTTON_TEXT_ARG);
-        mSQLiteRow = (SQLiteTableActivity.SQLiteRow) args.getSerializable(SQLITE_ROW_ARG);
-    }
+    public SQLiteTableNewEditDialogFragment() {}
 
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        String dialogTitle = args.getString(DIALOG_TITLE_ARG);
+        String buttonText = args.getString(BUTTON_TEXT_ARG);
+        mSQLiteRow = (SQLiteTableActivity.SQLiteRow) args.getSerializable(SQLITE_ROW_ARG);
         View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_sqlite_table_new_edit_dialog, null);
-
-        ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
-
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
         mEditText = (EditText) view.findViewById(R.id.edit_text);
         if(mSQLiteRow.getId() != -1) {
             mEditText.setHint("");
             mEditText.setText(mSQLiteRow.getData());
             mEditText.setSelection(mEditText.getText().length());
         }
-
         view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
-
         Button addButton = (Button) view.findViewById(R.id.add_save_button);
-        addButton.setText(mButtonText);
+        addButton.setText(buttonText);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +80,6 @@ public class SQLiteTableNewEditDialogFragment extends DialogFragment {
                         throw new ClassCastException(mActivity.toString() + " must implement " + NewEditListener.class.toString());
                     }
                     dismiss();
-
                 }
             }
         });

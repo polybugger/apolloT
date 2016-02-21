@@ -21,8 +21,6 @@ import android.widget.Toast;
 import net.polybugger.apollot.db.AcademicTermDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 
-import java.io.Serializable;
-
 public class ClassDetailsNewEditDialogFragment extends DialogFragment {
 
     public static final String TAG = "net.polybugger.apollot.new_edit_class_details_dialog_fragment";
@@ -40,8 +38,7 @@ public class ClassDetailsNewEditDialogFragment extends DialogFragment {
     private EditText mYearEditText;
     private CheckBox mCurrentCheckBox;
 
-    public ClassDetailsNewEditDialogFragment() {
-    }
+    public ClassDetailsNewEditDialogFragment() {}
 
     public interface ClassDetailsDialogListener {
         void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag);

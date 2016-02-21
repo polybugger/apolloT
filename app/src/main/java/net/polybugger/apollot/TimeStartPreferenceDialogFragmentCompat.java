@@ -19,9 +19,7 @@ public class TimeStartPreferenceDialogFragmentCompat extends PreferenceDialogFra
     private TimePicker mTimePicker;
 
     @Override
-    public void onDialogClosed(boolean b) {
-
-    }
+    public void onDialogClosed(boolean b) {}
 
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {

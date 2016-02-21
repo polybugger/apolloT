@@ -23,7 +23,6 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassScheduleNewEditDialogFragment.NewEditListener,
         ClassNoteNewEditDialogFragment.NewEditListener {
 
-
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
     private static final int INFO_TAB = 0;
@@ -116,7 +115,6 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
                 onBackPressed();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

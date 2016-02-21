@@ -75,6 +75,13 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     }
 
     @Override
+    public void onDestroyView() {
+        mScheduleTask.cancel(true);
+        mNoteTask.cancel(true);
+        super.onDestroyView();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_class_info, menu);
@@ -115,8 +122,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mAcademicTermTextView = (TextView) view.findViewById(R.id.academic_term_text_view);
         mCurrentTextView = (TextView) view.findViewById(R.id.current_text_view);
 
-        ImageButton editClassDetailsButton = (ImageButton) view.findViewById(R.id.edit_class_details_button);
-        editClassDetailsButton.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.edit_class_details_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = getFragmentManager();

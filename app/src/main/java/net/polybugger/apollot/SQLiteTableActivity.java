@@ -46,7 +46,6 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         setContentView(R.layout.activity_sqlite_table);
 
         Bundle args = getIntent().getExtras();
-
         mTableName = args.getString(TABLE_NAME_ARG);
         mIdColumn = args.getString(ID_COLUMN_ARG);
         mDataColumn = args.getString(DATA_COLUMN_ARG);
@@ -56,7 +55,6 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         setTitle(mTitle);
 
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {

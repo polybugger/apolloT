@@ -77,7 +77,6 @@ public class ClassPasswordDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
         Button unlockButton = (Button) view.findViewById(R.id.unlock_button);
         unlockButton.setText(dialogArgs.getButtonText());
         unlockButton.setOnClickListener(new View.OnClickListener() {

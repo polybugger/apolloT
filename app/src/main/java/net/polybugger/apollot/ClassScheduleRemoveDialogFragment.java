@@ -20,7 +20,6 @@ public class ClassScheduleRemoveDialogFragment extends DialogFragment {
     public static final String FRAGMENT_TAG_ARG = "net.polybugger.apollot.fragment_tag_arg";
 
     private Activity mActivity;
-    private String mDialogTitle;
     private ClassScheduleDbAdapter.ClassSchedule mSchedule;
     private String mFragmentTag;
 
@@ -40,21 +39,17 @@ public class ClassScheduleRemoveDialogFragment extends DialogFragment {
         return f;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        mDialogTitle = args.getString(DIALOG_TITLE_ARG);
-        mSchedule = (ClassScheduleDbAdapter.ClassSchedule) args.getSerializable(SCHEDULE_ARG);
-        mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
-    }
-
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        String dialogTitle = args.getString(DIALOG_TITLE_ARG);
+        mSchedule = (ClassScheduleDbAdapter.ClassSchedule) args.getSerializable(SCHEDULE_ARG);
+        mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
+
         View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_class_schedule_remove_dialog, null);
 
-        ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
         ((TextView) view.findViewById(R.id.time_location_text_view)).setText(mSchedule.getTime() + "\r\n" + mSchedule.getLocation());
 
         view.findViewById(R.id.no_button).setOnClickListener(new View.OnClickListener() {
@@ -63,9 +58,7 @@ public class ClassScheduleRemoveDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
-        Button yesButton = (Button) view.findViewById(R.id.yes_button);
-        yesButton.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.yes_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

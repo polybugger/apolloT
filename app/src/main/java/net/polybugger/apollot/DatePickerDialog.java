@@ -48,9 +48,7 @@ public class DatePickerDialog extends AlertDialog.Builder {
     @Override
     public AlertDialog show() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.date_picker_dialog, null);
-
         mDatePicker = (DatePicker) view.findViewById(R.id.date_picker);
-
         if(mSourceButton != null) {
             ((TextView) view.findViewById(R.id.title_text_view)).setText(mSourceButton.getHint());
             Date date = (Date) mSourceButton.getTag();

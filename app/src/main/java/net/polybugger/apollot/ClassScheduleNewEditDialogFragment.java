@@ -36,8 +36,6 @@ public class ClassScheduleNewEditDialogFragment extends DialogFragment {
     public static final String STATE_DAYS = "net.polybugger.apollot.days";
 
     private Activity mActivity;
-    private String mDialogTitle;
-    private String mButtonText;
     private ClassScheduleDbAdapter.ClassSchedule mSchedule;
     private String mFragmentTag;
 
@@ -68,22 +66,18 @@ public class ClassScheduleNewEditDialogFragment extends DialogFragment {
         return f;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        mDialogTitle = args.getString(DIALOG_TITLE_ARG);
-        mButtonText = args.getString(BUTTON_TEXT_ARG);
-        mSchedule = (ClassScheduleDbAdapter.ClassSchedule) args.getSerializable(SCHEDULE_ARG);
-        mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
-    }
-
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        String dialogTitle = args.getString(DIALOG_TITLE_ARG);
+        String buttonText = args.getString(BUTTON_TEXT_ARG);
+        mSchedule = (ClassScheduleDbAdapter.ClassSchedule) args.getSerializable(SCHEDULE_ARG);
+        mFragmentTag = args.getString(FRAGMENT_TAG_ARG);
+
         View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_class_schedule_new_edit_dialog, null);
 
-        ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
 
         final SimpleDateFormat sdf = new SimpleDateFormat(ClassScheduleDbAdapter.SDF_DISPLAY_TEMPLATE, mActivity.getResources().getConfiguration().locale);
         mTimeStartButton = (Button) view.findViewById(R.id.time_start_button);
@@ -167,9 +161,8 @@ public class ClassScheduleNewEditDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
         Button addSaveButton = (Button) view.findViewById(R.id.add_save_button);
-        addSaveButton.setText(mButtonText);
+        addSaveButton.setText(buttonText);
         addSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

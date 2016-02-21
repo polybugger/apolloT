@@ -59,7 +59,6 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-
         Bundle args = getArguments();
         mCurrent = args.getBoolean(CURRENT_PAST_ARG);
 
@@ -67,7 +66,6 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
         mListView = (ListView) view.findViewById(R.id.list_view);
         mListAdapter = new ListArrayAdapter(mActivity, new ArrayList<ClassDbAdapter.Class>());
         mListView.setAdapter(mListAdapter);
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

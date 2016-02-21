@@ -41,9 +41,7 @@ public class DaysPickerDialog extends AlertDialog.Builder {
     @SuppressLint("InflateParams")
     @Override
     public AlertDialog show() {
-
         View view = LayoutInflater.from(mContext).inflate(R.layout.days_picker_dialog, null);
-
         mMonCheckBox = (CheckBox) view.findViewById(R.id.m_checkbox);
         mTueCheckBox = (CheckBox) view.findViewById(R.id.t_checkbox);
         mWedCheckBox = (CheckBox) view.findViewById(R.id.w_checkbox);
@@ -51,7 +49,6 @@ public class DaysPickerDialog extends AlertDialog.Builder {
         mFriCheckBox = (CheckBox) view.findViewById(R.id.f_checkbox);
         mSatCheckBox = (CheckBox) view.findViewById(R.id.s_checkbox);
         mSunCheckBox = (CheckBox) view.findViewById(R.id.su_checkbox);
-
         if(mSourceButton != null) {
             int days = 0;
             try {

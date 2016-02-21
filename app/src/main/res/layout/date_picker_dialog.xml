@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="none"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+<android.support.v7.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -23,8 +28,10 @@
         android:layout_marginLeft="@dimen/normal_margin"
         android:layout_marginRight="@dimen/normal_margin"
         android:layout_marginBottom="@dimen/normal_margin"
-        android:datePickerMode="spinner"
-        android:textSize="@dimen/normal_text_size" />
+        android:datePickerMode="calendar"
+        android:calendarViewShown="true"
+        android:spinnersShown="false"
+        android:textSize="@dimen/small_text_size" />
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -61,3 +68,5 @@
     </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.v7.widget.LinearLayoutCompat>
+
+</ScrollView>

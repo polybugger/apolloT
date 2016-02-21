@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class SQLiteTableRemoveDialogFragment extends DialogFragment {
@@ -17,7 +16,6 @@ public class SQLiteTableRemoveDialogFragment extends DialogFragment {
     public static final String SQLITE_ROW_ARG = "net.polybugger.apollot.sqlite_row_arg";
 
     private Activity mActivity;
-    private String mDialogTitle;
     private SQLiteTableActivity.SQLiteRow mSQLiteRow;
 
     public interface RemoveListener {
@@ -33,33 +31,23 @@ public class SQLiteTableRemoveDialogFragment extends DialogFragment {
         return fragment;
     }
 
-    public SQLiteTableRemoveDialogFragment() {
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        mDialogTitle = args.getString(DIALOG_TITLE_ARG);
-        mSQLiteRow = (SQLiteTableActivity.SQLiteRow) args.getSerializable(SQLITE_ROW_ARG);
-    }
+    public SQLiteTableRemoveDialogFragment() {}
 
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        String dialogTitle = args.getString(DIALOG_TITLE_ARG);
+        mSQLiteRow = (SQLiteTableActivity.SQLiteRow) args.getSerializable(SQLITE_ROW_ARG);
         View view = mActivity.getLayoutInflater().inflate(R.layout.fragment_sqlite_table_remove_dialog, null);
-
-        ((TextView) view.findViewById(R.id.title_text_view)).setText(mDialogTitle);
+        ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
         ((TextView) view.findViewById(R.id.text_view)).setText(mSQLiteRow.getData());
-
         view.findViewById(R.id.no_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
-
         view.findViewById(R.id.yes_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -54,7 +54,6 @@ public class TimePickerDialog extends AlertDialog.Builder {
     @Override
     public AlertDialog show() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.time_picker_dialog, null);
-
         mTimePicker = (TimePicker) view.findViewById(R.id.time_picker);
         mTimePicker.setIs24HourView(false);
         if(mDefaultTime != null) {
@@ -85,13 +84,13 @@ public class TimePickerDialog extends AlertDialog.Builder {
                 }
             }
         }
-        ((Button) view.findViewById(R.id.cancel_button)).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAlertDialog.dismiss();
             }
         });
-        ((Button) view.findViewById(R.id.clear_button)).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.clear_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mSourceButton != null) {
@@ -101,7 +100,7 @@ public class TimePickerDialog extends AlertDialog.Builder {
                 }
             }
         });
-        ((Button) view.findViewById(R.id.set_button)).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.set_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mSourceButton != null) {
