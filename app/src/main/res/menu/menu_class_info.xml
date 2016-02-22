@@ -7,7 +7,7 @@
         android:title="@string/action_new"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="10"
-        app:showAsAction="ifRoom" >
+        app:showAsAction="always" >
 
         <menu>
 

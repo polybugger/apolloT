@@ -12,6 +12,19 @@
     <string name="action_new">New</string>
     <string name="action_new_schedule">New Schedule</string>
     <string name="action_new_note">New Note</string>
+    <string name="action_new_item">New Activity</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_sort_last_name">Last Name</string>
+    <string name="action_sort_first_name">First Name</string>
+    <string name="action_sort_attendance">Attendance</string>
+    <string name="action_sort_score">Score</string>
+    <string name="action_sort_submission_date">Date Submitted</string>
+    <string name="action_sort_description">Description</string>
+    <string name="action_sort_date">Date</string>
+    <string name="action_sort_activity">Activity</string>
+    <string name="action_sort_check_attendance">Check Attendance</string>
+    <string name="action_sort_perfect_score">Perfect Score</string>
+    <string name="action_sort_submission_due_date">Due Date</string>
 
     <string name="current_tab">Current</string>
     <string name="past_tab">Past</string>
@@ -140,5 +153,25 @@
     <string name="item_details">Details</string>
     <string name="item_summary">Summary</string>
     <string name="item_notes">Notes</string>
+
+    <string name="new_class_item">New Class Activity</string>
+    <string name="edit_class_item">Edit Class Activity</string>
+    <string name="item_type_hint">Choose Activity</string>
+    <string name="item_type_none">None</string>
+    <string name="item_date_hint">Activity Date</string>
+    <string name="check_attendance_label">Check Attendance?</string>
+    <string name="check_attendance_hint">Check Attendance</string>
+    <string name="record_scores">Record Student Scores?</string>
+    <string name="perfect_score_hint">Perfect Score</string>
+    <string name="perfect_score_label">Perfect Score:</string>
+    <string name="record_submissions">Record Student Submissions?</string>
+    <string name="submission_due_date_hint">Due Date</string>
+    <string name="submission_due_date_label">Due Date:</string>
+    <string name="fragment_status_item_description_required">Description cannot be blank.</string>
+    <string name="fragment_status_item_date_required">Activity Date cannot be blank.</string>
+    <string name="fragment_status_perfect_score_required">Perfect score cannot be blank.</string>
+    <string name="fragment_status_submission_due_date_required">Due Date cannot be blank.</string>
+    <string name="remove_class_item">Remove Class Activity?</string>
+    <string name="remove_class_item_warning">Warning! All data associated with this activity will be deleted permanently. This action cannot be undone.</string>
 
 </resources>

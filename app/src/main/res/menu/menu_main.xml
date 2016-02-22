@@ -6,7 +6,7 @@
         android:title="@string/action_new_class"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="9997"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item android:id="@+id/action_students"
         android:title="@string/action_students"

@@ -2,21 +2,24 @@
 <android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.v7.preference.PreferenceCategory
-        android:title="@string/pref_category_app_data_title">
+        android:title="@string/pref_category_app_data_title" >
 
         <android.support.v7.preference.Preference
+            android:layout="@layout/pref_layout"
             android:key="@string/pref_academic_terms_key"
             android:title="@string/pref_academic_terms_title"
             android:summary="@string/pref_academic_terms_summary"
             android:defaultValue="" />
 
         <android.support.v7.preference.Preference
+            android:layout="@layout/pref_layout"
             android:key="@string/pref_class_item_types_key"
             android:title="@string/pref_class_item_types_title"
             android:summary="@string/pref_class_item_types_summary"
             android:defaultValue="" />
 
         <net.polybugger.apollot.TimeStartDialogPreference
+            android:layout="@layout/pref_layout"
             android:key="@string/pref_time_start_key"
             android:title="@string/pref_time_start_title"
             android:summary="@string/pref_time_start_summary"
@@ -25,15 +28,17 @@
     </android.support.v7.preference.PreferenceCategory>
 
     <android.support.v7.preference.PreferenceCategory
-        android:title="@string/pref_category_security_title">
+        android:title="@string/pref_category_security_title" >
 
         <android.support.v7.preference.CheckBoxPreference
+            android:layout="@layout/pref_layout"
             android:key="@string/pref_lock_enabled_key"
             android:title="@string/pref_lock_enabled_title"
             android:summary="@string/pref_lock_enabled_summary"
             android:defaultValue="false" />
 
         <net.polybugger.apollot.UnlockPasswordDialogPreference
+            android:layout="@layout/pref_layout"
             android:key="@string/pref_unlock_password_key"
             android:title="@string/pref_unlock_password_title"
             android:summary="@string/pref_unlock_password_summary"

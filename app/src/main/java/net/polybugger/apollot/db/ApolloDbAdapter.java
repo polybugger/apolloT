@@ -115,10 +115,11 @@ public class ApolloDbAdapter {
             _insertDefaultClassItemTypes(db);
 
             long classId = _insertDummyClass1(db);
-            _insertDummyClassPassword(db, classId, "test");
             _insertDummyNotes(db, classId);
+            _insertDummyItems(db, classId);
 
-            _insertDummyClass2(db);
+            classId = _insertDummyClass2(db);
+            _insertDummyClassPassword(db, classId, "test");
 
         }
 
@@ -185,7 +186,7 @@ public class ApolloDbAdapter {
         ClassNoteDbAdapter._insert(db, classId, "Syllabus - http://www.extension.harvard.edu/sites/default/files/openlearning/math222/files/OLI_MathE222_Syllabus.pdf", noteDate);
     }
 
-    private static void _insertDummyClass2(SQLiteDatabase db) {
+    private static long _insertDummyClass2(SQLiteDatabase db) {
         long id = ClassDbAdapter._insert(db, "IT 116", "Advanced Programming", 1, "2014", true);
         Calendar calTimeStart = Calendar.getInstance();
         calTimeStart.set(Calendar.HOUR, 7);
@@ -230,9 +231,179 @@ public class ApolloDbAdapter {
         calTimeEnd.set(Calendar.MINUTE, 15);
         calTimeEnd.set(Calendar.AM_PM, Calendar.AM);
         ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.W.getValue(), "302", "AS", "TC");
+
+        return id;
     }
 
     private static void _insertDummyClassPassword(SQLiteDatabase db, long classId, String password) {
         ClassPasswordDbAdapter._insert(db, classId, password);
+    }
+
+    private static void _insertDummyItems(SQLiteDatabase db, long classId) {
+        final SimpleDateFormat sdf = new SimpleDateFormat(ClassItemDbAdapter.SDF_DISPLAY_TEMPLATE, sAppContext.getResources().getConfiguration().locale);
+        Date itemDate;
+        try {
+            itemDate = sdf.parse("Oct 13, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        long itemId = ClassItemDbAdapter._insert(db, classId, "Review of Linear Algebra", 1, itemDate, true, true, 10.0f, false, null);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "10.0 points is class participation", itemDate);
+
+        Date dueDate;
+        try {
+            dueDate = sdf.parse("Oct 17, 2014");
+        }
+        catch(Exception e) {
+            dueDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Arithmetic in Z", 2, itemDate, false, true, 100.0f, true, dueDate);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "Exercises pp. 8 (odd numbers), 14 (even numbers), 22 (#'s 1-3, 4, 5, 8-10)", itemDate);
+
+        try {
+            itemDate = sdf.parse("Oct 17, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Permutations", 1, itemDate, true, true, 10.0f, false, null);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "10.0 points is class participation", itemDate);
+
+        try {
+            itemDate = sdf.parse("Oct 22, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Quotient Groups, First Isomorphism Theorem", 1, itemDate, true, false, null, false, null);
+        try {
+            dueDate = sdf.parse("Oct 27, 2014");
+        }
+        catch(Exception e) {
+            dueDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Groups 1", 2, itemDate, false, true, 100.0f, true, dueDate);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "Exercises pp. 180-181 (odd numbers), 182-183 (even numbers), 201 (odd numbers)", itemDate);
+
+        try {
+            itemDate = sdf.parse("Oct 27, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Abstract Linear Operators and How to Calculate with Them", 1, itemDate, true, false, null, false, null);
+        try {
+            itemDate = sdf.parse("Nov 5, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Orthogonal Groups", 1, itemDate, true, true, 10.0f, false, null);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "10.0 points is class participation", itemDate);
+
+        try {
+            dueDate = sdf.parse("Nov 10, 2014");
+        }
+        catch(Exception e) {
+            dueDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Groups 2", 2, itemDate, false, true, 100.0f, true, dueDate);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "Exercises pp. 211 (odd numbers), 212 (odd numbers), 213 (even numbers)", itemDate);
+
+        try {
+            itemDate = sdf.parse("Nov 10, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Midterm Exam", 10, itemDate, false, true, 200.0f, false, null);
+
+        try {
+            itemDate = sdf.parse("Nov 12, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        try {
+            dueDate = sdf.parse("Dec 19, 2014");
+        }
+        catch(Exception e) {
+            dueDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Practical Applications", 8, itemDate, false, true, 200.0f, true, dueDate);
+        ClassItemDbAdapter._insert(db, classId, "Isometrics of Plane Figures", 1, itemDate, true, false, null, false, null);
+
+        try {
+            itemDate = sdf.parse("Nov 17, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Group Actions", 1, itemDate, true, true, 10.0f, false, null);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "10.0 points is class participation", itemDate);
+
+        try {
+            itemDate = sdf.parse("Nov 21, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "A5 and the Symmetries of an Icosahedron", 1, itemDate, true, false, null, false, null);
+        try {
+            itemDate = sdf.parse("Nov 26, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Rings", 1, itemDate, true, true, 10.0f, false, null);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "10.0 points is class participation", itemDate);
+
+        try {
+            dueDate = sdf.parse("Dec 1, 2014");
+        }
+        catch(Exception e) {
+            dueDate = new Date();
+        }
+        itemId = ClassItemDbAdapter._insert(db, classId, "Rings", 2, itemDate, false, true, 100.0f, true, dueDate);
+        ClassItemNoteDbAdapter._insert(db, classId, itemId, "Exercises pp. 53-59 (odd numbers), 66-70 (even numbers), 80-83 (odd numbers)", itemDate);
+
+        try {
+            itemDate = sdf.parse("Dec 1, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Extensions of Rings", 1, itemDate, true, false, null, false, null);
+        try {
+            itemDate = sdf.parse("Dec 5, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Special Lecture", 1, itemDate, true, false, null, false, null);
+        try {
+            itemDate = sdf.parse("Dec 10, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Euclidean Domains, PIDs, UFDs", 1, itemDate, true, false, null, false, null);
+        try {
+            itemDate = sdf.parse("Dec 15, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Structure of Ring of Integers in a Quadratic Field", 1, itemDate, true, false, null, false, null);
+
+        try {
+            itemDate = sdf.parse("Dec 19, 2014");
+        }
+        catch(Exception e) {
+            itemDate = new Date();
+        }
+        ClassItemDbAdapter._insert(db, classId, "Final Exam", 11, itemDate, false, true, 200.0f, false, null);
+
     }
 }
