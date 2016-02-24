@@ -11,6 +11,7 @@
     <dimen name="normal_text_size">16sp</dimen>
     <dimen name="large_text_size">16sp</dimen>
 
+    <dimen name="half_margin">5sp</dimen>
     <dimen name="normal_margin">10sp</dimen>
     <dimen name="normal_margin_spinner">12sp</dimen>
 

@@ -13,6 +13,8 @@
     <string name="action_new_schedule">New Schedule</string>
     <string name="action_new_note">New Note</string>
     <string name="action_new_item">New Activity</string>
+    <string name="action_new_student">New Student</string>
+    <string name="action_existing_students">Students From Other Classes</string>
     <string name="action_sort">Sort</string>
     <string name="action_sort_last_name">Last Name</string>
     <string name="action_sort_first_name">First Name</string>
@@ -173,5 +175,37 @@
     <string name="fragment_status_submission_due_date_required">Due Date cannot be blank.</string>
     <string name="remove_class_item">Remove Class Activity?</string>
     <string name="remove_class_item_warning">Warning! All data associated with this activity will be deleted permanently. This action cannot be undone.</string>
+
+    <string name="new_student">New Student</string>
+    <string name="edit_student">Edit Student</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="middle_name_hint">Middle Name</string>
+    <string name="email_address_hint">Email Address</string>
+    <string name="contact_no_hint">Contact No.</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="fragment_status_last_name_required">Last Name cannot be blank.</string>
+    <string name="existing_students">Students From Other Classes</string>
+    <string name="fragment_status_no_student_selected">No student selected.</string>
+    <string name="no_students_found">No students found.</string>
+
+    <string name="score_hint">Score</string>
+    <string name="attendance_hint">Attendance</string>
+    <string name="submission_date_hint">Date Submitted</string>
+    <string name="remarks_hint">Remarks</string>
+    <string name="present">Present</string>
+    <string name="absent">Absent</string>
+    <string name="present_label">Present:</string>
+    <string name="absent_label">Absent:</string>
+    <string name="null_attendance_label">Not checked:</string>
+    <string name="scores_label">Scores recorded:</string>
+    <string name="null_scores_label">Not recorded:</string>
+    <string name="submissions_label">Submitted:</string>
+    <string name="late_label">Late:</string>
+    <string name="late_hint">- Late</string>
+    <string name="null_submissions_label">Not submitted:</string>
+    <string name="none">None.</string>
+    <string name="edit_class_item_record">Edit Student Record</string>
 
 </resources>

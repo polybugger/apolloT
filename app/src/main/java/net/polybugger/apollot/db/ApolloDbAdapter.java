@@ -111,12 +111,24 @@ public class ApolloDbAdapter {
                             ClassNoteDbAdapter.DATE_CREATED.getName() + " " + ClassNoteDbAdapter.DATE_CREATED.getType() + " NOT NULL)";
             db.execSQL(CREATE_TABLE_CLASS_NOTES);
 
+            final String CREATE_TABLE_STUDENTS =
+                    "CREATE TABLE " + StudentDbAdapter.TABLE_NAME + " (" +
+                            StudentDbAdapter.STUDENT_ID.getName() + " " + StudentDbAdapter.STUDENT_ID.getType() + " PRIMARY KEY, " +
+                            StudentDbAdapter.LAST_NAME.getName() + " " + StudentDbAdapter.LAST_NAME.getType() + " NOT NULL, " +
+                            StudentDbAdapter.FIRST_NAME.getName() + " " + StudentDbAdapter.FIRST_NAME.getType() + " NULL, " +
+                            StudentDbAdapter.MIDDLE_NAME.getName() + " " + StudentDbAdapter.MIDDLE_NAME.getType() + " NULL, " +
+                            StudentDbAdapter.GENDER.getName() + " " + StudentDbAdapter.GENDER.getType() + " NULL, " +
+                            StudentDbAdapter.EMAIL_ADDRESS.getName() + " " + StudentDbAdapter.EMAIL_ADDRESS.getType() + " NULL, " +
+                            StudentDbAdapter.CONTACT_NO.getName() + " " + StudentDbAdapter.CONTACT_NO.getType() + " NULL)";
+            db.execSQL(CREATE_TABLE_STUDENTS);
+
             _insertDefaultAcademicTerms(db);
             _insertDefaultClassItemTypes(db);
 
             long classId = _insertDummyClass1(db);
             _insertDummyNotes(db, classId);
             _insertDummyItems(db, classId);
+            _insertDummyStudents(db, classId);
 
             classId = _insertDummyClass2(db);
             _insertDummyClassPassword(db, classId, "test");
@@ -404,6 +416,107 @@ public class ApolloDbAdapter {
             itemDate = new Date();
         }
         ClassItemDbAdapter._insert(db, classId, "Final Exam", 11, itemDate, false, true, 200.0f, false, null);
-
     }
+
+    private static void _insertDummyStudents(SQLiteDatabase db, long classId) {
+        String m = sAppContext.getString(R.string.male);
+        String f = sAppContext.getString(R.string.female);
+        Date dateCreated = new Date();
+
+        long studentId = StudentDbAdapter._insert(db, "Knutes", "Deunan", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Ibanez", "Carmen", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Jenkins", "Carl", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Durer", "Tia \"Trig\"", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Rico", "Johnny", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Kusanagi", "Motoko", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Cage", "William", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Vrataski", "Rita", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Wayne", "Bruce", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Kent", "Clark", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Allen", "Barry", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Stark", "Tony", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Rogers", "Steve", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Romanoff", "Natasha", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Banner", "Bruce", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Barton", "Clint", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Coulson", "Phil", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Fury", "Nick", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Parker", "Peter", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Hattori", "Hanzo", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Tachibana", "Ukyo", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Nakoruru", null, null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Haohmaru", null, null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Weller", "Galford", "D", m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "de Colde", "Charlotte Christine", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Neinhalt", "Sieger", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Cham Cham", null, null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Descartes", "René", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Euclid", null, null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Leibniz", "Gottfried Wilhelm", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Gauss", "Carl Friedrich", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Boole", "George", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Pythagoras", null, null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Kepler", "Johannes", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Pascal", "Blaise", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Dedekind", "Julius Wilhelm Richard", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Cantor", "Georg", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+
+        studentId = StudentDbAdapter._insert(db, "Wesker", "Albert", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Redfield", "Chris", null, m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Wong", "Ada", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Valentine", "Jill", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Redfield", "Claire", null, f, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+        studentId = StudentDbAdapter._insert(db, "Kennedy", "Leon", "S", m, null, null);
+        ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+    }
+
 }

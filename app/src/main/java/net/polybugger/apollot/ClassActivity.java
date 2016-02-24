@@ -223,7 +223,7 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
                 case ITEMS_TAB:
                     return ClassItemsFragment.newInstance(mClass);
                 case STUDENTS_TAB:
-                    return ClassInfoFragment.newInstance(mClass);
+                    return ClassStudentsFragment.newInstance(mClass);
             }
             return null;
         }
