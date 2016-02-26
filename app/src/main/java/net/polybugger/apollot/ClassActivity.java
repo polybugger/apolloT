@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassNoteDbAdapter;
 import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
@@ -22,6 +23,9 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassNoteRemoveDialogFragment.RemoveListener,
         ClassScheduleNewEditDialogFragment.NewEditListener,
         ClassNoteNewEditDialogFragment.NewEditListener {
+
+    public static boolean CLASS_ITEM_REQUERY_CALLBACK = false;
+    public static ClassItemDbAdapter.ClassItem CLASS_ITEM_REQUERY = null;
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 

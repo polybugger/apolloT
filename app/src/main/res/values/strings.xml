@@ -33,6 +33,8 @@
     <string name="info_tab">Info</string>
     <string name="items_tab">Activities</string>
     <string name="students_tab">Students</string>
+    <string name="item_info_tab">Activity Info</string>
+    <string name="student_records_tab">Records</string>
 
     <string name="pref_category_security_title">Security</string>
     <string name="pref_category_app_data_title">Application Data</string>
@@ -207,5 +209,7 @@
     <string name="null_submissions_label">Not submitted:</string>
     <string name="none">None.</string>
     <string name="edit_class_item_record">Edit Student Record</string>
+    <string name="title_activity_class_item">ClassItemActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

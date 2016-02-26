@@ -2,6 +2,7 @@ package net.polybugger.apollot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -140,14 +141,12 @@ public class ClassItemsFragment extends Fragment {
     }
 
     private void startClassItemActivity(ClassItemDbAdapter.ClassItem classItem) {
-        /*
         Intent intent = new Intent(mActivity, ClassItemActivity.class);
         Bundle args = new Bundle();
         args.putSerializable(ClassItemActivity.CLASS_ARG, mClass);
         args.putSerializable(ClassItemActivity.CLASS_ITEM_ARG, classItem);
         intent.putExtras(args);
         startActivity(intent);
-        */
     }
 
     public void requeryClassItem(ClassItemDbAdapter.ClassItem classItem) {
