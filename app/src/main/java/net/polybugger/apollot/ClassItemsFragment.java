@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +29,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class ClassItemsFragment extends Fragment {
+public class ClassItemsFragment extends Fragment implements ClassItemNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -103,14 +104,12 @@ public class ClassItemsFragment extends Fragment {
         int id = item.getItemId();
         switch(id) {
             case R.id.action_new_item:
-                /*
-                if(mDialogFragmentShown)
-                    return true;
-                mDialogFragmentShown = true;
-                NewEditClassItemDialogFragment.DialogArgs itemDialogArgs = new NewEditClassItemDialogFragment.DialogArgs(getString(R.string.new_class_item), getString(R.string.add_button));
-                NewEditClassItemDialogFragment f = NewEditClassItemDialogFragment.newInstance(itemDialogArgs, null, getTag());
-                f.show(getFragmentManager(), NewEditClassItemDialogFragment.TAG);
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassItemNewEditDialogFragment df = (ClassItemNewEditDialogFragment) fm.findFragmentByTag(ClassItemNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassItemNewEditDialogFragment.newInstance(getString(R.string.new_class_item), getString(R.string.add_button), null, getTag());
+                    df.show(fm, ClassItemNewEditDialogFragment.TAG);
+                }
                 return true;
             case R.id.action_sort_description:
                 mListAdapter.sortBy(R.id.action_sort_description);
@@ -152,6 +151,21 @@ public class ClassItemsFragment extends Fragment {
     public void requeryClassItem(ClassItemDbAdapter.ClassItem classItem) {
         mRequeryTask = new DbRequeryTask(classItem);
         mRequeryTask.execute(classItem);
+    }
+
+    @Override
+    public void onNewEditItem(ClassItemDbAdapter.ClassItem item, String fragmentTag) {
+        long classId = mClass.getClassId();
+        ClassItemTypeDbAdapter.ItemType itemType = item.getItemType();
+        long itemTypeId = itemType == null ? -1 : itemType.getId();
+        long itemId = ClassItemDbAdapter.insert(classId, item.getDescription(), itemTypeId, item.getItemDate(), item.getCheckAttendance(), item.getRecordScores(), item.getPerfectScore(), item.getRecordSubmissions(), item.getSubmissionDueDate());
+        if(itemId != -1) {
+            item.setClassId(classId);
+            item.setItemId(itemId);
+            mListAdapter.add(item);
+            mListAdapter.notifyDataSetChanged();
+            startClassItemActivity(item);
+        }
     }
 
     private class ListArrayAdapter extends ArrayAdapter<ClassItemDbAdapter.ClassItem> {

@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassNoteDbAdapter;
@@ -22,7 +23,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassScheduleRemoveDialogFragment.RemoveListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
         ClassScheduleNewEditDialogFragment.NewEditListener,
-        ClassNoteNewEditDialogFragment.NewEditListener {
+        ClassNoteNewEditDialogFragment.NewEditListener,
+        ClassItemNewEditDialogFragment.NewEditListener {
 
     public static boolean CLASS_ITEM_REQUERY_CALLBACK = false;
     public static ClassItemDbAdapter.ClassItem CLASS_ITEM_REQUERY = null;
@@ -44,6 +46,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ApolloDbAdapter.setAppContext(getApplicationContext());
 
         Bundle args = getIntent().getExtras();
         if(args == null || !args.containsKey(CLASS_ARG)) {
@@ -209,6 +213,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassNoteNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditItem(ClassItemDbAdapter.ClassItem item, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassItemNewEditDialogFragment.NewEditListener) f).onNewEditItem(item, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassItemNewEditDialogFragment.NewEditListener.class.toString());
             }
         }
     }

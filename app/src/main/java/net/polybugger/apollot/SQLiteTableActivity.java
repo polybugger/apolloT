@@ -43,6 +43,9 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ApolloDbAdapter.setAppContext(getApplicationContext());
+
         setContentView(R.layout.activity_sqlite_table);
 
         Bundle args = getIntent().getExtras();

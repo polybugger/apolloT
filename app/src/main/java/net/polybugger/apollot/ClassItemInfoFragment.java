@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +27,7 @@ import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 
-public class ClassItemInfoFragment extends Fragment {
+public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
 
@@ -91,14 +92,12 @@ public class ClassItemInfoFragment extends Fragment {
         view.findViewById(R.id.edit_class_item_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                NewEditClassItemDialogFragment.DialogArgs dialogArgs = new NewEditClassItemDialogFragment.DialogArgs(getString(R.string.edit_class_item), getString(R.string.save_button));
-                NewEditClassItemDialogFragment f = NewEditClassItemDialogFragment.newInstance(dialogArgs, mClassItem, getTag());
-                f.show(getFragmentManager(), NewEditClassItemDialogFragment.TAG);
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassItemNewEditDialogFragment df = (ClassItemNewEditDialogFragment) fm.findFragmentByTag(ClassItemNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassItemNewEditDialogFragment.newInstance(getString(R.string.edit_class_item), getString(R.string.save_button), mClassItem, getTag());
+                    df.show(fm, ClassItemNewEditDialogFragment.TAG);
+                }
             }
         });
         view.findViewById(R.id.remove_class_item_button).setOnClickListener(new View.OnClickListener() {
@@ -238,6 +237,17 @@ public class ClassItemInfoFragment extends Fragment {
         }
         else
             mDueDateTextView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onNewEditItem(ClassItemDbAdapter.ClassItem item, String fragmentTag) {
+        ClassItemTypeDbAdapter.ItemType itemType = item.getItemType();
+        long itemTypeId = itemType == null ? -1 : itemType.getId();
+        if(ClassItemDbAdapter.update(item.getClassId(), item.getItemId(), item.getDescription(), itemTypeId, item.getItemDate(), item.getCheckAttendance(), item.getRecordScores(), item.getPerfectScore(), item.getRecordSubmissions(), item.getSubmissionDueDate()) > 0) {
+            mClassItem = item;
+            populateClassItemViews();
+            updateSummary();
+        }
     }
 
     private class DbQueryNotesTask extends AsyncTask<ClassItemDbAdapter.ClassItem, Integer, ArrayList<ClassItemNoteDbAdapter.ClassItemNote>> {

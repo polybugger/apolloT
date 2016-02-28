@@ -12,10 +12,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 
-public class ClassItemActivity extends AppCompatActivity {
+public class ClassItemActivity extends AppCompatActivity implements ClassItemNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
@@ -32,6 +33,8 @@ public class ClassItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ApolloDbAdapter.setAppContext(getApplicationContext());
 
         Bundle args = getIntent().getExtras();
         if(args == null || !args.containsKey(CLASS_ARG) || !args.containsKey(CLASS_ITEM_ARG)) {
@@ -86,6 +89,19 @@ public class ClassItemActivity extends AppCompatActivity {
 
     private String getFragmentTag(int position) {
         return "android:switcher:" + R.id.pager + ":" + position;
+    }
+
+    @Override
+    public void onNewEditItem(ClassItemDbAdapter.ClassItem item, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassItemNewEditDialogFragment.NewEditListener) f).onNewEditItem(item, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassItemNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
