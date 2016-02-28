@@ -145,7 +145,7 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
                 case INFO_TAB:
                     return ClassItemInfoFragment.newInstance(mClassItem);
                 case RECORDS_TAB:
-                    return ClassItemInfoFragment.newInstance(mClassItem);
+                    return ClassItemRecordsFragment.newInstance(mClassItem);
             }
             return null;
         }

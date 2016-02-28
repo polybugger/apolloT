@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:title="@string/action_new"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="10"
+        app:showAsAction="always" >
+
+        <menu>
+
+            <item
+                android:id="@+id/action_new_student"
+                android:title="@string/action_new_student" />
+
+            <item
+                android:id="@+id/action_existing_students"
+                android:title="@string/action_existing_students" />
+
+        </menu>
+
+    </item>
+
+    <item
+        android:title="@string/action_sort"
+        android:icon="@drawable/ic_action_sort_by_size"
+        android:orderInCategory="11"
+        app:showAsAction="always" >
+
+        <menu>
+
+            <item
+                android:id="@+id/action_sort_last_name"
+                android:title="@string/action_sort_last_name" />
+
+            <item
+                android:id="@+id/action_sort_first_name"
+                android:title="@string/action_sort_first_name" />
+
+            <item
+                android:id="@+id/action_sort_attendance"
+                android:title="@string/action_sort_attendance" />
+
+            <item
+                android:id="@+id/action_sort_score"
+                android:title="@string/action_sort_score" />
+
+            <item
+                android:id="@+id/action_sort_submission_date"
+                android:title="@string/action_sort_submission_date" />
+
+        </menu>
+
+    </item>
+
+</menu>

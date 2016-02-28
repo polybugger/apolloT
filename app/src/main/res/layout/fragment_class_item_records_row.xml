@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="10sp"
+    android:paddingRight="10sp"
+    android:paddingTop="5sp"
+    android:paddingBottom="5sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/student_name_text_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textSize="@dimen/large_text_size" 
+        android:textStyle="bold" />
+	
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/attendance_text_view"
+        android:layout_below="@id/student_name_text_view"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/attendance_hint"
+        android:textSize="@dimen/normal_text_size" />
+    
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/record_data_layout"
+        android:layout_below="@id/attendance_text_view"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/score_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:hint="@string/score_hint"
+            android:textSize="@dimen/normal_text_size" />
+    
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/submission_date_text_view"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" 
+            android:hint="@string/submission_date_hint"
+            android:textSize="@dimen/normal_text_size" />
+    
+    </android.support.v7.widget.LinearLayoutCompat>
+    
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/remarks_text_view"
+        android:layout_below="@id/record_data_layout"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:hint="@string/remarks_hint"
+        android:textSize="@dimen/normal_text_size" />
+
+</RelativeLayout>
