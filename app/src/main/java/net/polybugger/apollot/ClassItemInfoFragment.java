@@ -25,9 +25,12 @@ import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassItemNoteDbAdapter;
 import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
+import net.polybugger.apollot.db.ClassNoteDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 
-public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditDialogFragment.NewEditListener {
+public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditDialogFragment.NewEditListener,
+        ClassNoteRemoveDialogFragment.RemoveListener,
+        ClassNoteNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
 
@@ -117,45 +120,23 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
         mEditNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                NewEditClassNoteAttachmentDialogFragment.DialogArgs noteDialogArgs = new NewEditClassNoteAttachmentDialogFragment.DialogArgs(getString(R.string.edit_class_item_note_attachment), getString(R.string.save_button));
-                NewEditClassNoteAttachmentDialogFragment f = NewEditClassNoteAttachmentDialogFragment.newInstance(noteDialogArgs, (ClassItemNoteAttachment) view.getTag(), getTag());
-                f.show(getFragmentManager(), NewEditClassNoteAttachmentDialogFragment.TAG);
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassNoteNewEditDialogFragment df = (ClassNoteNewEditDialogFragment) fm.findFragmentByTag(ClassNoteNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassNoteNewEditDialogFragment.newInstance(getString(R.string.edit_class_item_note), getString(R.string.save_button), (ClassItemNoteDbAdapter.ClassItemNote) view.getTag(), getTag());
+                    df.show(fm, ClassNoteNewEditDialogFragment.TAG);
+                }
             }
         };
         mRemoveNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                final ClassItemNoteAttachment itemNote = (ClassItemNoteAttachment) view.getTag();
-                RemoveClassNoteAttachmentDialog removeDialog = new RemoveClassNoteAttachmentDialog(mActivity, itemNote, getString(R.string.remove_class_item_note),
-                        new RemoveClassNoteAttachmentDialog.RemoveClassNoteAttachmentListener() {
-                            @Override
-                            public void onRemove() {
-                                if(ClassItemNoteAttachmentDbAdapter.delete(itemNote.getClassId(), itemNote.getItemId(), itemNote.getNoteId()) >= 1) {
-                                    int childPosition = mNoteList.indexOf(itemNote);
-                                    if(childPosition != -1) {
-                                        mNoteList.remove(childPosition);
-                                        mNoteAttachmentLinearLayout.removeViewAt(childPosition);
-                                    }
-                                }
-                            }
-                        });
-                removeDialog.setOnDismissListener(new OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        mDialogFragmentShown = false;
-                    }
-                });
-                mCurrentDialog = removeDialog.show();
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassNoteRemoveDialogFragment df = (ClassNoteRemoveDialogFragment) fm.findFragmentByTag(ClassNoteRemoveDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassNoteRemoveDialogFragment.newInstance(getString(R.string.remove_class_item_note), (ClassItemNoteDbAdapter.ClassItemNote) view.getTag(), getTag());
+                    df.show(fm, ClassNoteRemoveDialogFragment.TAG);
+                }
             }
         };
 
@@ -178,16 +159,13 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
         int id = item.getItemId();
         switch(id) {
             case R.id.action_new_note:
-                /*
-                if(mDialogFragmentShown)
-                    return true;
-                mDialogFragmentShown = true;
-                NewEditClassNoteAttachmentDialogFragment.DialogArgs noteDialogArgs = new NewEditClassNoteAttachmentDialogFragment.DialogArgs(getString(R.string.new_class_item_note_attachment), getString(R.string.add_button));
-                NewEditClassNoteAttachmentDialogFragment nf = NewEditClassNoteAttachmentDialogFragment.newInstance(noteDialogArgs, null, getTag());
-                nf.show(getFragmentManager(), NewEditClassNoteAttachmentDialogFragment.TAG);
+                FragmentManager fm = getFragmentManager();
+                ClassNoteNewEditDialogFragment ndf = (ClassNoteNewEditDialogFragment) fm.findFragmentByTag(ClassNoteNewEditDialogFragment.TAG);
+                if(ndf == null) {
+                    ndf = ClassNoteNewEditDialogFragment.newInstance(getString(R.string.new_class_item_note), getString(R.string.add_button), null, getTag());
+                    ndf.show(fm, ClassNoteNewEditDialogFragment.TAG);
+                }
                 return true;
-                */
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -247,6 +225,44 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
             mClassItem = item;
             populateClassItemViews();
             updateSummary();
+        }
+    }
+
+    @Override
+    public void onNewEditNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
+        long classId = mClassItem.getClassId();
+        long itemId = mClassItem.getItemId();
+        ClassItemNoteDbAdapter.ClassItemNote itemNote = new ClassItemNoteDbAdapter.ClassItemNote(note, classId, itemId);
+        if(itemNote.getNoteId() != -1) {
+            if(ClassItemNoteDbAdapter.update(classId, itemId, itemNote.getNoteId(), itemNote.getNote(), itemNote.getDateCreated()) >= 1) {
+                int childPosition = mNoteList.indexOf(itemNote);
+                if(childPosition != -1) {
+                    mNoteList.set(childPosition, itemNote);
+                    View rowView = mNoteLinearLayout.getChildAt(childPosition);
+                    if(rowView != null)
+                        _getNoteView(rowView, itemNote, null, null);
+                }
+            }
+        }
+        else {
+            long noteId = ClassItemNoteDbAdapter.insert(classId, itemId, itemNote.getNote(), itemNote.getDateCreated());
+            if(noteId != -1) {
+                itemNote.setNoteId(noteId);
+                mNoteList.add(itemNote);
+                mNoteLinearLayout.addView(getNoteView(mActivity.getLayoutInflater(), itemNote, mEditNoteClickListener, mRemoveNoteClickListener));
+            }
+        }
+    }
+
+    @Override
+    public void onRemoveNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
+        ClassItemNoteDbAdapter.ClassItemNote itemNote = (ClassItemNoteDbAdapter.ClassItemNote) note;
+        if(ClassItemNoteDbAdapter.delete(itemNote.getClassId(), itemNote.getItemId(), itemNote.getNoteId()) >= 1) {
+            int childPosition = mNoteList.indexOf(itemNote);
+            if(childPosition != -1) {
+                mNoteList.remove(childPosition);
+                mNoteLinearLayout.removeViewAt(childPosition);
+            }
         }
     }
 
@@ -363,11 +379,12 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
 
     private View _getNoteView(View rowView, ClassItemNoteDbAdapter.ClassItemNote itemNote, View.OnClickListener editNoteClickListener, View.OnClickListener removeNoteClickListener) {
         TextView noteTextView = (TextView) rowView.findViewById(R.id.note_text_view);
-        noteTextView.setText(itemNote.getNote());
         noteTextView.setTag(itemNote);
         if(editNoteClickListener != null) {
             noteTextView.setOnClickListener(editNoteClickListener);
         }
+        noteTextView.setText(itemNote.getDateNoteText());
+
         ImageButton removeButton = (ImageButton) rowView.findViewById(R.id.remove_button);
         removeButton.setTag(itemNote);
         if(removeNoteClickListener != null)

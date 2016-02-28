@@ -15,8 +15,11 @@ import android.view.MenuItem;
 import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
+import net.polybugger.apollot.db.ClassNoteDbAdapter;
 
-public class ClassItemActivity extends AppCompatActivity implements ClassItemNewEditDialogFragment.NewEditListener {
+public class ClassItemActivity extends AppCompatActivity implements ClassItemNewEditDialogFragment.NewEditListener,
+        ClassNoteRemoveDialogFragment.RemoveListener,
+        ClassNoteNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
@@ -100,6 +103,32 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassItemNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassNoteNewEditDialogFragment.NewEditListener) f).onNewEditNote(note, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassNoteNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onRemoveNote(ClassNoteDbAdapter.ClassNote note, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassNoteRemoveDialogFragment.RemoveListener) f).onRemoveNote(note, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassNoteRemoveDialogFragment.RemoveListener.class.toString());
             }
         }
     }

@@ -212,4 +212,8 @@
     <string name="title_activity_class_item">ClassItemActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="new_class_item_note">New Activity Note</string>
+    <string name="edit_class_item_note">Edit Activity Note</string>
+    <string name="remove_class_item_note">Remove Activity Note</string>
+
 </resources>
