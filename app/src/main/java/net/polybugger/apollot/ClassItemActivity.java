@@ -15,11 +15,13 @@ import android.view.MenuItem;
 import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
+import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassNoteDbAdapter;
 
 public class ClassItemActivity extends AppCompatActivity implements ClassItemNewEditDialogFragment.NewEditListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
-        ClassNoteNewEditDialogFragment.NewEditListener {
+        ClassNoteNewEditDialogFragment.NewEditListener,
+        ClassItemRecordNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
@@ -105,6 +107,11 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
                 throw new ClassCastException(f.toString() + " must implement " + ClassItemNewEditDialogFragment.NewEditListener.class.toString());
             }
         }
+
+        Fragment rf = getSupportFragmentManager().findFragmentByTag(getFragmentTag(RECORDS_TAB));
+        if(rf != null) {
+            ((ClassItemRecordsFragment) rf).notifyUpdate(item);
+        }
     }
 
     @Override
@@ -129,6 +136,29 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassNoteRemoveDialogFragment.RemoveListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditItemRecord(ClassItemRecordDbAdapter.ClassItemRecord itemRecord, String fragmentTag) {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment f = fm.findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassItemRecordNewEditDialogFragment.NewEditListener) f).onNewEditItemRecord(itemRecord, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassItemRecordNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+        Fragment iif = fm.findFragmentByTag(getFragmentTag(INFO_TAB));
+        if(iif != null) {
+            try {
+                ((ClassItemInfoFragment) iif).updateSummary();
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(iif.toString() + " must implement " + ClassItemInfoFragment.class.toString());
             }
         }
     }

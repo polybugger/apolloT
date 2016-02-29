@@ -131,6 +131,37 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(CLASS_ITEM_REQUERY_CALLBACK) {
+            ClassItemDbAdapter.ClassItem classItem = (ClassItemDbAdapter.ClassItem) CLASS_ITEM_REQUERY;
+            if(CLASS_ITEM_REQUERY != null) {
+                FragmentManager fm = getSupportFragmentManager();
+                Fragment cif = fm.findFragmentByTag(getFragmentTag(ITEMS_TAB));
+                if(cif != null) {
+                    try {
+                        ((ClassItemsFragment) cif).requeryClassItem(classItem);
+                    }
+                    catch(ClassCastException e) {
+                        throw new ClassCastException(cif.toString() + " must implement " + ClassItemsFragment.class.toString());
+                    }
+                }
+                Fragment csf = fm.findFragmentByTag(getFragmentTag(STUDENTS_TAB));
+                if(csf != null) {
+                    try {
+                        ((ClassStudentsFragment) csf).requeryStudents();
+                    }
+                    catch(ClassCastException e) {
+                        throw new ClassCastException(csf.toString() + " must implement " + ClassStudentsFragment.class.toString());
+                    }
+                }
+                CLASS_ITEM_REQUERY = null;
+            }
+            CLASS_ITEM_REQUERY_CALLBACK = false;
+        }
+    }
+
+    @Override
     public void onClassPasswordDialogSubmit(ClassDbAdapter.Class class_, ClassPasswordDialogFragment.ClassPasswordOption option, String fragmentTag) {
         mClass = class_;
         if(mClass.isLocked()) {

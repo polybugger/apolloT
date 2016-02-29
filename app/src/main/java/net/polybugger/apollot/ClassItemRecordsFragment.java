@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -28,8 +29,9 @@ import java.util.List;
 
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
+import net.polybugger.apollot.db.ClassStudentDbAdapter;
 
-public class ClassItemRecordsFragment extends Fragment {
+public class ClassItemRecordsFragment extends Fragment implements ClassItemRecordNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
 
@@ -79,16 +81,13 @@ public class ClassItemRecordsFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*
-                ClassItemRecordDbAdapter.ClassItemRecord record = (ClassItemRecordDbAdapter.ClassItemRecord) view.findViewById(R.id.student_name_text_view).getTag();
-
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                NewEditClassItemRecordDialogFragment.DialogArgs dialogArgs = new NewEditClassItemRecordDialogFragment.DialogArgs(getString(R.string.edit_class_item_record), getString(R.string.save_button));
-                NewEditClassItemRecordDialogFragment f = NewEditClassItemRecordDialogFragment.newInstance(dialogArgs, mClassItem, record, getTag());
-                f.show(getFragmentManager(), NewEditClassItemRecordDialogFragment.TAG);
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassItemRecordNewEditDialogFragment df = (ClassItemRecordNewEditDialogFragment) fm.findFragmentByTag(ClassItemRecordNewEditDialogFragment.TAG);
+                if(df == null) {
+                    ClassItemRecordDbAdapter.ClassItemRecord record = (ClassItemRecordDbAdapter.ClassItemRecord) view.findViewById(R.id.student_name_text_view).getTag();
+                    df = ClassItemRecordNewEditDialogFragment.newInstance(getString(R.string.edit_class_item_record), getString(R.string.save_button), mClassItem, record, getTag());
+                    df.show(fm, ClassItemRecordNewEditDialogFragment.TAG);
+                }
             }
         });
 
@@ -159,6 +158,32 @@ public class ClassItemRecordsFragment extends Fragment {
         menu.findItem(R.id.action_sort_attendance).setVisible(mClassItem.getCheckAttendance());
         menu.findItem(R.id.action_sort_score).setVisible(mClassItem.getRecordScores());
         menu.findItem(R.id.action_sort_submission_date).setVisible(mClassItem.getRecordSubmissions());
+    }
+
+    @Override
+    public void onNewEditItemRecord(ClassItemRecordDbAdapter.ClassItemRecord itemRecord, String fragmentTag) {
+        ClassStudentDbAdapter.ClassStudent student = itemRecord.getClassStudent();
+        if(itemRecord.getRecordId() == null) {
+            long recordId = ClassItemRecordDbAdapter.insert(mClassItem.getClassId(), student.getStudentId(), mClassItem.getItemId(), itemRecord.getAttendance(), itemRecord.getScore(), itemRecord.getSubmissionDate(), itemRecord.getRemarks());
+            if(recordId != -1) {
+                itemRecord.setRecordId(recordId);
+                int position = mListAdapter.getPosition(itemRecord);
+                if(position != -1) {
+                    mListAdapter.remove(itemRecord);
+                    mListAdapter.insert(itemRecord, position);
+                }
+            }
+        }
+        else {
+            if(ClassItemRecordDbAdapter.update(mClassItem.getClassId(), student.getStudentId(), mClassItem.getItemId(), itemRecord.getRecordId(), itemRecord.getAttendance(), itemRecord.getScore(), itemRecord.getSubmissionDate(), itemRecord.getRemarks()) > 0) {
+                int position = mListAdapter.getPosition(itemRecord);
+                if(position != -1) {
+                    mListAdapter.remove(itemRecord);
+                    mListAdapter.insert(itemRecord, position);
+                }
+            }
+        }
+        mListAdapter.notifyDataSetChanged();
     }
 
     private class DbQueryTask extends AsyncTask<ClassItemDbAdapter.ClassItem, Integer, ArrayList<ClassItemRecordDbAdapter.ClassItemRecord>> {
