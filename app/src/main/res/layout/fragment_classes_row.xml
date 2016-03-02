@@ -14,14 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/locked_image_view"
-            android:contentDescription="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:src="@drawable/ic_locked" />
-
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/class_title_text_view"
             android:layout_weight="1"
@@ -29,6 +21,14 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/large_text_size"
             android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/locked_image_view"
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:src="@drawable/ic_locked" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/academic_term_text_view"

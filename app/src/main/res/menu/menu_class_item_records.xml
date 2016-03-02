@@ -4,26 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:title="@string/action_new"
-        android:icon="@drawable/ic_action_new"
-        android:orderInCategory="10"
-        app:showAsAction="always" >
-
-        <menu>
-
-            <item
-                android:id="@+id/action_new_student"
-                android:title="@string/action_new_student" />
-
-            <item
-                android:id="@+id/action_existing_students"
-                android:title="@string/action_existing_students" />
-
-        </menu>
-
-    </item>
-
-    <item
         android:title="@string/action_sort"
         android:icon="@drawable/ic_action_sort_by_size"
         android:orderInCategory="11"

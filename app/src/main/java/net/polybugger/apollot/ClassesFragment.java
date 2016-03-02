@@ -162,20 +162,27 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
             else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            if(class_.isLocked())
-                viewHolder.locked.setVisibility(View.VISIBLE);
-            else
-                viewHolder.locked.setVisibility(View.GONE);
-            viewHolder.title.setText(class_.getTitle());
+
             viewHolder.title.setTag(class_);
-            viewHolder.academicTerm.setText(class_.getAcademicTermYear());
-            String schedule = class_.getSchedule();
-            if(schedule != null) {
-                viewHolder.schedule.setText(schedule);
-                viewHolder.schedule.setVisibility(View.VISIBLE);
-            }
-            else
+
+            if(class_.isLocked()) {
+                viewHolder.title.setText(class_.getCode() + " ...");
+                viewHolder.academicTerm.setVisibility(View.GONE);
                 viewHolder.schedule.setVisibility(View.GONE);
+                viewHolder.locked.setVisibility(View.VISIBLE);
+            }
+            else {
+                viewHolder.title.setText(class_.getTitle());
+                viewHolder.academicTerm.setText(class_.getAcademicTermYear());
+                String schedule = class_.getSchedule();
+                if(schedule != null) {
+                    viewHolder.schedule.setText(schedule);
+                    viewHolder.schedule.setVisibility(View.VISIBLE);
+                }
+                else
+                    viewHolder.schedule.setVisibility(View.GONE);
+                viewHolder.locked.setVisibility(View.GONE);
+            }
             return convertView;
         }
     }
