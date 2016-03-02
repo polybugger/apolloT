@@ -1,8 +1,10 @@
 package net.polybugger.apollot;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +19,7 @@ import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassNoteDbAdapter;
+import net.polybugger.apollot.db.StudentDbAdapter;
 
 public class ClassItemActivity extends AppCompatActivity implements ClassItemNewEditDialogFragment.NewEditListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
@@ -46,6 +49,11 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
             super.onBackPressed();
             return;
         }
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int studentNameDisplayFormat = sharedPref.getInt(getString(R.string.pref_student_name_display_format_key), 0);
+        StudentDbAdapter.DISPLAY_FORMAT = StudentDbAdapter.NameDisplayFormat.fromInteger(studentNameDisplayFormat);
+
         mClass = (ClassDbAdapter.Class) args.getSerializable(CLASS_ARG);
         mClassItem = (ClassItemDbAdapter.ClassItem) args.getSerializable(CLASS_ITEM_ARG);
 

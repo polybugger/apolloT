@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <integer name="default_student_name_display_format">0</integer>
     <string name="default_unlock_password"></string>
     <string name="default_time_start">07:30:00</string>
 

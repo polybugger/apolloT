@@ -95,6 +95,11 @@ public class SettingsActivity extends AppCompatActivity {
                 fragment.setTargetFragment(this, 0);
                 fragment.show(getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
             }
+            else if(preference instanceof StudentNameDisplayFormatDialogPreference) {
+                fragment = StudentNameDisplayFormatPreferenceDialogFragmentCompat.newInstance(preference);
+                fragment.setTargetFragment(this, 0);
+                fragment.show(getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
+            }
             else {
                 super.onDisplayPreferenceDialog(preference);
             }

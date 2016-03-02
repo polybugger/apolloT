@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10sp"
+    android:paddingLeft="15sp"
+    android:paddingRight="15sp"
+    android:paddingBottom="10sp"
+    android:orientation="horizontal" >
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/text_radio"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+        
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_view"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content" />
+    
+</android.support.v7.widget.LinearLayoutCompat>

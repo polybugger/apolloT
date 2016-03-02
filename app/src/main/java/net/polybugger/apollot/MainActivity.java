@@ -18,6 +18,7 @@ import net.polybugger.apollot.db.AcademicTermDbAdapter;
 import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
+import net.polybugger.apollot.db.StudentDbAdapter;
 
 public class MainActivity extends AppCompatActivity implements UnlockPasswordDialogFragment.UnlockPasswordDialogListener,
         ClassDetailsNewEditDialogFragment.ClassDetailsDialogListener,
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean lockEnabled = sharedPref.getBoolean(getString(R.string.pref_lock_enabled_key), false);
+        int studentNameDisplayFormat = sharedPref.getInt(getString(R.string.pref_student_name_display_format_key), 0);
+        StudentDbAdapter.DISPLAY_FORMAT = StudentDbAdapter.NameDisplayFormat.fromInteger(studentNameDisplayFormat);
 
         if(lockEnabled && !lockAuthenticated) {
             FragmentManager fm = getSupportFragmentManager();
