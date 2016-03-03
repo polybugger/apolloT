@@ -27,7 +27,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassNoteRemoveDialogFragment.RemoveListener,
         ClassScheduleNewEditDialogFragment.NewEditListener,
         ClassNoteNewEditDialogFragment.NewEditListener,
-        ClassItemNewEditDialogFragment.NewEditListener {
+        ClassItemNewEditDialogFragment.NewEditListener,
+        StudentNewEditDialogFragment.NewEditListener {
 
     public static boolean CLASS_ITEM_REQUERY_CALLBACK = false;
     public static ClassItemDbAdapter.ClassItem CLASS_ITEM_REQUERY = null;
@@ -264,6 +265,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassItemNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditStudent(StudentDbAdapter.Student student, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((StudentNewEditDialogFragment.NewEditListener) f).onNewEditStudent(student, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + StudentNewEditDialogFragment.NewEditListener.class.toString());
             }
         }
     }

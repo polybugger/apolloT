@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,11 +19,13 @@ import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
+import net.polybugger.apollot.db.StudentDbAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class ClassStudentsFragment extends Fragment {
+public class ClassStudentsFragment extends Fragment implements StudentNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -88,17 +91,17 @@ public class ClassStudentsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        /*
+        FragmentManager fm = getFragmentManager();
         switch(id) {
             case R.id.action_new_student:
-                if(mDialogFragmentShown)
-                    return true;
-                mDialogFragmentShown = true;
-                NewEditStudentDialogFragment.DialogArgs dialogArgs = new NewEditStudentDialogFragment.DialogArgs(getString(R.string.new_student), getString(R.string.add_button));
-                NewEditStudentDialogFragment sf = NewEditStudentDialogFragment.newInstance(dialogArgs, null, getTag());
-                sf.show(getFragmentManager(), NewEditStudentDialogFragment.TAG);
+                StudentNewEditDialogFragment sdf = (StudentNewEditDialogFragment) fm.findFragmentByTag(StudentNewEditDialogFragment.TAG);
+                if(sdf == null) {
+                    sdf = StudentNewEditDialogFragment.newInstance(getString(R.string.new_class_details), getString(R.string.add_button), null, getTag());
+                    sdf.show(fm, StudentNewEditDialogFragment.TAG);
+                }
                 return true;
             case R.id.action_existing_students:
+                /*
                 if(mDialogFragmentShown)
                     return true;
                 mDialogFragmentShown = true;
@@ -108,9 +111,9 @@ public class ClassStudentsFragment extends Fragment {
                     studentIds[i] = mListAdapter.getItem(i).getStudentId();
                 ExistingStudentsDialogFragment esf = ExistingStudentsDialogFragment.newInstance(studentIds, getTag());
                 esf.show(getFragmentManager(), NewEditStudentDialogFragment.TAG);
+                */
                 return true;
         }
-        */
         return super.onOptionsItemSelected(item);
     }
 
@@ -118,6 +121,22 @@ public class ClassStudentsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_class_students, menu);
+    }
+
+    @Override
+    public void onNewEditStudent(StudentDbAdapter.Student student, String fragmentTag) {
+        long classId = mClass.getClassId();
+        long studentId = StudentDbAdapter.insert(student.getLastName(), student.getFirstName(), student.getMiddleName(), student.getGender(), student.getEmailAddress(), student.getContactNo());
+        if(studentId != -1) {
+            student.setStudentId(studentId);
+            Date dateCreated = new Date();
+            long rowId = ClassStudentDbAdapter.insert(classId, studentId, dateCreated);
+            if(rowId != -1) {
+                ClassStudentDbAdapter.ClassStudent classStudent = new ClassStudentDbAdapter.ClassStudent(rowId, classId, student, dateCreated);
+                mListAdapter.add(classStudent);
+                mListAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private class DbQueryTask extends AsyncTask<Long, Integer, ArrayList<ClassStudentDbAdapter.ClassStudent>> {
