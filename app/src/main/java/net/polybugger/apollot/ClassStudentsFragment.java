@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ClassStudentsFragment extends Fragment implements StudentNewEditDialogFragment.NewEditListener {
+public class ClassStudentsFragment extends Fragment implements StudentNewEditDialogFragment.NewEditListener,
+        StudentExistingDialogFragment.ExistingListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -101,17 +102,15 @@ public class ClassStudentsFragment extends Fragment implements StudentNewEditDia
                 }
                 return true;
             case R.id.action_existing_students:
-                /*
-                if(mDialogFragmentShown)
-                    return true;
-                mDialogFragmentShown = true;
                 int count = mListAdapter.getCount();
                 long[] studentIds = new long[count];
                 for(int i = 0; i < count; ++i)
                     studentIds[i] = mListAdapter.getItem(i).getStudentId();
-                ExistingStudentsDialogFragment esf = ExistingStudentsDialogFragment.newInstance(studentIds, getTag());
-                esf.show(getFragmentManager(), NewEditStudentDialogFragment.TAG);
-                */
+                StudentExistingDialogFragment sef = (StudentExistingDialogFragment) fm.findFragmentByTag(StudentExistingDialogFragment.TAG);
+                if(sef == null) {
+                    sef = StudentExistingDialogFragment.newInstance(studentIds, getTag());
+                    sef.show(fm, StudentExistingDialogFragment.TAG);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -137,6 +136,20 @@ public class ClassStudentsFragment extends Fragment implements StudentNewEditDia
                 mListAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void onExisting(ArrayList<StudentDbAdapter.Student> students, String fragmentTag) {
+        long classId = mClass.getClassId();
+        Date dateCreated = new Date();
+        for(StudentDbAdapter.Student student : students) {
+            long rowId = ClassStudentDbAdapter.insert(classId, student.getStudentId(), dateCreated);
+            if(rowId != -1) {
+                ClassStudentDbAdapter.ClassStudent classStudent = new ClassStudentDbAdapter.ClassStudent(rowId, classId, student, dateCreated);
+                mListAdapter.add(classStudent);
+            }
+        }
+        mListAdapter.notifyDataSetChanged();
     }
 
     private class DbQueryTask extends AsyncTask<Long, Integer, ArrayList<ClassStudentDbAdapter.ClassStudent>> {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:text="@string/existing_students"
+        android:textSize="@dimen/large_text_size"
+        android:textStyle="bold" />
+
+    <ListView 
+        android:id="@+id/list_view"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/empty_row"
+        android:visibility="gone"
+        android:paddingLeft="20sp"
+        android:paddingRight="20sp"
+        android:paddingTop="20sp"
+        android:paddingBottom="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/no_students_found"
+        android:textSize="@dimen/normal_text_size" />
+    
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+    
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textSize="@dimen/normal_text_size"
+            android:text="@string/cancel_button" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/add_save_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textSize="@dimen/normal_text_size"
+            android:text="@string/add_button" />
+        
+    </android.support.v7.widget.LinearLayoutCompat>
+    
+</android.support.v7.widget.LinearLayoutCompat>

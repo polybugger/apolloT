@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
@@ -28,7 +30,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassScheduleNewEditDialogFragment.NewEditListener,
         ClassNoteNewEditDialogFragment.NewEditListener,
         ClassItemNewEditDialogFragment.NewEditListener,
-        StudentNewEditDialogFragment.NewEditListener {
+        StudentNewEditDialogFragment.NewEditListener,
+        StudentExistingDialogFragment.ExistingListener {
 
     public static boolean CLASS_ITEM_REQUERY_CALLBACK = false;
     public static ClassItemDbAdapter.ClassItem CLASS_ITEM_REQUERY = null;
@@ -278,6 +281,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + StudentNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onExisting(ArrayList<StudentDbAdapter.Student> students, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((StudentExistingDialogFragment.ExistingListener) f).onExisting(students, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + StudentExistingDialogFragment.ExistingListener.class.toString());
             }
         }
     }
