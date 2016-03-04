@@ -102,6 +102,7 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
             }
         });
         mNoteEditText = (EditText) view.findViewById(R.id.note_edit_text);
+        /*
         mNoteEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -125,7 +126,7 @@ public class ClassNoteNewEditDialogFragment extends DialogFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
-
+        */
         view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
