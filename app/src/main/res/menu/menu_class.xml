@@ -5,23 +5,30 @@
     tools:context=".ClassActivity">
 
     <item
+        android:id="@+id/action_grade_breakdown"
+        android:title="@string/action_grade_breakdown"
+        android:icon="@drawable/ic_assignment_white_36dp"
+        android:orderInCategory="9996"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_lock"
         android:title="@string/action_lock"
-        android:icon="@drawable/ic_action_secure"
+        android:icon="@drawable/ic_lock_white_36dp"
         android:orderInCategory="9997"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_unlock"
         android:title="@string/action_unlock"
-        android:icon="@drawable/ic_action_not_secure"
+        android:icon="@drawable/ic_lock_open_white_36dp"
         android:orderInCategory="9998"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        android:icon="@drawable/ic_action_settings"
+        android:icon="@drawable/ic_settings_white_36dp"
         android:orderInCategory="9999"
         app:showAsAction="ifRoom" />
 

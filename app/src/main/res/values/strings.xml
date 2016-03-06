@@ -15,6 +15,7 @@
     <string name="action_new_item">New Activity</string>
     <string name="action_new_student">New Student</string>
     <string name="action_existing_students">Students From Other Classes</string>
+    <string name="action_grade_breakdown">Grade Breakdown</string>
     <string name="action_sort">Sort</string>
     <string name="action_sort_last_name">Last Name</string>
     <string name="action_sort_first_name">First Name</string>
@@ -221,5 +222,6 @@
     <string name="new_class_item_note">New Activity Note</string>
     <string name="edit_class_item_note">Edit Activity Note</string>
     <string name="remove_class_item_note">Remove Activity Note</string>
+
 
 </resources>

@@ -5,7 +5,7 @@
 
     <item
         android:title="@string/action_sort"
-        android:icon="@drawable/ic_action_sort_by_size"
+        android:icon="@drawable/ic_sort_white_36dp"
         android:orderInCategory="11"
         app:showAsAction="always" >
 
