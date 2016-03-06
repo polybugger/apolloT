@@ -9,7 +9,7 @@
         android:id="@+id/text_view"
         android:background="@drawable/text_view_pressed_states"
         android:clickable="true"
-        android:paddingLeft="@dimen/normal_margin"
+        android:paddingLeft="@dimen/left_normal_margin"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"

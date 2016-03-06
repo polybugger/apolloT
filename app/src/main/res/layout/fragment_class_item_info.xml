@@ -6,10 +6,10 @@
     android:layout_height="match_parent" >
 
     <android.support.v7.widget.LinearLayoutCompat
-        android:paddingLeft="10sp"
-        android:paddingRight="10sp"
-        android:paddingTop="5sp"
-        android:paddingBottom="5sp"
+        android:paddingLeft="@dimen/left_normal_padding"
+        android:paddingRight="@dimen/right_normal_padding"
+        android:paddingTop="@dimen/top_normal_padding"
+        android:paddingBottom="@dimen/bottom_normal_padding"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -119,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/normal_margin" >
+            android:layout_marginTop="@dimen/top_normal_margin" >
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
@@ -159,7 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/normal_margin" >
+            android:layout_marginTop="@dimen/top_normal_margin" >
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"

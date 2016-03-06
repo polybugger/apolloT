@@ -9,9 +9,9 @@
         android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
-        android:layout_marginLeft="20sp"
-        android:layout_marginRight="20sp"
+        android:layout_marginTop="@dimen/top_normal_margin"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
         android:text="@string/existing_students"
         android:textSize="@dimen/large_text_size"
         android:textStyle="bold" />
@@ -26,10 +26,10 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/empty_row"
         android:visibility="gone"
-        android:paddingLeft="20sp"
-        android:paddingRight="20sp"
-        android:paddingTop="20sp"
-        android:paddingBottom="20sp"
+        android:paddingLeft="@dimen/left_normal_padding"
+        android:paddingRight="@dimen/right_normal_padding"
+        android:paddingTop="@dimen/top_normal_padding"
+        android:paddingBottom="@dimen/bottom_normal_padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
         android:text="@string/no_students_found"
@@ -45,7 +45,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
             android:textSize="@dimen/normal_text_size"
             android:text="@string/cancel_button" />
 
@@ -54,7 +53,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
             android:textSize="@dimen/normal_text_size"
             android:text="@string/add_button" />
         

@@ -21,10 +21,10 @@ layout. -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dip"
-        android:layout_marginRight="6dip"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:layout_marginBottom="@dimen/normal_margin"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_marginTop="@dimen/top_normal_margin"
+        android:layout_marginBottom="@dimen/bottom_normal_margin"
         android:layout_weight="1">
 
         <android.support.v7.widget.AppCompatTextView

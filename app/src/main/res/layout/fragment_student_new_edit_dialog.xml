@@ -14,9 +14,9 @@
             android:id="@+id/title_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_marginLeft="@dimen/normal_margin"
-            android:layout_marginRight="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/top_normal_margin"
+            android:layout_marginLeft="@dimen/left_normal_margin"
+            android:layout_marginRight="@dimen/right_normal_margin"
             android:text="@string/new_student"
             android:textSize="@dimen/large_text_size"
             android:textStyle="bold" />
@@ -24,10 +24,10 @@
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_marginLeft="@dimen/normal_margin"
-            android:layout_marginRight="@dimen/normal_margin"
-            android:layout_marginBottom="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/top_normal_margin"
+            android:layout_marginLeft="@dimen/left_normal_margin"
+            android:layout_marginRight="@dimen/right_normal_margin"
+            android:layout_marginBottom="@dimen/bottom_normal_margin"
             android:orientation="vertical" >
         
             <android.support.v7.widget.AppCompatEditText
@@ -42,7 +42,7 @@
                 android:id="@+id/first_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/top_normal_margin"
                 android:inputType="textPersonName"
                 android:hint="@string/first_name_hint"
                 android:textSize="@dimen/normal_text_size" />
@@ -51,7 +51,7 @@
                 android:id="@+id/middle_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/top_normal_margin"
                 android:inputType="textPersonName"
                 android:hint="@string/middle_name_hint"
                 android:textSize="@dimen/normal_text_size" />
@@ -59,7 +59,7 @@
             <RadioGroup 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/top_normal_margin"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatRadioButton
@@ -73,7 +73,7 @@
                     android:id="@+id/male_radio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:layout_marginLeft="@dimen/left_normal_margin"
                     android:textSize="@dimen/normal_text_size"
                     android:text="@string/male" />
 
@@ -83,7 +83,7 @@
                 android:id="@+id/email_address_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/top_normal_margin"
                 android:inputType="textWebEmailAddress"
                 android:hint="@string/email_address_hint"
                 android:textSize="@dimen/normal_text_size" />
@@ -92,7 +92,7 @@
                 android:id="@+id/contact_no_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/top_normal_margin"
                 android:inputType="phone"
                 android:hint="@string/contact_no_hint"
                 android:textSize="@dimen/normal_text_size" />
@@ -109,7 +109,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                style="?android:attr/buttonBarButtonStyle"
                 android:textSize="@dimen/normal_text_size"
                 android:text="@string/cancel_button" />
 
@@ -118,7 +117,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                style="?android:attr/buttonBarButtonStyle"
                 android:textSize="@dimen/normal_text_size"
                 android:text="@string/add_button" />
         

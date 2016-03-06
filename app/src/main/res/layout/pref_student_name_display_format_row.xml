@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10sp"
-    android:paddingLeft="15sp"
-    android:paddingRight="15sp"
-    android:paddingBottom="10sp"
+    android:paddingTop="@dimen/top_normal_padding"
+    android:paddingLeft="@dimen/left_normal_padding"
+    android:paddingRight="@dimen/right_normal_padding"
+    android:paddingBottom="@dimen/bottom_normal_padding"
     android:orientation="horizontal" >
 
     <android.support.v7.widget.AppCompatRadioButton
@@ -21,7 +21,7 @@
         
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_view"
-        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginLeft="@dimen/left_normal_margin"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_gravity="center_vertical"

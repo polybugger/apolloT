@@ -9,9 +9,9 @@
         android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:layout_marginLeft="@dimen/normal_margin"
-        android:layout_marginRight="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/top_normal_margin"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
         android:textSize="@dimen/large_text_size"
         android:textStyle="bold" />
 
@@ -19,10 +19,10 @@
         android:id="@+id/text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:layout_marginLeft="@dimen/normal_margin"
-        android:layout_marginRight="@dimen/normal_margin"
-        android:layout_marginBottom="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/top_normal_margin"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_marginBottom="@dimen/bottom_normal_margin"
         android:textSize="@dimen/normal_text_size"
         android:inputType="text" />
 
@@ -36,7 +36,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
             android:textSize="@dimen/normal_text_size"
             android:text="@string/no_button" />
 
@@ -45,7 +44,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
             android:textSize="@dimen/normal_text_size"
             android:text="@string/yes_button" />
 
