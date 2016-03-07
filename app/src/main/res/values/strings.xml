@@ -223,5 +223,5 @@
     <string name="edit_class_item_note">Edit Activity Note</string>
     <string name="remove_class_item_note">Remove Activity Note</string>
 
-
+    <string name="grade_breakdown">Grade Breakdown</string>
 </resources>

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +125,11 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
         }
     }
 
+    public void requeryClasses() {
+        mTask = new DbQueryTask();
+        mTask.execute(mCurrent);
+    }
+
     public int getClassPosition(ClassDbAdapter.Class class_) {
         return mListAdapter.getPosition(class_);
     }
@@ -136,6 +142,7 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
     private class ListArrayAdapter extends ArrayAdapter<ClassDbAdapter.Class> {
 
         private class ViewHolder {
+            LinearLayoutCompat linearLayout;
             ImageView locked;
             TextView title;
             TextView academicTerm;
@@ -153,6 +160,7 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
             if(convertView == null) {
                 viewHolder = new ViewHolder();
                 convertView = LayoutInflater.from(mActivity).inflate(R.layout.fragment_classes_row, parent, false);
+                viewHolder.linearLayout = (LinearLayoutCompat) convertView.findViewById(R.id.linear_layout);
                 viewHolder.locked = (ImageView) convertView.findViewById(R.id.locked_image_view);
                 viewHolder.title = (TextView) convertView.findViewById(R.id.class_title_text_view);
                 viewHolder.academicTerm = (TextView) convertView.findViewById(R.id.academic_term_text_view);
@@ -163,6 +171,7 @@ public class ClassesFragment extends Fragment implements ClassPasswordDialogFrag
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
+            viewHolder.linearLayout.setBackgroundColor(class_.getAcademicTerm().getColorInt());
             viewHolder.title.setTag(class_);
             viewHolder.academicTerm.setText(class_.getAcademicTermYear());
 

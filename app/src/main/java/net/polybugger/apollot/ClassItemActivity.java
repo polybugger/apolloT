@@ -26,6 +26,27 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
         ClassNoteNewEditDialogFragment.NewEditListener,
         ClassItemRecordNewEditDialogFragment.NewEditListener {
 
+    public static boolean REQUERY_CALLBACK = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment cif = fm.findFragmentByTag(getFragmentTag(INFO_TAB));
+        if(REQUERY_CALLBACK) {
+            if(cif != null) {
+                try {
+                    ((ClassItemInfoFragment) cif).requeryClassItem();
+                }
+                catch(ClassCastException e) {
+                    throw new ClassCastException(cif.toString() + " must implement " + ClassItemInfoFragment.class.toString());
+                }
+            }
+            REQUERY_CALLBACK = false;
+        }
+    }
+
+
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
 
@@ -95,9 +116,9 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         ClassActivity.CLASS_ITEM_REQUERY_CALLBACK = true;
         ClassActivity.CLASS_ITEM_REQUERY = mClassItem;
+        super.onBackPressed();
     }
 
     private String getFragmentTag(int position) {

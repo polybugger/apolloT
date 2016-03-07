@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,15 +28,19 @@ import net.polybugger.apollot.db.ApolloDbAdapter;
 public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTableNewEditDialogFragment.NewEditListener,
         SQLiteTableRemoveDialogFragment.RemoveListener {
 
+    public static final String WHITE_COLOR = "00ffffff";
+
     public static final String TABLE_NAME_ARG = "net.polybugger.apollot.table_name_arg";
     public static final String ID_COLUMN_ARG = "net.polybugger.apollot.id_column_arg";
     public static final String DATA_COLUMN_ARG = "net.polybugger.apollot.data_column_arg";
+    public static final String COLOR_COLUMN_ARG = "net.polybugger.apollot.color_column_arg";
     public static final String TITLE_ARG = "net.polybugger.apollot.title_arg";
     public static final String DIALOG_TITLE_ARG = "net.polybugger.apollot.dialog_title_arg";
 
     private String mTableName;
     private String mIdColumn;
     private String mDataColumn;
+    private String mColorColumn;
     private String mTitle;
     private String mDialogTitle;
     private ListArrayAdapter mListAdapter;
@@ -52,6 +58,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         mTableName = args.getString(TABLE_NAME_ARG);
         mIdColumn = args.getString(ID_COLUMN_ARG);
         mDataColumn = args.getString(DATA_COLUMN_ARG);
+        mColorColumn = args.getString(COLOR_COLUMN_ARG);
         mTitle = args.getString(TITLE_ARG);
         mDialogTitle = args.getString(DIALOG_TITLE_ARG);
 
@@ -66,7 +73,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
                 FragmentManager fm = getSupportFragmentManager();
                 SQLiteTableNewEditDialogFragment df = (SQLiteTableNewEditDialogFragment) fm.findFragmentByTag(SQLiteTableNewEditDialogFragment.TAG);
                 if(df == null) {
-                    df = SQLiteTableNewEditDialogFragment.newInstance(getString(R.string.new_) + " " + mDialogTitle, getString(R.string.add_button), new SQLiteRow(-1, null));
+                    df = SQLiteTableNewEditDialogFragment.newInstance(getString(R.string.new_) + " " + mDialogTitle, getString(R.string.add_button), new SQLiteRow(-1, null, null));
                     df.show(fm, SQLiteTableNewEditDialogFragment.TAG);
                 }
             }
@@ -87,19 +94,32 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         int id = item.getItemId();
         switch(id) {
             case android.R.id.home:
-                super.onBackPressed();
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(TextUtils.equals(mTableName, getString(R.string.db_class_item_types_table))) {
+            ClassActivity.REQUERY_CALLBACK = true;
+            ClassItemActivity.REQUERY_CALLBACK = true;
+        }
+        if(TextUtils.equals(mTableName, getString(R.string.db_academic_terms_table))) {
+            MainActivity.REQUERY_CALLBACK = true;
+            ClassActivity.REQUERY_CALLBACK = true;
+        }
+        super.onBackPressed();
+    }
+
     private ArrayList<SQLiteRow> getList() {
         ArrayList<SQLiteRow> list = new ArrayList<>();
         SQLiteDatabase db = ApolloDbAdapter.open();
-        Cursor cursor = db.query(mTableName, new String[] { mIdColumn, mDataColumn }, null, null, null, null, null);
+        Cursor cursor = db.query(mTableName, new String[] { mIdColumn, mDataColumn, mColorColumn }, null, null, null, null, null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
-            list.add(new SQLiteRow(cursor.getLong(0), cursor.getString(1)));
+            list.add(new SQLiteRow(cursor.getLong(0), cursor.getString(1), cursor.isNull(2) ? null : cursor.getString(2)));
             cursor.moveToNext();
         }
         cursor.close();
@@ -107,18 +127,20 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         return list;
     }
 
-    private long insert(String tableName, String dataColumn, String data) {
+    private long insert(String tableName, String dataColumn, String data, String colorColumn, String color) {
         ContentValues values = new ContentValues();
         values.put(dataColumn, data);
+        values.put(colorColumn, color);
         SQLiteDatabase db = ApolloDbAdapter.open();
         long id = db.insert(tableName, null, values);
         ApolloDbAdapter.close();
         return id;
     }
 
-    private int update(String tableName, String idColumn, long id, String dataColumn, String data) {
+    private int update(String tableName, String idColumn, long id, String dataColumn, String data, String colorColumn, String color) {
         ContentValues values = new ContentValues();
         values.put(dataColumn, data);
+        values.put(colorColumn, color);
         SQLiteDatabase db = ApolloDbAdapter.open();
         int rowsUpdated = db.update(tableName, values, idColumn + "=?", new String[]{String.valueOf(id)});
         ApolloDbAdapter.close();
@@ -145,10 +167,11 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
     public void onNewEdit(SQLiteRow sqliteRow) {
         long id = sqliteRow.getId();
         String data = sqliteRow.getData();
+        String color = sqliteRow.getColor();
         if(id == -1) {
-            id = insert(mTableName, mDataColumn, data);
+            id = insert(mTableName, mDataColumn, data, mColorColumn, color);
             if(id != -1) {
-                mListAdapter.add(new SQLiteRow(id, data));
+                mListAdapter.add(new SQLiteRow(id, data, color));
                 scrollListViewToBottom();
             }
         }
@@ -158,7 +181,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
             for(i = 0; i < count; ++i) {
                 item = mListAdapter.getItem(i);
                 if(item.getId() == id) {
-                    if(update(mTableName, mIdColumn, id, mDataColumn, data) >= 1)
+                    if(update(mTableName, mIdColumn, id, mDataColumn, data, mColorColumn, color) >= 1)
                         item.setData(data);
                     break;
                 }
@@ -190,6 +213,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         private View.OnClickListener mRemoveClickListener;
 
         private class ViewHolder {
+            LinearLayoutCompat linearLayoutCompat;
             TextView textView;
             ImageButton imageButton;
         }
@@ -224,10 +248,14 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             SQLiteRow sqliteRow = getItem(position);
+            String color = sqliteRow.getColor();
+            if(TextUtils.isEmpty(color))
+                color = WHITE_COLOR;
             ViewHolder viewHolder;
             if(convertView == null) {
                 viewHolder = new ViewHolder();
                 convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.listview_sqlite_table_row, parent, false);
+                viewHolder.linearLayoutCompat = (LinearLayoutCompat) convertView.findViewById(R.id.linear_layout);
                 viewHolder.textView = (TextView) convertView.findViewById(R.id.text_view);
                 viewHolder.textView.setOnClickListener(mEditClickListener);
                 viewHolder.imageButton = (ImageButton) convertView.findViewById(R.id.remove_button);
@@ -237,6 +265,7 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
             else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
+            viewHolder.linearLayoutCompat.setBackgroundColor((int) Long.parseLong(color, 16));
             viewHolder.textView.setText(sqliteRow.getData());
             viewHolder.textView.setTag(sqliteRow);
             viewHolder.imageButton.setTag(sqliteRow);
@@ -247,9 +276,11 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
     public static class SQLiteRow implements Serializable {
         private long mId;
         private String mData;
-        public SQLiteRow(long id, String data) {
+        private String mColor;
+        public SQLiteRow(long id, String data, String color) {
             mId = id;
             mData = data;
+            mColor = color;
         }
         public long getId() {
             return mId;
@@ -259,6 +290,12 @@ public class SQLiteTableActivity extends AppCompatActivity implements SQLiteTabl
         }
         public void setData(String data) {
             mData = data;
+        }
+        public String getColor() {
+            return mColor;
+        }
+        public void setColor(String color) {
+            mColor = color;
         }
     }
 }

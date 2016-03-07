@@ -54,6 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
                     academicTermsIntent.putExtra(SQLiteTableActivity.TABLE_NAME_ARG, getString(R.string.db_academic_terms_table));
                     academicTermsIntent.putExtra(SQLiteTableActivity.ID_COLUMN_ARG, getString(R.string.db_academic_terms_id_column));
                     academicTermsIntent.putExtra(SQLiteTableActivity.DATA_COLUMN_ARG, getString(R.string.db_academic_terms_data_column));
+                    academicTermsIntent.putExtra(SQLiteTableActivity.COLOR_COLUMN_ARG, getString(R.string.db_academic_terms_color_column));
                     academicTermsIntent.putExtra(SQLiteTableActivity.TITLE_ARG, getString(R.string.pref_academic_terms_title));
                     academicTermsIntent.putExtra(SQLiteTableActivity.DIALOG_TITLE_ARG, getString(R.string.pref_academic_terms_dialog_title));
                     startActivity(academicTermsIntent);
@@ -69,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
                     classItemTypesIntent.putExtra(SQLiteTableActivity.TABLE_NAME_ARG, getString(R.string.db_class_item_types_table));
                     classItemTypesIntent.putExtra(SQLiteTableActivity.ID_COLUMN_ARG, getString(R.string.db_class_item_types_id_column));
                     classItemTypesIntent.putExtra(SQLiteTableActivity.DATA_COLUMN_ARG, getString(R.string.db_class_item_types_data_column));
+                    classItemTypesIntent.putExtra(SQLiteTableActivity.COLOR_COLUMN_ARG, getString(R.string.db_class_item_types_color_column));
                     classItemTypesIntent.putExtra(SQLiteTableActivity.TITLE_ARG, getString(R.string.pref_class_item_types_title));
                     classItemTypesIntent.putExtra(SQLiteTableActivity.DIALOG_TITLE_ARG, getString(R.string.pref_class_item_types_dialog_title));
                     startActivity(classItemTypesIntent);

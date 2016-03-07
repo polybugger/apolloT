@@ -87,10 +87,11 @@ public class ClassStudentDbAdapter {
                 ", cir." + ClassItemTypeDbAdapter.DESCRIPTION.getName() + // 10
                 ", cir." + ClassItemRecordDbAdapter.ATTENDANCE.getName() + // 11
                 ", cir." + ClassItemRecordDbAdapter.SCORE.getName() + // 12
+                ", cir." + ClassItemTypeDbAdapter.COLOR.getName() + // 13
                 " FROM " + classStudentsTable +
                 " AS cs INNER JOIN " + StudentDbAdapter.TABLE_NAME + 
                 " AS s ON cs." + STUDENT_ID.getName() + "=s." + StudentDbAdapter.STUDENT_ID.getName() +
-                " LEFT OUTER JOIN (SELECT cit." + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName() + ", cit." + ClassItemTypeDbAdapter.DESCRIPTION.getName() +
+                " LEFT OUTER JOIN (SELECT cit." + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName() + ", cit." + ClassItemTypeDbAdapter.DESCRIPTION.getName() + ", cit." + ClassItemTypeDbAdapter.COLOR.getName() +
                 ", " + ClassItemRecordDbAdapter.STUDENT_ID.getName() + ", " + ClassItemRecordDbAdapter.ATTENDANCE.getName() + ", " + ClassItemRecordDbAdapter.SCORE.getName() +
                 " FROM " + classItemsTable + " AS ci INNER JOIN " + classItemRecordsTable + " AS cr ON ci." + ClassItemDbAdapter.ITEM_ID.getName() + "=cr." + ClassItemRecordDbAdapter.ITEM_ID.getName() +
                 " LEFT OUTER JOIN " + ClassItemTypeDbAdapter.TABLE_NAME + " AS cit ON ci." + ClassItemDbAdapter.ITEM_TYPE_ID.getName() + "=cit." + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName() + 
@@ -114,7 +115,7 @@ public class ClassStudentDbAdapter {
                 if(!cursor.isNull(11) && cursor.getInt(11) == 0)
                     classStudent.addAbsences();
                 if(!cursor.isNull(12) && !cursor.isNull(9))
-                    classStudent.addItemType(new ClassItemTypeDbAdapter.ItemType(cursor.getLong(9), cursor.getString(10)));
+                    classStudent.addItemType(new ClassItemTypeDbAdapter.ItemType(cursor.getLong(9), cursor.getString(10), cursor.getString(13)));
                 classStudents.add(classStudent);
             }
             else {
@@ -122,7 +123,7 @@ public class ClassStudentDbAdapter {
                 if(!cursor.isNull(11) && cursor.getInt(11) == 0)
                     classStudent.addAbsences();
                 if(!cursor.isNull(12) && !cursor.isNull(9))
-                    classStudent.addItemType(new ClassItemTypeDbAdapter.ItemType(cursor.getLong(9), cursor.getString(10)));
+                    classStudent.addItemType(new ClassItemTypeDbAdapter.ItemType(cursor.getLong(9), cursor.getString(10), cursor.getString(13)));
             }
             prevRowId = rowId;
             cursor.moveToNext();

@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
     // for backpress from class activity, to requery data on affected class, a hack
     public static boolean CLASS_REQUERY_CALLBACK = false;
     public static ClassDbAdapter.Class CLASS_REQUERY = null;
+    public static boolean REQUERY_CALLBACK = false;
 
     private static boolean lockAuthenticated = false;
     private static final int CURRENT_TAB = 0;
@@ -45,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
         ApolloDbAdapter.setAppContext(getApplicationContext());
         AcademicTermDbAdapter.setTableName(getString(R.string.db_academic_terms_table));
         AcademicTermDbAdapter.setIdColumnName(getString(R.string.db_academic_terms_id_column));
-        AcademicTermDbAdapter.setDataColumnName(getString(R.string.db_academic_terms_data_column));
+        AcademicTermDbAdapter.setDataColumnName(getString(R.string.db_academic_terms_data_column), getString(R.string.db_academic_terms_color_column));
         ClassItemTypeDbAdapter.setTableName(getString(R.string.db_class_item_types_table));
         ClassItemTypeDbAdapter.setIdColumnName(getString(R.string.db_class_item_types_id_column));
-        ClassItemTypeDbAdapter.setDataColumnName(getString(R.string.db_class_item_types_data_column));
+        ClassItemTypeDbAdapter.setDataColumnName(getString(R.string.db_class_item_types_data_column), getString(R.string.db_class_item_types_color_column));
         ApolloDbAdapter.open();
         ApolloDbAdapter.close();
 
@@ -93,16 +94,16 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
     @Override
     protected void onResume() {
         super.onResume();
+        FragmentManager fm = getSupportFragmentManager();
+        ClassesFragment currentFragment = null, pastFragment = null;
+        try {
+            currentFragment = (ClassesFragment) fm.findFragmentByTag(getFragmentTag(CURRENT_TAB));
+            pastFragment = (ClassesFragment) fm.findFragmentByTag(getFragmentTag(PAST_TAB));
+        }
+        catch(Exception e) { }
         if(CLASS_REQUERY_CALLBACK) {
             ClassDbAdapter.Class class_ = CLASS_REQUERY;
             if(class_ != null) {
-                FragmentManager fm = getSupportFragmentManager();
-                ClassesFragment currentFragment = null, pastFragment = null;
-                try {
-                    currentFragment = (ClassesFragment) fm.findFragmentByTag(getFragmentTag(CURRENT_TAB));
-                    pastFragment = (ClassesFragment) fm.findFragmentByTag(getFragmentTag(PAST_TAB));
-                }
-                catch(Exception e) { }
                 if(currentFragment != null && pastFragment != null) {
                     int currentPos = currentFragment.getClassPosition(class_);
                     int pastPos = pastFragment.getClassPosition(class_);
@@ -122,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
                 CLASS_REQUERY = null;
             }
             CLASS_REQUERY_CALLBACK = false;
+        }
+        if(REQUERY_CALLBACK) {
+            currentFragment.requeryClasses();
+            pastFragment.requeryClasses();
+            REQUERY_CALLBACK = false;
         }
     }
 

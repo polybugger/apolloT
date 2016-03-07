@@ -61,13 +61,15 @@ public class ApolloDbAdapter {
             final String CREATE_TABLE_ACADEMIC_TERMS =
                     "CREATE TABLE " + AcademicTermDbAdapter.TABLE_NAME + " (" +
                             AcademicTermDbAdapter.ACADEMIC_TERM_ID.getName() + " " + AcademicTermDbAdapter.ACADEMIC_TERM_ID.getType() + " PRIMARY KEY, " +
-                            AcademicTermDbAdapter.DESCRIPTION.getName() + " " + AcademicTermDbAdapter.DESCRIPTION.getType() + " NOT NULL)";
+                            AcademicTermDbAdapter.DESCRIPTION.getName() + " " + AcademicTermDbAdapter.DESCRIPTION.getType() + " NOT NULL, " +
+                            AcademicTermDbAdapter.COLOR.getName() + " " + AcademicTermDbAdapter.COLOR.getType() + " NULL)";
             db.execSQL(CREATE_TABLE_ACADEMIC_TERMS);
 
             final String CREATE_TABLE_CLASS_ITEM_TYPES =
                     "CREATE TABLE " + ClassItemTypeDbAdapter.TABLE_NAME + " (" +
                             ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName() + " " + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getType() + " PRIMARY KEY, " +
-                            ClassItemTypeDbAdapter.DESCRIPTION.getName() + " " + ClassItemTypeDbAdapter.DESCRIPTION.getType() + " NOT NULL)";
+                            ClassItemTypeDbAdapter.DESCRIPTION.getName() + " " + ClassItemTypeDbAdapter.DESCRIPTION.getType() + " NOT NULL, " +
+                            ClassItemTypeDbAdapter.COLOR.getName() + " " + ClassItemTypeDbAdapter.COLOR.getType() + " NULL)";
             db.execSQL(CREATE_TABLE_CLASS_ITEM_TYPES);
 
             final String CREATE_TABLE_CLASSES =
@@ -142,33 +144,33 @@ public class ApolloDbAdapter {
     }
 
     private static void _insertDefaultAcademicTerms(SQLiteDatabase db) {
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_0));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_1));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_2));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_3));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_4));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_5));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_6));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_7));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_8));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_9));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_10));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_11));
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_12));
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_0), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_1), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_2), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_3), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_4), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_5), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_6), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_7), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_8), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_9), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_10), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_11), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_12), null);
     }
 
     private static void _insertDefaultClassItemTypes(SQLiteDatabase db) {
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_1));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_2));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_3));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_4));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_5));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_6));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_7));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_8));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_9));
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_10));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_1), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_2), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_3), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_4), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_5), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_6), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_7), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_8), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_9), null);
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_10), null);
     }
 
     private static long _insertDummyClass1(SQLiteDatabase db) {

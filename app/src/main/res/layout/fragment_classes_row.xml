@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
     android:paddingLeft="@dimen/left_normal_padding"
     android:paddingRight="@dimen/right_normal_padding"
     android:paddingTop="@dimen/top_normal_padding"

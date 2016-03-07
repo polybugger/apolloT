@@ -205,6 +205,11 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mCurrentTextView.setText(mClass.getCurrent());
     }
 
+    public void requeryClassInfo() {
+        mClass = ClassDbAdapter.getClass(mClass.getClassId());
+        populateClassDetailsViews();
+    }
+
     @Override
     public void onClassDetailsDialogSubmit(ClassDbAdapter.Class class_, String fragmentTag) {
         if(ClassDbAdapter.update(class_.getClassId(), class_.getCode(), class_.getDescription(), class_.getAcademicTerm().getId(), class_.getYear(), class_.isCurrent()) >= 1) {

@@ -181,6 +181,11 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
         mSummaryTask.execute(mClassItem);
     }
 
+    public void requeryClassItem() {
+        mClassItem = ClassItemDbAdapter.getClassItem(mClassItem.getClassId(), mClassItem.getItemId());
+        populateClassItemViews();
+    }
+
     private void populateClassItemViews() {
         SimpleDateFormat sdf = new SimpleDateFormat(ClassItemDbAdapter.SDF_DISPLAY_TEMPLATE, mActivity.getResources().getConfiguration().locale);
         Date itemDate = mClassItem.getItemDate();

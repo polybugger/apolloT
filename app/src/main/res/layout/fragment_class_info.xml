@@ -107,6 +107,27 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/grade_breakdown"
+                android:textStyle="bold"
+                android:textSize="@dimen/large_text_size" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:id="@+id/grade_breakdown_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/top_normal_margin" >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/notes"
                 android:textStyle="bold"
                 android:textSize="@dimen/large_text_size" />

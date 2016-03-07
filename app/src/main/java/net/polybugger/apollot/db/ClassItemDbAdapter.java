@@ -123,6 +123,7 @@ public class ClassItemDbAdapter {
                 ", " + PERFECT_SCORE.getName() + // 7
                 ", " + RECORD_SUBMISSIONS.getName() + // 8
                 ", " + SUBMISSION_DUE_DATE.getName() + // 9
+                ", it." + ClassItemTypeDbAdapter.COLOR.getName() + // 10
                 " FROM " + tableName +
                 " AS ci LEFT OUTER JOIN " + ClassItemTypeDbAdapter.TABLE_NAME +
                 " AS it ON ci." + ITEM_TYPE_ID.getName() + "=it." + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName();
@@ -135,7 +136,7 @@ public class ClassItemDbAdapter {
             if(cursor.isNull(2))
                 itemType = null;
             else
-                itemType = new ClassItemTypeDbAdapter.ItemType(cursor.getLong(2), cursor.getString(3));
+                itemType = new ClassItemTypeDbAdapter.ItemType(cursor.getLong(2), cursor.getString(3), cursor.getString(10));
             try {
                 itemDate = sdf.parse(cursor.getString(4));
             }
@@ -172,6 +173,7 @@ public class ClassItemDbAdapter {
                 ", " + PERFECT_SCORE.getName() + // 6
                 ", " + RECORD_SUBMISSIONS.getName() + // 7
                 ", " + SUBMISSION_DUE_DATE.getName() + // 8
+                ", it." + ClassItemTypeDbAdapter.COLOR.getName() + // 9
                 " FROM " + tableName +
                 " AS ci LEFT OUTER JOIN " + ClassItemTypeDbAdapter.TABLE_NAME +
                 " AS it ON ci." + ITEM_TYPE_ID.getName() + "=it." + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName() +
@@ -184,7 +186,7 @@ public class ClassItemDbAdapter {
             if(cursor.isNull(1))
                 itemType = null;
             else
-                itemType = new ClassItemTypeDbAdapter.ItemType(cursor.getLong(1), cursor.getString(2));
+                itemType = new ClassItemTypeDbAdapter.ItemType(cursor.getLong(1), cursor.getString(2), cursor.getString(9));
             try {
                 itemDate = sdf.parse(cursor.getString(3));
             }

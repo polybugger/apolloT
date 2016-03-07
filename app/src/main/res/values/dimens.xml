@@ -25,4 +25,8 @@
     <dimen name="right_normal_padding">5sp</dimen>
     <dimen name="bottom_normal_padding">2sp</dimen>
 
+    <dimen name="ambilwarna_hsvHeight">180dp</dimen>
+    <dimen name="ambilwarna_hsvWidth">180dp</dimen>
+    <dimen name="ambilwarna_hueWidth">30dp</dimen>
+    <dimen name="ambilwarna_spacer">8dp</dimen>
 </resources>

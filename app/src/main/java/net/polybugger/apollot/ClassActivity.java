@@ -33,6 +33,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         StudentNewEditDialogFragment.NewEditListener,
         StudentExistingDialogFragment.ExistingListener {
 
+    public static boolean REQUERY_CALLBACK = false;
+
     public static boolean CLASS_ITEM_REQUERY_CALLBACK = false;
     public static ClassItemDbAdapter.ClassItem CLASS_ITEM_REQUERY = null;
 
@@ -144,11 +146,12 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
     @Override
     protected void onResume() {
         super.onResume();
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment cinf = fm.findFragmentByTag(getFragmentTag(INFO_TAB));
+        Fragment cif = fm.findFragmentByTag(getFragmentTag(ITEMS_TAB));
         if(CLASS_ITEM_REQUERY_CALLBACK) {
             ClassItemDbAdapter.ClassItem classItem = (ClassItemDbAdapter.ClassItem) CLASS_ITEM_REQUERY;
             if(CLASS_ITEM_REQUERY != null) {
-                FragmentManager fm = getSupportFragmentManager();
-                Fragment cif = fm.findFragmentByTag(getFragmentTag(ITEMS_TAB));
                 if(cif != null) {
                     try {
                         ((ClassItemsFragment) cif).requeryClassItem(classItem);
@@ -169,6 +172,25 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
                 CLASS_ITEM_REQUERY = null;
             }
             CLASS_ITEM_REQUERY_CALLBACK = false;
+        }
+        if(REQUERY_CALLBACK) {
+            if(cif != null) {
+                try {
+                    ((ClassItemsFragment) cif).requeryClassItems();
+                }
+                catch(ClassCastException e) {
+                    throw new ClassCastException(cif.toString() + " must implement " + ClassItemsFragment.class.toString());
+                }
+            }
+            if(cinf != null) {
+                try {
+                    ((ClassInfoFragment) cinf).requeryClassInfo();
+                }
+                catch(ClassCastException e) {
+                    throw new ClassCastException(cinf.toString() + " must implement " + ClassInfoFragment.class.toString());
+                }
+            }
+            REQUERY_CALLBACK = false;
         }
     }
 

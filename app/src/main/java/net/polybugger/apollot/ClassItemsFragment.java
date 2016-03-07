@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
@@ -151,6 +152,11 @@ public class ClassItemsFragment extends Fragment implements ClassItemNewEditDial
     public void requeryClassItem(ClassItemDbAdapter.ClassItem classItem) {
         mRequeryTask = new DbRequeryTask(classItem);
         mRequeryTask.execute(classItem);
+    }
+
+    public void requeryClassItems() {
+        mTask = new DbQueryTask();
+        mTask.execute(mClass.getClassId());
     }
 
     @Override
@@ -300,6 +306,7 @@ public class ClassItemsFragment extends Fragment implements ClassItemNewEditDial
         };
 
         private class ViewHolder {
+            RelativeLayout relativeLayout;
             TextView description;
             TextView itemDate;
             TextView itemType;
@@ -324,6 +331,7 @@ public class ClassItemsFragment extends Fragment implements ClassItemNewEditDial
             if(convertView == null) {
                 viewHolder = new ViewHolder();
                 convertView = LayoutInflater.from(mActivity).inflate(R.layout.fragment_class_items_row, parent, false);
+                viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relative_layout);
                 viewHolder.description = (TextView) convertView.findViewById(R.id.description_text_view);
                 viewHolder.itemDate = (TextView) convertView.findViewById(R.id.item_date_text_view);
                 viewHolder.itemType = (TextView) convertView.findViewById(R.id.item_type_text_view);
@@ -340,6 +348,7 @@ public class ClassItemsFragment extends Fragment implements ClassItemNewEditDial
             Date itemDate = classItem.getItemDate();
             viewHolder.itemDate.setText(itemDate == null ? null : sdf.format(itemDate));
             ClassItemTypeDbAdapter.ItemType itemType = classItem.getItemType();
+            viewHolder.relativeLayout.setBackgroundColor(itemType.getColorInt());
             if(itemType != null) {
                 viewHolder.itemType.setText(itemType.getDescription());
                 viewHolder.itemType.setVisibility(View.VISIBLE);

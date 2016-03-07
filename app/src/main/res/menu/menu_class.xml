@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ClassActivity">
 
+<!--
     <item
         android:id="@+id/action_grade_breakdown"
         android:title="@string/action_grade_breakdown"
         android:icon="@drawable/ic_assignment_white_36dp"
         android:orderInCategory="9996"
         app:showAsAction="ifRoom" />
+-->
 
     <item
         android:id="@+id/action_lock"

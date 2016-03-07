@@ -85,6 +85,7 @@ public class ClassDbAdapter {
                 ", " + ClassScheduleDbAdapter.BUILDING.getName() + // 11
                 ", " + ClassScheduleDbAdapter.CAMPUS.getName() + // 12
                 ", " + ClassPasswordDbAdapter.PASSWORD.getName() + // 13
+                ", at." + AcademicTermDbAdapter.COLOR.getName() + // 14
                 " FROM " + TABLE_NAME + " AS c LEFT OUTER JOIN " + AcademicTermDbAdapter.TABLE_NAME +
                 " AS at ON c." + ACADEMIC_TERM_ID.getName() + "=at." + AcademicTermDbAdapter.ACADEMIC_TERM_ID.getName() +
                 " LEFT OUTER JOIN " + ClassScheduleDbAdapter.TABLE_NAME +
@@ -114,7 +115,7 @@ public class ClassDbAdapter {
                 if(cursor.isNull(3))
                     academicTerm = null;
                 else
-                    academicTerm = new AcademicTermDbAdapter.AcademicTerm(cursor.getLong(3), cursor.getString(4));
+                    academicTerm = new AcademicTermDbAdapter.AcademicTerm(cursor.getLong(3), cursor.getString(4), cursor.getString(14));
                 if(cursor.isNull(6))
                     classSchedule = null;
                 else
@@ -153,6 +154,7 @@ public class ClassDbAdapter {
                 ", " + ClassScheduleDbAdapter.BUILDING.getName() + // 12
                 ", " + ClassScheduleDbAdapter.CAMPUS.getName() + // 13
                 ", " + ClassPasswordDbAdapter.PASSWORD.getName() + // 14
+                ", at." + AcademicTermDbAdapter.COLOR.getName() + // 15
                 " FROM " + TABLE_NAME + " AS c LEFT OUTER JOIN " + AcademicTermDbAdapter.TABLE_NAME +
                 " AS at ON c." + ACADEMIC_TERM_ID.getName() + "=at." + AcademicTermDbAdapter.ACADEMIC_TERM_ID.getName() +
                 " LEFT OUTER JOIN " + ClassScheduleDbAdapter.TABLE_NAME +
@@ -182,7 +184,7 @@ public class ClassDbAdapter {
                 if(cursor.isNull(3))
                     academicTerm = null;
                 else
-                    academicTerm = new AcademicTermDbAdapter.AcademicTerm(cursor.getLong(3), cursor.getString(4));
+                    academicTerm = new AcademicTermDbAdapter.AcademicTerm(cursor.getLong(3), cursor.getString(4), cursor.getString(15));
                 if(cursor.isNull(7))
                     classSchedule = null;
                 else
