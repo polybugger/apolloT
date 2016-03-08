@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,19 +41,19 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     private TextView mAcademicTermTextView;
     private TextView mCurrentTextView;
 
-    private LinearLayoutCompat mScheduleLinearLayout;
+    private LinearLayout mScheduleLinearLayout;
     private ArrayList<ClassScheduleDbAdapter.ClassSchedule> mScheduleList;
     private DbQuerySchedulesTask mScheduleTask;
     private View.OnClickListener mEditScheduleClickListener;
     private View.OnClickListener mRemoveScheduleClickListener;
 
-    private LinearLayoutCompat mNoteLinearLayout;
+    private LinearLayout mNoteLinearLayout;
     private ArrayList<ClassNoteDbAdapter.ClassNote> mNoteList;
     private DbQueryNotesTask mNoteTask;
     private View.OnClickListener mEditNoteClickListener;
     private View.OnClickListener mRemoveNoteClickListener;
 
-    private LinearLayoutCompat mGradeBreakdownLinearLayout;
+    private LinearLayout mGradeBreakdownLinearLayout;
     private ArrayList<ClassGradeBreakdownDbAdapter.ClassGradeBreakdown> mGradeBreakdownList;
     private DbQueryGradeBreakdownsTask mGradeBreakdownTask;
     private View.OnClickListener mEditGradeBreakdownClickListener;
@@ -142,7 +143,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             }
         });
 
-        mScheduleLinearLayout = (LinearLayoutCompat) view.findViewById(R.id.schedule_linear_layout);
+        mScheduleLinearLayout = (LinearLayout) view.findViewById(R.id.schedule_linear_layout);
         mEditScheduleClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +167,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             }
         };
 
-        mNoteLinearLayout = (LinearLayoutCompat) view.findViewById(R.id.note_linear_layout);
+        mNoteLinearLayout = (LinearLayout) view.findViewById(R.id.note_linear_layout);
         mEditNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +191,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             }
         };
 
-        mGradeBreakdownLinearLayout = (LinearLayoutCompat) view.findViewById(R.id.grade_breakdown_linear_layout);
+        mGradeBreakdownLinearLayout = (LinearLayout) view.findViewById(R.id.grade_breakdown_linear_layout);
         mEditGradeBreakdownClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {

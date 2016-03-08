@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -48,7 +48,7 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
     private TextView mSubmissionsSummaryTextView;
     private DbQuerySummaryTask mSummaryTask;
 
-    private LinearLayoutCompat mNoteLinearLayout;
+    private LinearLayout mNoteLinearLayout;
     private ArrayList<ClassItemNoteDbAdapter.ClassItemNote> mNoteList;
     private DbQueryNotesTask mNoteTask;
     private View.OnClickListener mEditNoteClickListener;
@@ -116,7 +116,7 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
             }
         });
 
-        mNoteLinearLayout = (LinearLayoutCompat) view.findViewById(R.id.note_linear_layout);
+        mNoteLinearLayout = (LinearLayout) view.findViewById(R.id.note_linear_layout);
         mEditNoteClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {

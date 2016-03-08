@@ -171,10 +171,12 @@
                 android:textSize="@dimen/large_text_size" />
             <View style="@style/TitleBorderBottom" />
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/note_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:divider="?android:dividerHorizontal"
                 android:orientation="vertical" />
 
         </android.support.v7.widget.LinearLayoutCompat>

@@ -92,10 +92,12 @@
                 android:textSize="@dimen/large_text_size" />
             <View style="@style/TitleBorderBottom"/>
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/schedule_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:divider="?android:dividerHorizontal"
                 android:orientation="vertical" />
 
         </android.support.v7.widget.LinearLayoutCompat>
@@ -114,10 +116,12 @@
                 android:textSize="@dimen/large_text_size" />
             <View style="@style/TitleBorderBottom"/>
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/grade_breakdown_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:divider="?android:dividerHorizontal"
                 android:orientation="vertical" />
 
         </android.support.v7.widget.LinearLayoutCompat>
@@ -136,8 +140,10 @@
                 android:textSize="@dimen/large_text_size" />
             <View style="@style/TitleBorderBottom"/>
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/note_linear_layout"
+                android:showDividers="middle"
+                android:divider="?android:dividerHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
