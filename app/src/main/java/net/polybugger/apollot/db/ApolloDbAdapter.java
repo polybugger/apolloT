@@ -125,12 +125,13 @@ public class ApolloDbAdapter {
             db.execSQL(CREATE_TABLE_STUDENTS);
 
             _insertDefaultAcademicTerms(db);
-            _insertDefaultClassItemTypes(db);
+            long itemTypeId = _insertDefaultClassItemTypes(db);
 
             long classId = _insertDummyClass1(db);
             _insertDummyNotes(db, classId);
             _insertDummyItems(db, classId);
             _insertDummyStudents(db, classId);
+            _insertDummyGradeBreakdowns(db, classId, itemTypeId);
 
             classId = _insertDummyClass2(db);
             _insertDummyClassPassword(db, classId, "test");
@@ -159,8 +160,8 @@ public class ApolloDbAdapter {
         AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_12), null);
     }
 
-    private static void _insertDefaultClassItemTypes(SQLiteDatabase db) {
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0), null);
+    private static long _insertDefaultClassItemTypes(SQLiteDatabase db) {
+        long id = ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0), "FFE8FFB1");
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_1), null);
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_2), null);
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_3), null);
@@ -171,6 +172,7 @@ public class ApolloDbAdapter {
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_8), null);
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_9), null);
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_10), null);
+        return id;
     }
 
     private static long _insertDummyClass1(SQLiteDatabase db) {
@@ -519,6 +521,10 @@ public class ApolloDbAdapter {
         ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
         studentId = StudentDbAdapter._insert(db, "Kennedy", "Leon", "S", m, null, null);
         ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
+    }
+
+    private static void _insertDummyGradeBreakdowns(SQLiteDatabase db, long classId, long itemTypeId) {
+        ClassGradeBreakdownDbAdapter._insert(db, classId, itemTypeId, (float) 50.00);
     }
 
 }

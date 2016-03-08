@@ -16,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
 import net.polybugger.apollot.db.ClassNoteDbAdapter;
 import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
@@ -49,6 +51,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     private DbQueryNotesTask mNoteTask;
     private View.OnClickListener mEditNoteClickListener;
     private View.OnClickListener mRemoveNoteClickListener;
+
+    private LinearLayoutCompat mGradeBreakdownLinearLayout;
+    private ArrayList<ClassGradeBreakdownDbAdapter.ClassGradeBreakdown> mGradeBreakdownList;
+    private DbQueryGradeBreakdownsTask mGradeBreakdownTask;
+    private View.OnClickListener mEditGradeBreakdownClickListener;
+    private View.OnClickListener mRemoveGradeBreakdownClickListener;
 
     public ClassInfoFragment() { }
 
@@ -182,11 +190,42 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
             }
         };
 
+        mGradeBreakdownLinearLayout = (LinearLayoutCompat) view.findViewById(R.id.grade_breakdown_linear_layout);
+        mEditGradeBreakdownClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                FragmentManager fm = getFragmentManager();
+                ClassNoteNewEditDialogFragment df = (ClassNoteNewEditDialogFragment) fm.findFragmentByTag(ClassNoteNewEditDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassNoteNewEditDialogFragment.newInstance(getString(R.string.edit_class_note), getString(R.string.save_button), (ClassNoteDbAdapter.ClassNote) view.getTag(), getTag());
+                    df.show(fm, ClassNoteNewEditDialogFragment.TAG);
+                }
+                */
+            }
+        };
+        mRemoveGradeBreakdownClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                FragmentManager fm = getFragmentManager();
+                ClassNoteRemoveDialogFragment df = (ClassNoteRemoveDialogFragment) fm.findFragmentByTag(ClassNoteRemoveDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassNoteRemoveDialogFragment.newInstance(getString(R.string.remove_class_note), (ClassNoteDbAdapter.ClassNote) view.getTag(), getTag());
+                    df.show(fm, ClassNoteRemoveDialogFragment.TAG);
+                }
+                */
+            }
+        };
+
         mScheduleTask = new DbQuerySchedulesTask();
         mScheduleTask.execute(mClass.getClassId());
 
         mNoteTask = new DbQueryNotesTask();
         mNoteTask.execute(mClass.getClassId());
+
+        mGradeBreakdownTask = new DbQueryGradeBreakdownsTask();
+        mGradeBreakdownTask.execute(mClass.getClassId());
 
         populateClassDetailsViews();
 
@@ -391,4 +430,63 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     private View getNoteView(LayoutInflater inflater, ClassNoteDbAdapter.ClassNote note, View.OnClickListener editNoteClickListener, View.OnClickListener removeNoteClickListener) {
         return _getNoteView(inflater.inflate(R.layout.class_note_row, null), note, editNoteClickListener, removeNoteClickListener);
     }
+
+    private class DbQueryGradeBreakdownsTask extends AsyncTask<Long, Integer, ArrayList<ClassGradeBreakdownDbAdapter.ClassGradeBreakdown>> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO initialize loader
+        }
+
+        @Override
+        protected ArrayList<ClassGradeBreakdownDbAdapter.ClassGradeBreakdown> doInBackground(Long... classId) {
+            return ClassGradeBreakdownDbAdapter.getClassGradeBreakdowns(classId[0]);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... percent) {
+            // TODO updates loader
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO cleanup loader on cancel
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ClassGradeBreakdownDbAdapter.ClassGradeBreakdown> gradeBreakdownList) {
+            mGradeBreakdownList = gradeBreakdownList;
+            for(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown : mGradeBreakdownList) {
+                mGradeBreakdownLinearLayout.addView(getGradeBreakdownView(mActivity.getLayoutInflater(), gradeBreakdown, mEditGradeBreakdownClickListener, mRemoveGradeBreakdownClickListener));
+            }
+        }
+    }
+
+    private View _getGradeBreakdownView(View rowView, ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown, View.OnClickListener editGradeBreakdownClickListener, View.OnClickListener removeGradeBreakdownClickListener) {
+        LinearLayoutCompat linearLayoutCompat = (LinearLayoutCompat) rowView.findViewById(R.id.grade_breakdown_linear_layout_row);
+        linearLayoutCompat.setBackgroundColor(gradeBreakdown.getItemType().getColorInt());
+
+        TextView gradeBreakdownTextView = (TextView) rowView.findViewById(R.id.grade_breakdown_text_view);
+        gradeBreakdownTextView.setText(gradeBreakdown.getItemType().getDescription());
+        TextView percentageTextView = (TextView) rowView.findViewById(R.id.percentage_text_view);
+        percentageTextView.setText(Float.toString(gradeBreakdown.getPercentage()) + "%");
+
+        if(editGradeBreakdownClickListener != null) {
+            RelativeLayout relativeLayout = (RelativeLayout) rowView.findViewById(R.id.grade_breakdown_relative_layout_row);
+            relativeLayout.setTag(gradeBreakdown);
+            relativeLayout.setOnClickListener(editGradeBreakdownClickListener);
+        }
+
+        ImageButton removeButton = (ImageButton) rowView.findViewById(R.id.remove_button);
+        removeButton.setTag(gradeBreakdown);
+        if(removeGradeBreakdownClickListener != null)
+            removeButton.setOnClickListener(removeGradeBreakdownClickListener);
+        return rowView;
+    }
+
+    @SuppressLint("InflateParams")
+    private View getGradeBreakdownView(LayoutInflater inflater, ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown, View.OnClickListener editGradeBreakdownClickListener, View.OnClickListener removeGradeBreakdownClickListener) {
+        return _getGradeBreakdownView(inflater.inflate(R.layout.class_grade_breakdown_row, null), gradeBreakdown, editGradeBreakdownClickListener, removeGradeBreakdownClickListener);
+    }
+
 }
