@@ -19,6 +19,9 @@
             android:layout_marginRight="@dimen/right_normal_margin"
             android:textSize="@dimen/large_text_size"
             android:textStyle="bold" />
+        <View style="@style/TitleBorderBottom"
+            android:layout_marginLeft="@dimen/left_normal_margin"
+            android:layout_marginRight="@dimen/right_normal_margin" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -88,11 +91,16 @@
                 android:layout_alignParentLeft="true"
                 android:textSize="@dimen/large_text_size"
                 android:textStyle="bold" />
+            <View style="@style/TitleBorderBottom"
+                android:id="@+id/student_name_border_bottom"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/bottom_normal_margin"
+                android:layout_below="@id/student_name_text_view" />
 
             <RadioGroup
                 android:id="@+id/attendance_radio_group"
                 android:layout_marginTop="@dimen/top_normal_margin"
-                android:layout_below="@id/student_name_text_view"
+                android:layout_below="@id/student_name_border_bottom"
                 android:layout_alignParentLeft="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

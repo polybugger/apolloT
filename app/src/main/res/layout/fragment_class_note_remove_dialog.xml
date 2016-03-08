@@ -14,6 +14,10 @@
         android:layout_marginRight="@dimen/right_normal_margin"
         android:textSize="@dimen/large_text_size"
         android:textStyle="bold" />
+    <View style="@style/TitleBorderBottom"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_marginBottom="@dimen/bottom_normal_margin_3" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/note_text_view"

@@ -97,7 +97,7 @@ public class ClassStudentsFragment extends Fragment implements StudentNewEditDia
             case R.id.action_new_student:
                 StudentNewEditDialogFragment sdf = (StudentNewEditDialogFragment) fm.findFragmentByTag(StudentNewEditDialogFragment.TAG);
                 if(sdf == null) {
-                    sdf = StudentNewEditDialogFragment.newInstance(getString(R.string.new_class_details), getString(R.string.add_button), null, getTag());
+                    sdf = StudentNewEditDialogFragment.newInstance(getString(R.string.new_student), getString(R.string.add_button), null, getTag());
                     sdf.show(fm, StudentNewEditDialogFragment.TAG);
                 }
                 return true;

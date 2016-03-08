@@ -13,12 +13,13 @@
 
     <dimen name="half_margin">5sp</dimen>
     <dimen name="normal_margin">10sp</dimen>
-    <dimen name="normal_margin_spinner">2sp</dimen>
+    <dimen name="normal_margin_spinner">4sp</dimen>
 
     <dimen name="top_normal_margin">2sp</dimen>
     <dimen name="left_normal_margin">5sp</dimen>
     <dimen name="right_normal_margin">5sp</dimen>
     <dimen name="bottom_normal_margin">2sp</dimen>
+    <dimen name="bottom_normal_margin_3">4sp</dimen>
 
     <dimen name="top_normal_padding">2sp</dimen>
     <dimen name="left_normal_padding">5sp</dimen>
