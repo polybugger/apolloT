@@ -16,6 +16,10 @@
                 android:title="@string/action_new_schedule" />
 
             <item
+                android:id="@+id/action_new_grade_breakdown"
+                android:title="@string/action_new_grade_breakdown" />
+
+            <item
                 android:id="@+id/action_new_note"
                 android:title="@string/action_new_note" />
 

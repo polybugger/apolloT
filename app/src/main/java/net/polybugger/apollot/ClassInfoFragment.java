@@ -31,7 +31,8 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         ClassScheduleRemoveDialogFragment.RemoveListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
         ClassScheduleNewEditDialogFragment.NewEditListener,
-        ClassNoteNewEditDialogFragment.NewEditListener{
+        ClassNoteNewEditDialogFragment.NewEditListener,
+        ClassGradeBreakdownNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -58,6 +59,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
     private DbQueryGradeBreakdownsTask mGradeBreakdownTask;
     private View.OnClickListener mEditGradeBreakdownClickListener;
     private View.OnClickListener mRemoveGradeBreakdownClickListener;
+    private TextView mTotalPercentageTextView;
 
     public ClassInfoFragment() { }
 
@@ -106,6 +108,13 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 if(sdf == null) {
                     sdf = ClassScheduleNewEditDialogFragment.newInstance(getString(R.string.new_class_schedule), getString(R.string.add_button), null, getTag());
                     sdf.show(fm, ClassScheduleNewEditDialogFragment.TAG);
+                }
+                return true;
+            case R.id.action_new_grade_breakdown:
+                ClassGradeBreakdownNewEditDialogFragment gbdf = (ClassGradeBreakdownNewEditDialogFragment) fm.findFragmentByTag(ClassGradeBreakdownNewEditDialogFragment.TAG);
+                if(gbdf == null) {
+                    gbdf = ClassGradeBreakdownNewEditDialogFragment.newInstance(getString(R.string.new_class_grade_breakdown), getString(R.string.add_button), mClass, null, getTag());
+                    gbdf.show(fm, ClassGradeBreakdownNewEditDialogFragment.TAG);
                 }
                 return true;
             case R.id.action_new_note:
@@ -195,14 +204,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mEditGradeBreakdownClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
                 FragmentManager fm = getFragmentManager();
-                ClassNoteNewEditDialogFragment df = (ClassNoteNewEditDialogFragment) fm.findFragmentByTag(ClassNoteNewEditDialogFragment.TAG);
+                ClassGradeBreakdownNewEditDialogFragment df = (ClassGradeBreakdownNewEditDialogFragment) fm.findFragmentByTag(ClassGradeBreakdownNewEditDialogFragment.TAG);
                 if(df == null) {
-                    df = ClassNoteNewEditDialogFragment.newInstance(getString(R.string.edit_class_note), getString(R.string.save_button), (ClassNoteDbAdapter.ClassNote) view.getTag(), getTag());
+                    df = ClassGradeBreakdownNewEditDialogFragment.newInstance(getString(R.string.edit_class_grade_breakdown), getString(R.string.save_button), mClass, (ClassGradeBreakdownDbAdapter.ClassGradeBreakdown) view.getTag(), getTag());
                     df.show(fm, ClassNoteNewEditDialogFragment.TAG);
                 }
-                */
             }
         };
         mRemoveGradeBreakdownClickListener = new View.OnClickListener() {
@@ -218,6 +225,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 */
             }
         };
+        mTotalPercentageTextView = (TextView) view.findViewById(R.id.total_percentage_text_view);
 
         mScheduleTask = new DbQuerySchedulesTask();
         mScheduleTask.execute(mClass.getClassId());
@@ -247,6 +255,10 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
 
     public void requeryClassInfo() {
         mClass = ClassDbAdapter.getClass(mClass.getClassId());
+        if(mGradeBreakdownLinearLayout.getChildCount() > 0)
+            mGradeBreakdownLinearLayout.removeAllViews();
+        mGradeBreakdownTask = new DbQueryGradeBreakdownsTask();
+        mGradeBreakdownTask.execute(mClass.getClassId());
         populateClassDetailsViews();
     }
 
@@ -328,6 +340,32 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 mNoteLinearLayout.addView(getNoteView(mActivity.getLayoutInflater(), note, mEditNoteClickListener, mRemoveNoteClickListener));
             }
         }
+    }
+
+    @Override
+    public void onNewEditClassGradeBreakdown(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown, String fragmentTag) {
+        long classId = mClass.getClassId();
+        if(gradeBreakdown.getClassId() != -1) {
+            gradeBreakdown.setClassId(classId);
+            if(ClassGradeBreakdownDbAdapter.update(classId, gradeBreakdown.getItemType().getId(), gradeBreakdown.getPercentage()) >= 1) {
+                int childPosition = mGradeBreakdownList.indexOf(gradeBreakdown);
+                if(childPosition != -1) {
+                    mGradeBreakdownList.set(childPosition, gradeBreakdown);
+                    View rowView = mGradeBreakdownLinearLayout.getChildAt(childPosition);
+                    if(rowView != null)
+                        _getGradeBreakdownView(rowView, gradeBreakdown, null, null);
+                }
+            }
+        }
+        else {
+            long gradeBreakdownId = ClassGradeBreakdownDbAdapter.insert(classId, gradeBreakdown.getItemType().getId(), gradeBreakdown.getPercentage());
+            if(gradeBreakdownId != -1) {
+                gradeBreakdown.setClassId(classId);
+                mGradeBreakdownList.add(gradeBreakdown);
+                mGradeBreakdownLinearLayout.addView(getGradeBreakdownView(mActivity.getLayoutInflater(), gradeBreakdown, mEditGradeBreakdownClickListener, mRemoveGradeBreakdownClickListener));
+            }
+        }
+
     }
 
     private class DbQuerySchedulesTask extends AsyncTask<Long, Integer, ArrayList<ClassScheduleDbAdapter.ClassSchedule>> {
@@ -456,10 +494,13 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
 
         @Override
         protected void onPostExecute(ArrayList<ClassGradeBreakdownDbAdapter.ClassGradeBreakdown> gradeBreakdownList) {
+            float totalPercentage = (float) 0.0;
             mGradeBreakdownList = gradeBreakdownList;
             for(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown : mGradeBreakdownList) {
+                totalPercentage = totalPercentage + gradeBreakdown.getPercentage();
                 mGradeBreakdownLinearLayout.addView(getGradeBreakdownView(mActivity.getLayoutInflater(), gradeBreakdown, mEditGradeBreakdownClickListener, mRemoveGradeBreakdownClickListener));
             }
+            mTotalPercentageTextView.setText(String.valueOf(totalPercentage) + "%");
         }
     }
 

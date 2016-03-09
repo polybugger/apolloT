@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassNoteDbAdapter;
 import net.polybugger.apollot.db.ClassScheduleDbAdapter;
@@ -31,7 +32,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassNoteNewEditDialogFragment.NewEditListener,
         ClassItemNewEditDialogFragment.NewEditListener,
         StudentNewEditDialogFragment.NewEditListener,
-        StudentExistingDialogFragment.ExistingListener {
+        StudentExistingDialogFragment.ExistingListener,
+        ClassGradeBreakdownNewEditDialogFragment.NewEditListener {
 
     public static boolean REQUERY_CALLBACK = false;
 
@@ -316,6 +318,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + StudentExistingDialogFragment.ExistingListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditClassGradeBreakdown(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassGradeBreakdownNewEditDialogFragment.NewEditListener) f).onNewEditClassGradeBreakdown(gradeBreakdown, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassGradeBreakdownNewEditDialogFragment.NewEditListener.class.toString());
             }
         }
     }

@@ -38,10 +38,16 @@ public class ClassItemTypeDbAdapter {
         COLOR = new DbColumn(colorColumnName, DbColumn.TYPE_TEXT);
     }
 
-    public static ArrayList<ItemType> getList() {
+    public static ArrayList<ItemType> getList(boolean filterIds, long classId) {
         ArrayList<ItemType> list = new ArrayList<ItemType>();
         SQLiteDatabase db = ApolloDbAdapter.open();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        String sql = "SELECT * FROM " + TABLE_NAME;
+        if(filterIds) {
+            sql = sql + " WHERE " + ITEM_TYPE_ID.getName() + " NOT IN (SELECT " +
+                    ClassGradeBreakdownDbAdapter.ITEM_TYPE_ID.getName() + " FROM " +
+                    ClassGradeBreakdownDbAdapter.TABLE_NAME + Long.toString(classId) + ")";
+        }
+        Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
             list.add(new ItemType(cursor.getLong(0), cursor.getString(1), cursor.getString(2)));

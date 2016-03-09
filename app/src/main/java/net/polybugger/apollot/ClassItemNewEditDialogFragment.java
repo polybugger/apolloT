@@ -104,7 +104,7 @@ public class ClassItemNewEditDialogFragment extends DialogFragment {
 
         ((TextView) view.findViewById(R.id.title_text_view)).setText(dialogTitle);
         // http://stackoverflow.com/questions/6602339/android-spinner-hint
-        ArrayAdapter<ClassItemTypeDbAdapter.ItemType> spinnerAdapter = new ArrayAdapter<ClassItemTypeDbAdapter.ItemType>(mActivity, android.R.layout.simple_spinner_item, ClassItemTypeDbAdapter.getList());
+        ArrayAdapter<ClassItemTypeDbAdapter.ItemType> spinnerAdapter = new ArrayAdapter<ClassItemTypeDbAdapter.ItemType>(mActivity, android.R.layout.simple_spinner_item, ClassItemTypeDbAdapter.getList(false, -1));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mItemTypeSpinner = (Spinner) view.findViewById(R.id.item_type_spinner);
         mItemTypeSpinner.setAdapter(spinnerAdapter);

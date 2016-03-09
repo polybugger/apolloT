@@ -11,6 +11,7 @@
     <string name="action_unlock">Unlock</string>
     <string name="action_new">New</string>
     <string name="action_new_schedule">New Schedule</string>
+    <string name="action_new_grade_breakdown">New Grade Breakdown</string>
     <string name="action_new_note">New Note</string>
     <string name="action_new_item">New Activity</string>
     <string name="action_new_student">New Student</string>
@@ -223,5 +224,11 @@
     <string name="edit_class_item_note">Edit Activity Note</string>
     <string name="remove_class_item_note">Remove Activity Note</string>
 
+    <string name="new_class_grade_breakdown">New Grade Breakdown</string>
+    <string name="edit_class_grade_breakdown">Edit Grade Breakdown</string>
+    <string name="remove_class_grade_breakdown">Remove Grade Breakdown</string>
     <string name="grade_breakdown">Grade Breakdown</string>
+    <string name="total_grade_breakdown">Total</string>
+    <string name="percentage_hint">Percentage</string>
+    <string name="fragment_status_percentage_required">Percentage cannot be blank.</string>
 </resources>
