@@ -33,7 +33,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         ClassItemNewEditDialogFragment.NewEditListener,
         StudentNewEditDialogFragment.NewEditListener,
         StudentExistingDialogFragment.ExistingListener,
-        ClassGradeBreakdownNewEditDialogFragment.NewEditListener {
+        ClassGradeBreakdownNewEditDialogFragment.NewEditListener,
+        ClassGradeBreakdownRemoveDialogFragment.RemoveListener {
 
     public static boolean REQUERY_CALLBACK = false;
 
@@ -331,6 +332,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassGradeBreakdownNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onRemoveGradeBreakdown(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassGradeBreakdownRemoveDialogFragment.RemoveListener) f).onRemoveGradeBreakdown(gradeBreakdown, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassGradeBreakdownRemoveDialogFragment.RemoveListener.class.toString());
             }
         }
     }

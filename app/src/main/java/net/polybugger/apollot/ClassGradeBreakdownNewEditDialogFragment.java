@@ -149,7 +149,7 @@ public class ClassGradeBreakdownNewEditDialogFragment extends DialogFragment {
             }
             mItemTypeTextView.setVisibility(View.VISIBLE);
             mItemTypeSpinner.setVisibility(View.GONE);
-            mPercentageEditText.setText(mGradeBreakdown.getPercentage().toString());
+            mPercentageEditText.setText(String.valueOf(mGradeBreakdown.getPercentage()));
         }
         else {
             mItemTypeTextView.setVisibility(View.GONE);

@@ -32,7 +32,8 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         ClassNoteRemoveDialogFragment.RemoveListener,
         ClassScheduleNewEditDialogFragment.NewEditListener,
         ClassNoteNewEditDialogFragment.NewEditListener,
-        ClassGradeBreakdownNewEditDialogFragment.NewEditListener {
+        ClassGradeBreakdownNewEditDialogFragment.NewEditListener,
+        ClassGradeBreakdownRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -215,14 +216,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         mRemoveGradeBreakdownClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
                 FragmentManager fm = getFragmentManager();
-                ClassNoteRemoveDialogFragment df = (ClassNoteRemoveDialogFragment) fm.findFragmentByTag(ClassNoteRemoveDialogFragment.TAG);
+                ClassGradeBreakdownRemoveDialogFragment df = (ClassGradeBreakdownRemoveDialogFragment) fm.findFragmentByTag(ClassGradeBreakdownRemoveDialogFragment.TAG);
                 if(df == null) {
-                    df = ClassNoteRemoveDialogFragment.newInstance(getString(R.string.remove_class_note), (ClassNoteDbAdapter.ClassNote) view.getTag(), getTag());
-                    df.show(fm, ClassNoteRemoveDialogFragment.TAG);
+                    df = ClassGradeBreakdownRemoveDialogFragment.newInstance(getString(R.string.remove_class_grade_breakdown), (ClassGradeBreakdownDbAdapter.ClassGradeBreakdown) view.getTag(), getTag());
+                    df.show(fm, ClassGradeBreakdownRemoveDialogFragment.TAG);
                 }
-                */
             }
         };
         mTotalPercentageTextView = (TextView) view.findViewById(R.id.total_percentage_text_view);
@@ -364,6 +363,27 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 mGradeBreakdownList.add(gradeBreakdown);
                 mGradeBreakdownLinearLayout.addView(getGradeBreakdownView(mActivity.getLayoutInflater(), gradeBreakdown, mEditGradeBreakdownClickListener, mRemoveGradeBreakdownClickListener));
             }
+        }
+        float totalPercentage = (float) 0.0;
+        for(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown_ : mGradeBreakdownList) {
+            totalPercentage = totalPercentage + gradeBreakdown_.getPercentage();
+        }
+        mTotalPercentageTextView.setText(String.valueOf(totalPercentage) + "%");
+    }
+
+    @Override
+    public void onRemoveGradeBreakdown(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown, String fragmentTag) {
+        if(ClassGradeBreakdownDbAdapter.delete(gradeBreakdown.getClassId(), gradeBreakdown.getItemType().getId()) >= 1) {
+            int childPosition = mGradeBreakdownList.indexOf(gradeBreakdown);
+            if(childPosition != -1) {
+                mGradeBreakdownList.remove(childPosition);
+                mGradeBreakdownLinearLayout.removeViewAt(childPosition);
+            }
+            float totalPercentage = (float) 0.0;
+            for(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown_ : mGradeBreakdownList) {
+                totalPercentage = totalPercentage + gradeBreakdown_.getPercentage();
+            }
+            mTotalPercentageTextView.setText(String.valueOf(totalPercentage) + "%");
         }
 
     }

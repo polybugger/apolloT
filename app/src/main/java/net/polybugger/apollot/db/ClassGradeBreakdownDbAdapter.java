@@ -99,9 +99,9 @@ public class ClassGradeBreakdownDbAdapter {
 
         private long mClassId;
         private ClassItemTypeDbAdapter.ItemType mItemType;
-        private Float mPercentage;
+        private float mPercentage;
 
-        public ClassGradeBreakdown(long classId, ClassItemTypeDbAdapter.ItemType itemType, Float percentage) {
+        public ClassGradeBreakdown(long classId, ClassItemTypeDbAdapter.ItemType itemType, float percentage) {
             mClassId = classId;
             mItemType = itemType;
             mPercentage = percentage;
@@ -119,10 +119,10 @@ public class ClassGradeBreakdownDbAdapter {
         public void setItemType(ClassItemTypeDbAdapter.ItemType itemType) {
             mItemType = itemType;
         }
-        public Float getPercentage() {
+        public float getPercentage() {
             return mPercentage;
         }
-        public void setPercentage(Float percentage) {
+        public void setPercentage(float percentage) {
             mPercentage = percentage;
         }
         public String getDescription() {
