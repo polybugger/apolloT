@@ -71,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/perfect_score_hint"
+                android:textStyle="bold"
                 android:textSize="@dimen/normal_text_size" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -80,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/submission_due_date_hint"
+                android:textStyle="bold"
                 android:textSize="@dimen/normal_text_size" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -143,7 +145,6 @@
                 android:paddingLeft="10sp"
                 android:layout_marginTop="@dimen/top_normal_margin"
                 android:hint="@string/submission_date_hint"
-                style="?android:attr/spinnerStyle"
                 android:textSize="@dimen/normal_text_size" />
 
             <android.support.v7.widget.AppCompatEditText

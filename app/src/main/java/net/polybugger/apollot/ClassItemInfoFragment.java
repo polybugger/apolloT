@@ -86,6 +86,7 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
         mClassItem = (ClassItemDbAdapter.ClassItem) args.getSerializable(CLASS_ITEM_ARG);
 
         View view = inflater.inflate(R.layout.fragment_class_item_info, container, false);
+        //view.findViewById(R.id.scroll_view).setBackgroundColor(mClassItem.getItemType().getColorInt());
         mDescriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
         mItemDateTextView = (TextView) view.findViewById(R.id.item_date_text_view);
         mItemTypeTextView = (TextView) view.findViewById(R.id.item_type_text_view);

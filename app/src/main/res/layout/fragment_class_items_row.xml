@@ -60,6 +60,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/check_attendance_text_view"
         android:hint="@string/perfect_score_hint"
+        android:textStyle="bold"
         android:textSize="@dimen/normal_text_size" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -69,6 +70,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/perfect_score_text_view"
         android:hint="@string/submission_due_date_hint"
+        android:textStyle="bold"
         android:textSize="@dimen/normal_text_size" />
 
 </RelativeLayout>

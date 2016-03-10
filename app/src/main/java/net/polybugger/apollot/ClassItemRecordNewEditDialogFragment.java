@@ -159,8 +159,24 @@ public class ClassItemRecordNewEditDialogFragment extends DialogFragment {
         });
         mRemarksEditText = (EditText) view.findViewById(R.id.remarks_edit_text);
         RadioGroup attendanceRadioGroup = (RadioGroup) view.findViewById(R.id.attendance_radio_group);
-        if(mClassItem.getCheckAttendance())
+        attendanceRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.absent_radio) {
+                    mScoreEditText.setEnabled(false);
+                    mScoreEditText.setText("");
+                    mRemarksEditText.requestFocus();
+                }
+                else {
+                    mScoreEditText.setEnabled(true);
+                    mScoreEditText.requestFocus();
+                }
+            }
+        });
+        if(mClassItem.getCheckAttendance()) {
             attendanceRadioGroup.setVisibility(View.VISIBLE);
+            attendanceRadioGroup.check(R.id.present_radio);
+        }
         else
             attendanceRadioGroup.setVisibility(View.GONE);
         if(mClassItem.getRecordScores())

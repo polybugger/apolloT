@@ -88,11 +88,12 @@ public class ClassStudentDbAdapter {
                 ", cir." + ClassItemRecordDbAdapter.ATTENDANCE.getName() + // 11
                 ", cir." + ClassItemRecordDbAdapter.SCORE.getName() + // 12
                 ", cir." + ClassItemTypeDbAdapter.COLOR.getName() + // 13
+                ", cir." + ClassItemDbAdapter.CHECK_ATTENDANCE.getName() + // 14
                 " FROM " + classStudentsTable +
                 " AS cs INNER JOIN " + StudentDbAdapter.TABLE_NAME + 
                 " AS s ON cs." + STUDENT_ID.getName() + "=s." + StudentDbAdapter.STUDENT_ID.getName() +
                 " LEFT OUTER JOIN (SELECT cit." + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName() + ", cit." + ClassItemTypeDbAdapter.DESCRIPTION.getName() + ", cit." + ClassItemTypeDbAdapter.COLOR.getName() +
-                ", " + ClassItemRecordDbAdapter.STUDENT_ID.getName() + ", " + ClassItemRecordDbAdapter.ATTENDANCE.getName() + ", " + ClassItemRecordDbAdapter.SCORE.getName() +
+                ", " + ClassItemRecordDbAdapter.STUDENT_ID.getName() + ", " + ClassItemRecordDbAdapter.ATTENDANCE.getName() + ", " + ClassItemRecordDbAdapter.SCORE.getName() + ", " + ClassItemDbAdapter.CHECK_ATTENDANCE.getName() +
                 " FROM " + classItemsTable + " AS ci INNER JOIN " + classItemRecordsTable + " AS cr ON ci." + ClassItemDbAdapter.ITEM_ID.getName() + "=cr." + ClassItemRecordDbAdapter.ITEM_ID.getName() +
                 " LEFT OUTER JOIN " + ClassItemTypeDbAdapter.TABLE_NAME + " AS cit ON ci." + ClassItemDbAdapter.ITEM_TYPE_ID.getName() + "=cit." + ClassItemTypeDbAdapter.ITEM_TYPE_ID.getName() + 
                 ") AS cir ON cs." + STUDENT_ID.getName() + "=cir." + ClassItemRecordDbAdapter.STUDENT_ID.getName() + 
@@ -112,7 +113,7 @@ public class ClassStudentDbAdapter {
                 classStudent = new ClassStudent(classId, cursor.getLong(0), 
                         new StudentDbAdapter.Student(cursor.getLong(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7)),
                         dateCreated);
-                if(!cursor.isNull(11) && cursor.getInt(11) == 0)
+                if(!cursor.isNull(11) && (cursor.getInt(14) == 1) && (cursor.getInt(11) == 0))
                     classStudent.addAbsences();
                 if(!cursor.isNull(12) && !cursor.isNull(9))
                     classStudent.addItemType(new ClassItemTypeDbAdapter.ItemType(cursor.getLong(9), cursor.getString(10), cursor.getString(13)));
@@ -120,7 +121,7 @@ public class ClassStudentDbAdapter {
             }
             else {
                 classStudent = classStudents.get(classStudents.size() - 1);
-                if(!cursor.isNull(11) && cursor.getInt(11) == 0)
+                if(!cursor.isNull(11) && (cursor.getInt(14) == 1) && (cursor.getInt(11) == 0))
                     classStudent.addAbsences();
                 if(!cursor.isNull(12) && !cursor.isNull(9))
                     classStudent.addItemType(new ClassItemTypeDbAdapter.ItemType(cursor.getLong(9), cursor.getString(10), cursor.getString(13)));
