@@ -40,6 +40,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ClassActivity" />
         </activity>
+        <activity
+            android:name=".ClassStudentActivity"
+            android:parentActivityName=".ClassActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ClassActivity" />
+        </activity>
     </application>
 
 </manifest>

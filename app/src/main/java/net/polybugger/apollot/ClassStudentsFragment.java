@@ -2,6 +2,7 @@ package net.polybugger.apollot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
@@ -84,9 +87,26 @@ public class ClassStudentsFragment extends Fragment implements StudentNewEditDia
         mListAdapter = new ListArrayAdapter(mActivity, new ArrayList<ClassStudentDbAdapter.ClassStudent>());
         mListView.setAdapter(mListAdapter);
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ClassStudentDbAdapter.ClassStudent classStudent = (ClassStudentDbAdapter.ClassStudent) view.findViewById(R.id.name_text_view).getTag();
+                startClassStudentActivity(mClass, classStudent);
+            }
+        });
+
         requeryStudents();
 
         return view;
+    }
+
+    private void startClassStudentActivity(ClassDbAdapter.Class class_, ClassStudentDbAdapter.ClassStudent classStudent) {
+        Intent intent = new Intent(mActivity, ClassStudentActivity.class);
+        Bundle args = new Bundle();
+        args.putSerializable(ClassStudentActivity.CLASS_ARG, class_);
+        args.putSerializable(ClassStudentActivity.STUDENT_ARG, classStudent);
+        intent.putExtras(args);
+        startActivity(intent);
     }
 
     @Override

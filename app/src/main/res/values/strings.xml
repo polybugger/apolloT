@@ -37,6 +37,8 @@
     <string name="students_tab">Students</string>
     <string name="item_info_tab">Activity Info</string>
     <string name="student_records_tab">Records</string>
+    <string name="student_info_tab">Student Info</string>
+    <string name="student_items_tab">Activities</string>
 
     <string name="pref_category_security_title">Security</string>
     <string name="pref_category_app_data_title">Application Data</string>
