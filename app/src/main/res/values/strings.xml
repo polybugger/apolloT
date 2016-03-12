@@ -167,6 +167,7 @@
     <string name="item_details">Details</string>
     <string name="item_summary">Summary</string>
     <string name="item_notes">Notes</string>
+    <string name="student_details">Details</string>
 
     <string name="new_class_item">New Class Activity</string>
     <string name="edit_class_item">Edit Class Activity</string>
@@ -195,6 +196,7 @@
     <string name="middle_name_hint">Middle Name</string>
     <string name="email_address_hint">Email Address</string>
     <string name="contact_no_hint">Contact No.</string>
+    <string name="gender_hint">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="fragment_status_last_name_required">Last Name cannot be blank.</string>

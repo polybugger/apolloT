@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_view"
+    android:scrollbars="none"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:paddingLeft="@dimen/left_normal_padding"
+        android:paddingRight="@dimen/right_normal_padding"
+        android:paddingTop="@dimen/top_normal_padding"
+        android:paddingBottom="@dimen/bottom_normal_padding"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/student_details"
+                android:textStyle="bold"
+                android:textSize="@dimen/large_text_size" />
+            <View style="@style/TitleBorderBottom" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/student_name_text_view"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/gender_text_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/student_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/gender_hint"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/email_address_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/gender_text_view"
+                    android:text="@string/email_address_hint"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/contact_no_text_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/email_address_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/contact_no_hint"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/edit_class_student_button"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/contact_no_text_view"
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_mode_edit_black_24dp" />
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/remove_class_student_button"
+                    android:layout_below="@id/contact_no_text_view"
+                    android:layout_toLeftOf="@id/edit_class_student_button"
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_clear_black_24dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/top_normal_margin" >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_summary"
+                android:textStyle="bold"
+                android:textSize="@dimen/large_text_size" />
+            <View style="@style/TitleBorderBottom" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/attendance_summary_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/scores_summary_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/submissions_summary_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_text_size" />
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</ScrollView>

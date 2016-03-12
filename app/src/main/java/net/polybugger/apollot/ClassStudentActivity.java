@@ -105,9 +105,9 @@ public class ClassStudentActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch(position) {
                 case INFO_TAB:
-                    return ClassInfoFragment.newInstance(mClass);
+                    return ClassStudentInfoFragment.newInstance(mClass, mStudent);
                 case ITEMS_TAB:
-                    return ClassItemsFragment.newInstance(mClass);
+                    return ClassStudentInfoFragment.newInstance(mClass, mStudent);
             }
             return null;
         }
