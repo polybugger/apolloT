@@ -107,7 +107,7 @@ public class ClassStudentActivity extends AppCompatActivity {
                 case INFO_TAB:
                     return ClassStudentInfoFragment.newInstance(mClass, mStudent);
                 case ITEMS_TAB:
-                    return ClassStudentInfoFragment.newInstance(mClass, mStudent);
+                    return ClassStudentItemsFragment.newInstance(mClass, mStudent);
             }
             return null;
         }

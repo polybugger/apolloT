@@ -34,4 +34,23 @@
     <string name="default_class_item_type_9">Midterm Exam</string>
     <string name="default_class_item_type_10">Final Exam</string>
 
+    <string name="default_academic_term_color_0">ffe89c3c</string>
+    <string name="default_academic_term_color_1">ffededcb</string>
+    <string name="default_academic_term_color_2">ffa99a35</string>
+    <string name="default_academic_term_color_3">ff9a9997</string>
+    <string name="default_academic_term_color_4">ffd0e1f3</string>
+    <string name="default_academic_term_color_5">ffdbdad6</string>
+
+    <string name="default_class_item_type_color_0">ffffefc9</string>
+    <string name="default_class_item_type_color_1">ff668de5</string>
+    <string name="default_class_item_type_color_2">ff90d4f7</string>
+    <string name="default_class_item_type_color_3">ff90d4f7</string>
+    <string name="default_class_item_type_color_4">fff5a26f</string>
+    <string name="default_class_item_type_color_5">00ffffff</string>
+    <string name="default_class_item_type_color_6">00ffffff</string>
+    <string name="default_class_item_type_color_7">00ffffff</string>
+    <string name="default_class_item_type_color_8">ffda97e0</string>
+    <string name="default_class_item_type_color_9">ffff89b5</string>
+    <string name="default_class_item_type_color_10">ffed6d79</string>
+
 </resources>

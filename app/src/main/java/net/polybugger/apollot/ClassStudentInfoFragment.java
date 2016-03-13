@@ -11,13 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
-import net.polybugger.apollot.db.ClassItemDbAdapter;
-import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ClassStudentInfoFragment extends Fragment {
 

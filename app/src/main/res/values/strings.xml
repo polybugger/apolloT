@@ -179,9 +179,11 @@
     <string name="record_scores">Record Student Scores?</string>
     <string name="perfect_score_hint">Perfect Score</string>
     <string name="perfect_score_label">Perfect Score:</string>
+    <string name="score_label">Score:</string>
     <string name="record_submissions">Record Student Submissions?</string>
     <string name="submission_due_date_hint">Due Date</string>
     <string name="submission_due_date_label">Due Date:</string>
+    <string name="submission_date_label">Submission Date:</string>
     <string name="fragment_status_item_description_required">Description cannot be blank.</string>
     <string name="fragment_status_item_date_required">Activity Date cannot be blank.</string>
     <string name="fragment_status_perfect_score_required">Perfect score cannot be blank.</string>

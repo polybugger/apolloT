@@ -145,12 +145,12 @@ public class ApolloDbAdapter {
     }
 
     private static void _insertDefaultAcademicTerms(SQLiteDatabase db) {
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_0), null);
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_1), null);
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_2), null);
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_3), null);
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_4), null);
-        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_5), null);
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_0), sAppContext.getString(R.string.default_academic_term_color_0));
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_1), sAppContext.getString(R.string.default_academic_term_color_1));
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_2), sAppContext.getString(R.string.default_academic_term_color_2));
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_3), sAppContext.getString(R.string.default_academic_term_color_3));
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_4), sAppContext.getString(R.string.default_academic_term_color_4));
+        AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_5), sAppContext.getString(R.string.default_academic_term_color_5));
         AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_6), null);
         AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_7), null);
         AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_8), null);
@@ -161,17 +161,17 @@ public class ApolloDbAdapter {
     }
 
     private static long _insertDefaultClassItemTypes(SQLiteDatabase db) {
-        long id = ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0), "FFE8FFB1");
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_1), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_2), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_3), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_4), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_5), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_6), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_7), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_8), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_9), null);
-        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_10), null);
+        long id = ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0), sAppContext.getString(R.string.default_class_item_type_color_0));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_1), sAppContext.getString(R.string.default_class_item_type_color_1));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_2), sAppContext.getString(R.string.default_class_item_type_color_2));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_3), sAppContext.getString(R.string.default_class_item_type_color_3));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_4), sAppContext.getString(R.string.default_class_item_type_color_4));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_5), sAppContext.getString(R.string.default_class_item_type_color_5));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_6), sAppContext.getString(R.string.default_class_item_type_color_6));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_7), sAppContext.getString(R.string.default_class_item_type_color_7));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_8), sAppContext.getString(R.string.default_class_item_type_color_8));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_9), sAppContext.getString(R.string.default_class_item_type_color_9));
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_10), sAppContext.getString(R.string.default_class_item_type_color_10));
         return id;
     }
 
@@ -203,7 +203,7 @@ public class ApolloDbAdapter {
     }
 
     private static long _insertDummyClass2(SQLiteDatabase db) {
-        long id = ClassDbAdapter._insert(db, "IT 116", "Advanced Programming", 1, "2014", true);
+        long id = ClassDbAdapter._insert(db, "IT 116", "Advanced Programming", 2, "2014", true);
         Calendar calTimeStart = Calendar.getInstance();
         calTimeStart.set(Calendar.HOUR, 7);
         calTimeStart.set(Calendar.MINUTE, 45);
@@ -214,7 +214,7 @@ public class ApolloDbAdapter {
         calTimeEnd.set(Calendar.AM_PM, Calendar.AM);
         ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.MWF.getValue(), "202", "AS", "TC");
 
-        id = ClassDbAdapter._insert(db, "IT 126", "Data Structures II", 1, "2014", false);
+        id = ClassDbAdapter._insert(db, "IT 126", "Data Structures II", 3, "2014", false);
         calTimeStart.set(Calendar.HOUR, 2);
         calTimeStart.set(Calendar.MINUTE, 45);
         calTimeStart.set(Calendar.AM_PM, Calendar.PM);
@@ -223,7 +223,7 @@ public class ApolloDbAdapter {
         calTimeEnd.set(Calendar.AM_PM, Calendar.PM);
         ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.MWF.getValue(), "204", "AS", "TC");
 
-        id = ClassDbAdapter._insert(db, "IT 128", "Multimedia Systems", 1, "2014", false);
+        id = ClassDbAdapter._insert(db, "IT 128", "Multimedia Systems", 4, "2014", false);
         calTimeStart.set(Calendar.HOUR, 2);
         calTimeStart.set(Calendar.MINUTE, 15);
         calTimeStart.set(Calendar.AM_PM, Calendar.PM);
@@ -232,7 +232,7 @@ public class ApolloDbAdapter {
         calTimeEnd.set(Calendar.AM_PM, Calendar.PM);
         ClassScheduleDbAdapter._insert(db, id, calTimeStart.getTime(), calTimeEnd.getTime(), DaysBits.TTh.getValue(), "304", "AS", "TC");
 
-        id = ClassDbAdapter._insert(db, "IT 134", "Object-Oriented Technology", 1, "2014", true);
+        id = ClassDbAdapter._insert(db, "IT 134", "Object-Oriented Technology", 5, "2014", true);
         calTimeStart.set(Calendar.HOUR, 3);
         calTimeStart.set(Calendar.MINUTE, 45);
         calTimeStart.set(Calendar.AM_PM, Calendar.PM);

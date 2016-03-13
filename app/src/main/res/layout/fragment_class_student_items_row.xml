@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_layout"
+    android:paddingLeft="@dimen/left_normal_padding"
+    android:paddingRight="@dimen/right_normal_padding"
+    android:paddingTop="@dimen/top_normal_padding"
+    android:paddingBottom="@dimen/bottom_normal_padding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/title_layout"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/description_text_view"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/item_date_text_view"
+            android:gravity="right"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/item_type_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/title_layout"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/perfect_score_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/item_type_text_view"
+        android:hint="@string/perfect_score_hint"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/score_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/perfect_score_text_view"
+        android:hint="@string/score_hint"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/submission_due_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/score_text_view"
+        android:hint="@string/submission_due_date_hint"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/submission_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/submission_due_date_text_view"
+        android:hint="@string/submission_date_hint"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/attendance_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/submission_date_text_view"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/remarks_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/attendance_text_view"
+        android:textSize="@dimen/normal_text_size" />
+
+</RelativeLayout>
