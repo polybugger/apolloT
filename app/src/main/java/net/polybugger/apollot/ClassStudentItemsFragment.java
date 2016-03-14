@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +32,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class ClassStudentItemsFragment extends Fragment {
+public class ClassStudentItemsFragment extends Fragment implements ClassItemRecordNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String STUDENT_ARG = "net.polybugger.apollot.student_arg";
@@ -85,13 +86,20 @@ public class ClassStudentItemsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_class_student_items, container, false);
         mListView = (ListView) view.findViewById(R.id.list_view);
-        mListAdapter = new ListArrayAdapter(mActivity, new ArrayList<ClassItemRecordDbAdapter.ClassStudentRecord>());
+        mListAdapter = new ListArrayAdapter(mActivity, new ArrayList<ClassItemRecordDbAdapter.ClassItemRecord>());
         mListView.setAdapter(mListAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                FragmentManager fm = getFragmentManager();
+                ClassItemRecordNewEditDialogFragment df = (ClassItemRecordNewEditDialogFragment) fm.findFragmentByTag(ClassItemRecordNewEditDialogFragment.TAG);
+                if(df == null) {
+                    ClassItemRecordDbAdapter.ClassItemRecord record = (ClassItemRecordDbAdapter.ClassItemRecord) view.findViewById(R.id.description_text_view).getTag();
+                    record.setStudent(mStudent.getStudent());
+                    df = ClassItemRecordNewEditDialogFragment.newInstance(getString(R.string.edit_class_item_record), getString(R.string.save_button), record.getClassItem(), record, getTag());
+                    df.show(fm, ClassItemRecordNewEditDialogFragment.TAG);
+                }
             }
         });
 
@@ -141,7 +149,34 @@ public class ClassStudentItemsFragment extends Fragment {
         mTask.execute(mClass.getClassId());
     }
 
-    private class ListArrayAdapter extends ArrayAdapter<ClassItemRecordDbAdapter.ClassStudentRecord> {
+    @Override
+    public void onNewEditItemRecord(ClassItemRecordDbAdapter.ClassItemRecord itemRecord, String fragmentTag) {
+        ClassStudentDbAdapter.ClassStudent student = itemRecord.getClassStudent();
+        ClassItemDbAdapter.ClassItem classItem = itemRecord.getClassItem();
+        if(itemRecord.getRecordId() == null) {
+            long recordId = ClassItemRecordDbAdapter.insert(classItem.getClassId(), student.getStudentId(), classItem.getItemId(), itemRecord.getAttendance(), itemRecord.getScore(), itemRecord.getSubmissionDate(), itemRecord.getRemarks());
+            if(recordId != -1) {
+                itemRecord.setRecordId(recordId);
+                int position = mListAdapter.getPosition(itemRecord);
+                if(position != -1) {
+                    mListAdapter.remove(itemRecord);
+                    mListAdapter.insert(itemRecord, position);
+                }
+            }
+        }
+        else {
+            if(ClassItemRecordDbAdapter.update(classItem.getClassId(), student.getStudentId(), classItem.getItemId(), itemRecord.getRecordId(), itemRecord.getAttendance(), itemRecord.getScore(), itemRecord.getSubmissionDate(), itemRecord.getRemarks()) > 0) {
+                int position = mListAdapter.getPosition(itemRecord);
+                if(position != -1) {
+                    mListAdapter.remove(itemRecord);
+                    mListAdapter.insert(itemRecord, position);
+                }
+            }
+        }
+        mListAdapter.notifyDataSetChanged();
+    }
+
+    private class ListArrayAdapter extends ArrayAdapter<ClassItemRecordDbAdapter.ClassItemRecord> {
 
         final private SimpleDateFormat sdf = new SimpleDateFormat(ClassItemDbAdapter.SDF_DISPLAY_TEMPLATE, getResources().getConfiguration().locale);
 
@@ -152,10 +187,10 @@ public class ClassStudentItemsFragment extends Fragment {
 
         private int sortId;
 
-        final private Comparator<ClassItemRecordDbAdapter.ClassStudentRecord> comp = new Comparator<ClassItemRecordDbAdapter.ClassStudentRecord>() {
+        final private Comparator<ClassItemRecordDbAdapter.ClassItemRecord> comp = new Comparator<ClassItemRecordDbAdapter.ClassItemRecord>() {
 
             @Override
-            public int compare(ClassItemRecordDbAdapter.ClassStudentRecord arg0, ClassItemRecordDbAdapter.ClassStudentRecord arg1) {
+            public int compare(ClassItemRecordDbAdapter.ClassItemRecord arg0, ClassItemRecordDbAdapter.ClassItemRecord arg1) {
                 if(sortId == R.id.action_sort_description) {
                     return arg0.getClassItem().getDescription().compareToIgnoreCase(arg1.getClassItem().getDescription());
                 }
@@ -316,7 +351,7 @@ public class ClassStudentItemsFragment extends Fragment {
         private String scoreLabel;
         private String submissionDateLabel;
 
-        public ListArrayAdapter(Context context, List<ClassItemRecordDbAdapter.ClassStudentRecord> objects) {
+        public ListArrayAdapter(Context context, List<ClassItemRecordDbAdapter.ClassItemRecord> objects) {
             super(context, R.layout.fragment_class_student_items_row, objects);
             perfectScoreLabel = getString(R.string.perfect_score_label);
             dueDateLabel = getString(R.string.submission_due_date_label);
@@ -326,7 +361,7 @@ public class ClassStudentItemsFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ClassItemRecordDbAdapter.ClassStudentRecord classStudentRecord = getItem(position);
+            ClassItemRecordDbAdapter.ClassItemRecord classStudentRecord = getItem(position);
             ClassItemDbAdapter.ClassItem classItem = classStudentRecord.getClassItem();
             ViewHolder viewHolder;
             if(convertView == null) {
@@ -416,7 +451,7 @@ public class ClassStudentItemsFragment extends Fragment {
         }
     }
 
-    private class DbQueryTask extends AsyncTask<Long, Integer, ArrayList<ClassItemRecordDbAdapter.ClassStudentRecord>> {
+    private class DbQueryTask extends AsyncTask<Long, Integer, ArrayList<ClassItemRecordDbAdapter.ClassItemRecord>> {
 
         @Override
         protected void onPreExecute() {
@@ -424,8 +459,8 @@ public class ClassStudentItemsFragment extends Fragment {
         }
 
         @Override
-        protected ArrayList<ClassItemRecordDbAdapter.ClassStudentRecord> doInBackground(Long... classId) {
-            ArrayList<ClassItemRecordDbAdapter.ClassStudentRecord> classItems = ClassItemRecordDbAdapter.getClassStudentRecords(mClass.getClassId(), mStudent.getStudentId());
+        protected ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> doInBackground(Long... classId) {
+            ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> classItems = ClassItemRecordDbAdapter.getClassStudentRecords(mClass.getClassId(), mStudent.getStudentId());
             // TODO dbquery for student count and class items summary
             return classItems;
         }
@@ -441,7 +476,7 @@ public class ClassStudentItemsFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<ClassItemRecordDbAdapter.ClassStudentRecord> list) {
+        protected void onPostExecute(ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> list) {
             // TODO cleanup loader on finish
             mListAdapter.clear();
             mListAdapter.addAll(list);

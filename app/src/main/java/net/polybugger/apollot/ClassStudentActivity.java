@@ -16,10 +16,11 @@ import android.view.MenuItem;
 
 import net.polybugger.apollot.db.ApolloDbAdapter;
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
-public class ClassStudentActivity extends AppCompatActivity {
+public class ClassStudentActivity extends AppCompatActivity implements ClassItemRecordNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String STUDENT_ARG = "net.polybugger.apollot.student_arg";
@@ -93,6 +94,20 @@ public class ClassStudentActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onNewEditItemRecord(ClassItemRecordDbAdapter.ClassItemRecord itemRecord, String fragmentTag) {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment f = fm.findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassItemRecordNewEditDialogFragment.NewEditListener) f).onNewEditItemRecord(itemRecord, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassItemRecordNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -124,13 +124,13 @@ public class ClassItemRecordDbAdapter {
                 ", cir." + SCORE.getName() + // 7
                 ", cir." + SUBMISSION_DATE.getName() + // 8
                 ", cir." + REMARKS.getName() + // 9
-                " FROM " + tableName2  + 
+                " FROM " + tableName2  +
                 " AS cs INNER JOIN " + StudentDbAdapter.TABLE_NAME +
                 " AS s ON cs." + ClassStudentDbAdapter.STUDENT_ID.getName() + "=s." + StudentDbAdapter.STUDENT_ID.getName() +
                 " LEFT OUTER JOIN (SELECT ci." + ITEM_ID.getName() + 
                 ", " + RECORD_ID.getName() + ", " + STUDENT_ID.getName() + ", " + ATTENDANCE.getName() + 
-                ", " + SCORE.getName() + ", " + SUBMISSION_DATE.getName() + ", " + REMARKS.getName() + 
-                " FROM " + tableName3 + " AS ci INNER JOIN " + tableName1 + 
+                ", " + SCORE.getName() + ", " + SUBMISSION_DATE.getName() + ", " + REMARKS.getName() +
+                " FROM " + tableName3 + " AS ci INNER JOIN " + tableName1 +
                 " AS cr ON ci." + ClassItemDbAdapter.ITEM_ID.getName() + "=cr." + ITEM_ID.getName() + 
                 " WHERE ci." + ClassItemDbAdapter.ITEM_ID.getName() + "=" + String.valueOf(itemId) +
                 ") AS cir ON cs." + ClassStudentDbAdapter.STUDENT_ID.getName() + "=cir." + STUDENT_ID.getName() +
@@ -150,7 +150,7 @@ public class ClassItemRecordDbAdapter {
             list.add(new ClassItemRecord(recordId, 
                     new ClassStudentDbAdapter.ClassStudent(cursor.getLong(1), classId,
                             new StudentDbAdapter.Student(cursor.getLong(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)), null),
-                    itemId, attendance, score, submissionDate, cursor.getString(9)));
+                    null, attendance, score, submissionDate, cursor.getString(9)));
             cursor.moveToNext();
         }
         cursor.close();
@@ -158,11 +158,11 @@ public class ClassItemRecordDbAdapter {
         return list;
     }
 
-    public static ArrayList<ClassStudentRecord> getClassStudentRecords(long classId, long studentId) {
+    public static ArrayList<ClassItemRecord> getClassStudentRecords(long classId, long studentId) {
         String tableName1 = TABLE_NAME + String.valueOf(classId);
         String tableName2 = ClassStudentDbAdapter.TABLE_NAME + String.valueOf(classId);
         String tableName3 = ClassItemDbAdapter.TABLE_NAME + String.valueOf(classId);
-        ArrayList<ClassStudentRecord> list = new ArrayList<ClassStudentRecord>();
+        ArrayList<ClassItemRecord> list = new ArrayList<ClassItemRecord>();
         final SimpleDateFormat sdf = new SimpleDateFormat(SDF_DB_TEMPLATE, ApolloDbAdapter.getAppContext().getResources().getConfiguration().locale);
         Date submissionDate, submissionDueDate, itemDate; Long recordId, studentId_; Boolean attendance; Float score, perfectScore;
         SQLiteDatabase db = ApolloDbAdapter.open();
@@ -217,7 +217,7 @@ public class ClassItemRecordDbAdapter {
             catch(Exception e) {
                 itemDate = null;
             }
-            list.add(new ClassStudentRecord(recordId,
+            list.add(new ClassItemRecord(recordId,
                     new ClassStudentDbAdapter.ClassStudent(-1, classId,
                             new StudentDbAdapter.Student(studentId, null, null, null), null),
                     new ClassItemDbAdapter.ClassItem(classId, cursor.getLong(3), cursor.getString(4),
@@ -322,16 +322,16 @@ public class ClassItemRecordDbAdapter {
         
         private Long mRecordId;
         private ClassStudentDbAdapter.ClassStudent mClassStudent;
-        private long mItemId;
+        private ClassItemDbAdapter.ClassItem mClassItem;
         private Boolean mAttendance;
         private Float mScore;
         private Date mSubmissionDate;
         private String mRemarks;
         
-        public ClassItemRecord(Long recordId, ClassStudentDbAdapter.ClassStudent classStudent, long itemId, Boolean attendance, Float score, Date submissionDate, String remarks) {
+        public ClassItemRecord(Long recordId, ClassStudentDbAdapter.ClassStudent classStudent, ClassItemDbAdapter.ClassItem classItem, Boolean attendance, Float score, Date submissionDate, String remarks) {
             mRecordId = recordId;
             mClassStudent = classStudent;
-            mItemId = itemId;
+            mClassItem = classItem;
             mAttendance = attendance;
             mScore = score;
             mSubmissionDate = submissionDate;
@@ -347,8 +347,11 @@ public class ClassItemRecordDbAdapter {
         public ClassStudentDbAdapter.ClassStudent getClassStudent() {
             return mClassStudent;
         }
-        public long getItemId() {
-            return mItemId;
+        public void setStudent(StudentDbAdapter.Student student) {
+            mClassStudent.setStudent(student);
+        }
+        public ClassItemDbAdapter.ClassItem getClassItem() {
+            return mClassItem;
         }
         public Boolean getAttendance() {
             return mAttendance;
@@ -381,86 +384,11 @@ public class ClassItemRecordDbAdapter {
             if(object != null) {
                 try {
                     classItemRecord = (ClassItemRecord) object;
-                    if((classItemRecord.mItemId == mItemId) && (classItemRecord.mClassStudent.getRowId() == mClassStudent.getRowId()))
+                    if((classItemRecord.getClassItem().getItemId() == getClassItem().getItemId()) && (classItemRecord.mClassStudent.getRowId() == mClassStudent.getRowId()))
                         return true;
                 } 
                 catch(ClassCastException e) {
                     throw new ClassCastException(object.toString() + " must be an instance of " + ClassItemRecord.class.toString());
-                }
-            }
-            return false;
-        }
-    }
-
-    @SuppressWarnings("serial")
-    public static class ClassStudentRecord implements Serializable {
-
-        private Long mRecordId;
-        private ClassStudentDbAdapter.ClassStudent mClassStudent;
-        private ClassItemDbAdapter.ClassItem mClassItem;
-        private Boolean mAttendance;
-        private Float mScore;
-        private Date mSubmissionDate;
-        private String mRemarks;
-
-        public ClassStudentRecord(Long recordId, ClassStudentDbAdapter.ClassStudent classStudent, ClassItemDbAdapter.ClassItem classItem, Boolean attendance, Float score, Date submissionDate, String remarks) {
-            mRecordId = recordId;
-            mClassStudent = classStudent;
-            mClassItem = classItem;
-            mAttendance = attendance;
-            mScore = score;
-            mSubmissionDate = submissionDate;
-            mRemarks = remarks;
-        }
-        public Long getRecordId() {
-            return mRecordId;
-        }
-        public void setRecordId(Long recordId) {
-            if(mRecordId == null)
-                mRecordId = recordId;
-        }
-        public ClassStudentDbAdapter.ClassStudent getClassStudent() {
-            return mClassStudent;
-        }
-        public ClassItemDbAdapter.ClassItem getClassItem() {
-            return mClassItem;
-        }
-        public Boolean getAttendance() {
-            return mAttendance;
-        }
-        public void setAttendance(Boolean attendance) {
-            mAttendance = attendance;
-        }
-        public Float getScore() {
-            return mScore;
-        }
-        public void setScore(Float score) {
-            mScore = score;
-        }
-        public Date getSubmissionDate() {
-            return mSubmissionDate;
-        }
-        public void setSubmissionDate(Date submissionDate) {
-            mSubmissionDate = submissionDate;
-        }
-        public String getRemarks() {
-            return mRemarks;
-        }
-        public void setRemarks(String remarks) {
-            mRemarks = remarks;
-        }
-
-        @Override
-        public boolean equals(Object object) {
-            ClassStudentRecord classStudentRecord;
-            if(object != null) {
-                try {
-                    classStudentRecord = (ClassStudentRecord) object;
-                    if((classStudentRecord.mClassItem.getItemId() == mClassItem.getItemId()) && (classStudentRecord.mClassStudent.getRowId() == mClassStudent.getRowId()))
-                        return true;
-                }
-                catch(ClassCastException e) {
-                    throw new ClassCastException(object.toString() + " must be an instance of " + ClassStudentRecord.class.toString());
                 }
             }
             return false;
