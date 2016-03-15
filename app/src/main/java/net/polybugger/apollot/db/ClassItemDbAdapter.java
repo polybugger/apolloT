@@ -244,6 +244,11 @@ public class ClassItemDbAdapter {
             mRecordSubmissions = recordSubmissions;
             mSubmissionDueDate = submissionDueDate;
         }
+        public ClassItem(long classId, long itemId, String description) {
+            mClassId = classId;
+            mItemId = itemId;
+            mDescription = description;
+        }
         public long getClassId() {
             return mClassId;
         }

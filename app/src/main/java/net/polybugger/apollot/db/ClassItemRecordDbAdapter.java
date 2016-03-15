@@ -124,12 +124,16 @@ public class ClassItemRecordDbAdapter {
                 ", cir." + SCORE.getName() + // 7
                 ", cir." + SUBMISSION_DATE.getName() + // 8
                 ", cir." + REMARKS.getName() + // 9
+                ", cir." + ClassItemDbAdapter.ITEM_ID.getName() + // 10
+                ", cir." + ClassItemDbAdapter.DESCRIPTION.getName() + // 11
                 " FROM " + tableName2  +
                 " AS cs INNER JOIN " + StudentDbAdapter.TABLE_NAME +
                 " AS s ON cs." + ClassStudentDbAdapter.STUDENT_ID.getName() + "=s." + StudentDbAdapter.STUDENT_ID.getName() +
                 " LEFT OUTER JOIN (SELECT ci." + ITEM_ID.getName() + 
                 ", " + RECORD_ID.getName() + ", " + STUDENT_ID.getName() + ", " + ATTENDANCE.getName() + 
                 ", " + SCORE.getName() + ", " + SUBMISSION_DATE.getName() + ", " + REMARKS.getName() +
+                ", ci." + ClassItemDbAdapter.ITEM_ID.getName() +
+                ", ci." + ClassItemDbAdapter.DESCRIPTION.getName() +
                 " FROM " + tableName3 + " AS ci INNER JOIN " + tableName1 +
                 " AS cr ON ci." + ClassItemDbAdapter.ITEM_ID.getName() + "=cr." + ITEM_ID.getName() + 
                 " WHERE ci." + ClassItemDbAdapter.ITEM_ID.getName() + "=" + String.valueOf(itemId) +
@@ -150,7 +154,8 @@ public class ClassItemRecordDbAdapter {
             list.add(new ClassItemRecord(recordId, 
                     new ClassStudentDbAdapter.ClassStudent(cursor.getLong(1), classId,
                             new StudentDbAdapter.Student(cursor.getLong(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)), null),
-                    null, attendance, score, submissionDate, cursor.getString(9)));
+                    new ClassItemDbAdapter.ClassItem(classId, cursor.getLong(10), cursor.getString(11)),
+                    attendance, score, submissionDate, cursor.getString(9)));
             cursor.moveToNext();
         }
         cursor.close();
@@ -352,6 +357,9 @@ public class ClassItemRecordDbAdapter {
         }
         public ClassItemDbAdapter.ClassItem getClassItem() {
             return mClassItem;
+        }
+        public void setClassItem(ClassItemDbAdapter.ClassItem classItem) {
+            mClassItem = classItem;
         }
         public Boolean getAttendance() {
             return mAttendance;

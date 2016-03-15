@@ -2,8 +2,10 @@ package net.polybugger.apollot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,22 +13,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
+import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
-public class ClassStudentInfoFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.Date;
+
+public class ClassStudentInfoFragment extends Fragment implements StudentNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String STUDENT_ARG = "net.polybugger.apollot.student_arg";
 
     private Activity mActivity;
     private ClassDbAdapter.Class mClass;
-    private ClassStudentDbAdapter.ClassStudent mStudent;
+    private ClassStudentDbAdapter.ClassStudent mClassStudent;
     private TextView mStudentNameTextView;
     private TextView mGenderTextView;
     private TextView mEmailAddressTextView;
     private TextView mContactNoTextView;
 
+    private ArrayList<ClassScheduleDbAdapter.ClassSchedule> mItemList;
 
     public ClassStudentInfoFragment() { }
 
@@ -59,7 +67,7 @@ public class ClassStudentInfoFragment extends Fragment {
 
         Bundle args = getArguments();
         mClass = (ClassDbAdapter.Class) args.getSerializable(CLASS_ARG);
-        mStudent = (ClassStudentDbAdapter.ClassStudent) args.getSerializable(STUDENT_ARG);
+        mClassStudent = (ClassStudentDbAdapter.ClassStudent) args.getSerializable(STUDENT_ARG);
 
         View view = inflater.inflate(R.layout.fragment_class_student_info, container, false);
         //view.findViewById(R.id.scroll_view).setBackgroundColor(mClassItem.getItemType().getColorInt());
@@ -72,14 +80,14 @@ public class ClassStudentInfoFragment extends Fragment {
         view.findViewById(R.id.edit_class_student_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
+
                 FragmentManager fm = getFragmentManager();
-                ClassItemNewEditDialogFragment df = (ClassItemNewEditDialogFragment) fm.findFragmentByTag(ClassItemNewEditDialogFragment.TAG);
+                StudentNewEditDialogFragment df = (StudentNewEditDialogFragment) fm.findFragmentByTag(StudentNewEditDialogFragment.TAG);
                 if(df == null) {
-                    df = ClassItemNewEditDialogFragment.newInstance(getString(R.string.edit_class_item), getString(R.string.save_button), mClassItem, getTag());
-                    df.show(fm, ClassItemNewEditDialogFragment.TAG);
+                    df = StudentNewEditDialogFragment.newInstance(getString(R.string.edit_student), getString(R.string.save_button), mClassStudent.getStudent(), getTag());
+                    df.show(fm, StudentNewEditDialogFragment.TAG);
                 }
-                */
+
             }
         });
         view.findViewById(R.id.remove_class_student_button).setOnClickListener(new View.OnClickListener() {
@@ -137,7 +145,7 @@ public class ClassStudentInfoFragment extends Fragment {
     }
 
     private void populateClassStudentViews() {
-        StudentDbAdapter.Student student = mStudent.getStudent();
+        StudentDbAdapter.Student student = mClassStudent.getStudent();
         mStudentNameTextView.setText(student.getName());
 
         // TODO replace gender with localized text
@@ -162,5 +170,46 @@ public class ClassStudentInfoFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onNewEditStudent(StudentDbAdapter.Student student, String fragmentTag) {
+
+        long studentId = student.getStudentId();
+        if(studentId != -1) {
+            if(StudentDbAdapter.update(studentId, student.getLastName(), student.getFirstName(), student.getMiddleName(), student.getGender(), student.getEmailAddress(), student.getContactNo()) >= 1){
+                mClassStudent.setStudent(student);
+            }
+            populateClassStudentViews();
+        }
+    }
+
+    private class DbQueryTask extends AsyncTask<Long, Integer, ArrayList<ClassItemRecordDbAdapter.ClassItemRecord>> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO initialize loader
+        }
+
+        @Override
+        protected ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> doInBackground(Long... classId) {
+            ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> classItems = ClassItemRecordDbAdapter.getClassStudentRecords(mClass.getClassId(), mClassStudent.getStudentId());
+            // TODO dbquery for student count and class items summary
+            return classItems;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... percent) {
+            // TODO updates loader
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO cleanup loader on cancel
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> list) {
+            // TODO cleanup loader on finish
+        }
+    }
 
 }

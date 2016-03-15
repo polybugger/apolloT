@@ -20,7 +20,8 @@ import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
-public class ClassStudentActivity extends AppCompatActivity implements ClassItemRecordNewEditDialogFragment.NewEditListener {
+public class ClassStudentActivity extends AppCompatActivity implements ClassItemRecordNewEditDialogFragment.NewEditListener,
+        StudentNewEditDialogFragment.NewEditListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String STUDENT_ARG = "net.polybugger.apollot.student_arg";
@@ -106,6 +107,19 @@ public class ClassStudentActivity extends AppCompatActivity implements ClassItem
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassItemRecordNewEditDialogFragment.NewEditListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onNewEditStudent(StudentDbAdapter.Student student, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((StudentNewEditDialogFragment.NewEditListener) f).onNewEditStudent(student, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + StudentNewEditDialogFragment.NewEditListener.class.toString());
             }
         }
     }
