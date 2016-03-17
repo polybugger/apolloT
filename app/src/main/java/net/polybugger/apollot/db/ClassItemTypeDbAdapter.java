@@ -91,6 +91,12 @@ public class ClassItemTypeDbAdapter {
             return mDescription;
         }
 
+        public boolean equals(ItemType itemType) {
+            if(itemType != null && itemType.mId == mId)
+                return true;
+            return false;
+        }
+
         @Override
         public boolean equals(Object object) {
             ItemType itemType;

@@ -193,6 +193,15 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
                     throw new ClassCastException(cinf.toString() + " must implement " + ClassInfoFragment.class.toString());
                 }
             }
+            Fragment csf = fm.findFragmentByTag(getFragmentTag(STUDENTS_TAB));
+            if(csf != null) {
+                try {
+                    ((ClassStudentsFragment) csf).requeryStudents();
+                }
+                catch(ClassCastException e) {
+                    throw new ClassCastException(csf.toString() + " must implement " + ClassStudentsFragment.class.toString());
+                }
+            }
             REQUERY_CALLBACK = false;
         }
     }

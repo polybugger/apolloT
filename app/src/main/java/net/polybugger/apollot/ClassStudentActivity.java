@@ -35,6 +35,16 @@ public class ClassStudentActivity extends AppCompatActivity implements ClassItem
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
+    public static class TaskParams {
+        public long mClassId;
+        public long mStudentId;
+
+        public TaskParams(long classId, long studentId) {
+            mClassId = classId;
+            mStudentId = studentId;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +104,21 @@ public class ClassStudentActivity extends AppCompatActivity implements ClassItem
 
     @Override
     public void onBackPressed() {
+        ClassActivity.REQUERY_CALLBACK = true;
         super.onBackPressed();
+    }
+
+    public void requerySummaryItems() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment csf = fm.findFragmentByTag(getFragmentTag(INFO_TAB));
+        if(csf != null) {
+            try {
+                ((ClassStudentInfoFragment) csf).updateSummary();
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(csf.toString() + " must implement " + ClassStudentInfoFragment.class.toString());
+            }
+        }
     }
 
     @Override

@@ -520,7 +520,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 totalPercentage = totalPercentage + gradeBreakdown.getPercentage();
                 mGradeBreakdownLinearLayout.addView(getGradeBreakdownView(mActivity.getLayoutInflater(), gradeBreakdown, mEditGradeBreakdownClickListener, mRemoveGradeBreakdownClickListener));
             }
-            mTotalPercentageTextView.setText(String.valueOf(totalPercentage) + "%");
+            mTotalPercentageTextView.setText(String.format("%.2f%%", totalPercentage));
         }
     }
 
@@ -531,7 +531,7 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         TextView gradeBreakdownTextView = (TextView) rowView.findViewById(R.id.grade_breakdown_text_view);
         gradeBreakdownTextView.setText(gradeBreakdown.getItemType().getDescription());
         TextView percentageTextView = (TextView) rowView.findViewById(R.id.percentage_text_view);
-        percentageTextView.setText(Float.toString(gradeBreakdown.getPercentage()) + "%");
+        percentageTextView.setText(String.format("%.2f%%", gradeBreakdown.getPercentage()));
 
         if(editGradeBreakdownClickListener != null) {
             RelativeLayout relativeLayout = (RelativeLayout) rowView.findViewById(R.id.grade_breakdown_relative_layout_row);

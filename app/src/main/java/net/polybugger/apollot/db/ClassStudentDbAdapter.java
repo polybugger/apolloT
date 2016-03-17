@@ -229,6 +229,9 @@ public class ClassStudentDbAdapter {
         public void addAbsences() {
             mAbsencesCount = mAbsencesCount + 1;
         }
+        public int getAbsences() {
+            return mAbsencesCount;
+        }
         public void addItemType(ClassItemTypeDbAdapter.ItemType itemType) {
             for(ClassStudentItemCount itemCount : mItemSummary) {
                 if(itemCount.getItemType().equals(itemType)) {

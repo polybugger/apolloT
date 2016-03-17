@@ -1,25 +1,32 @@
 package net.polybugger.apollot;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
+import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
+import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
+import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
 import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ClassStudentInfoFragment extends Fragment implements StudentNewEditDialogFragment.NewEditListener {
 
@@ -33,8 +40,10 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
     private TextView mGenderTextView;
     private TextView mEmailAddressTextView;
     private TextView mContactNoTextView;
+    private LinearLayout mSummaryLinearLayout;
+    private DbQueryTask mSummaryTask;
 
-    private ArrayList<ClassScheduleDbAdapter.ClassSchedule> mItemList;
+    private ArrayList<SummaryItem> mItemList;
 
     public ClassStudentInfoFragment() { }
 
@@ -103,45 +112,26 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             }
         });
 
+        mSummaryLinearLayout = (LinearLayout) view.findViewById(R.id.summary_linear_layout);
         /*
-        mNoteLinearLayout = (LinearLayout) view.findViewById(R.id.note_linear_layout);
-        mEditNoteClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                ClassNoteNewEditDialogFragment df = (ClassNoteNewEditDialogFragment) fm.findFragmentByTag(ClassNoteNewEditDialogFragment.TAG);
-                if(df == null) {
-                    df = ClassNoteNewEditDialogFragment.newInstance(getString(R.string.edit_class_item_note), getString(R.string.save_button), (ClassItemNoteDbAdapter.ClassItemNote) view.getTag(), getTag());
-                    df.show(fm, ClassNoteNewEditDialogFragment.TAG);
-                }
-            }
-        };
-        mRemoveNoteClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                ClassNoteRemoveDialogFragment df = (ClassNoteRemoveDialogFragment) fm.findFragmentByTag(ClassNoteRemoveDialogFragment.TAG);
-                if(df == null) {
-                    df = ClassNoteRemoveDialogFragment.newInstance(getString(R.string.remove_class_item_note), (ClassItemNoteDbAdapter.ClassItemNote) view.getTag(), getTag());
-                    df.show(fm, ClassNoteRemoveDialogFragment.TAG);
-                }
-            }
-        };
-
         mAttendanceSummaryTextView = (TextView) view.findViewById(R.id.attendance_summary_text_view);
         mScoresSummaryTextView = (TextView) view.findViewById(R.id.scores_summary_text_view);
         mSubmissionsSummaryTextView = (TextView) view.findViewById(R.id.submissions_summary_text_view);
+        */
 
-
-        mNoteTask = new DbQueryNotesTask();
-        mNoteTask.execute(mClassItem);
 
         updateSummary();
 
-        */
         populateClassStudentViews();
 
         return view;
+    }
+
+    public void updateSummary() {
+        if(mSummaryLinearLayout.getChildCount() > 0)
+            mSummaryLinearLayout.removeAllViews();
+        mSummaryTask = new DbQueryTask();
+        mSummaryTask.execute(new ClassStudentActivity.TaskParams(mClass.getClassId(), mClassStudent.getStudentId()));
     }
 
     private void populateClassStudentViews() {
@@ -182,7 +172,65 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         }
     }
 
-    private class DbQueryTask extends AsyncTask<Long, Integer, ArrayList<ClassItemRecordDbAdapter.ClassItemRecord>> {
+    private class SummaryItem {
+        public ClassGradeBreakdownDbAdapter.ClassGradeBreakdown mGradeBreakdown;
+        public float mPercentage;
+        public int mAttendanceCount;
+        public int mAbsencesCount;
+        public int mClassItemCount;
+        public int mClassItemTotal;
+
+        public SummaryItem(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown) {
+            mGradeBreakdown = gradeBreakdown;
+            mPercentage = 0;
+            mClassItemCount = 0;
+            mClassItemTotal = 0;
+            mAttendanceCount = 0;
+            mAbsencesCount = 0;
+        }
+
+        public void incrementItemCount() {
+            mClassItemCount = mClassItemCount + 1;
+        }
+        public void incrementItemTotal() {
+            mClassItemTotal = mClassItemTotal + 1;
+        }
+        public void incrementAttendanceCount() {
+            mAttendanceCount = mAttendanceCount + 1;
+        }
+        public void incrementAbsencesCount() {
+            mAbsencesCount = mAbsencesCount + 1;
+        }
+        public void addPercentage(float percentage) {
+            mPercentage = mPercentage + percentage;
+        }
+        public float getPercentage() {
+            return mPercentage / mClassItemTotal;
+        }
+        public boolean equals(SummaryItem summaryItem) {
+            if(summaryItem != null && summaryItem.mGradeBreakdown.equals(mGradeBreakdown))
+                return true;
+            return false;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            SummaryItem summaryItem;
+            if(object != null) {
+                try {
+                    summaryItem = (SummaryItem) object;
+                    if(summaryItem.mGradeBreakdown.equals(mGradeBreakdown))
+                        return true;
+                }
+                catch(ClassCastException e) {
+                    throw new ClassCastException(object.toString() + " must be an instance of " + SummaryItem.class.toString());
+                }
+            }
+            return false;
+        }
+    }
+
+    private class DbQueryTask extends AsyncTask<ClassStudentActivity.TaskParams, Integer, ArrayList<SummaryItem>> {
 
         @Override
         protected void onPreExecute() {
@@ -190,10 +238,48 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         }
 
         @Override
-        protected ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> doInBackground(Long... classId) {
-            ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> classItems = ClassItemRecordDbAdapter.getClassStudentRecords(mClass.getClassId(), mClassStudent.getStudentId());
-            // TODO dbquery for student count and class items summary
-            return classItems;
+        protected ArrayList<SummaryItem> doInBackground(ClassStudentActivity.TaskParams... taskParams) {
+            ArrayList<ClassGradeBreakdownDbAdapter.ClassGradeBreakdown> gradeBreakdowns = ClassGradeBreakdownDbAdapter.getClassGradeBreakdowns(taskParams[0].mClassId);
+            ArrayList<SummaryItem> summaryItems = new ArrayList<>();
+            for(ClassGradeBreakdownDbAdapter.ClassGradeBreakdown gradeBreakdown : gradeBreakdowns) {
+                summaryItems.add(new SummaryItem(gradeBreakdown));
+            }
+            ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> classItems = ClassItemRecordDbAdapter.getClassStudentRecords(taskParams[0].mClassId, taskParams[0].mStudentId);
+            int index; SummaryItem summaryItem; float percentage;
+            ClassItemDbAdapter.ClassItem classItem;
+            for(ClassItemRecordDbAdapter.ClassItemRecord classItemRecord : classItems) {
+                classItem = classItemRecord.getClassItem();
+                summaryItem = new SummaryItem(new ClassGradeBreakdownDbAdapter.ClassGradeBreakdown(taskParams[0].mClassId, classItem.getItemType(), 0));
+                index = summaryItems.indexOf(summaryItem);
+                if (index != -1) {
+                    summaryItem = summaryItems.get(index);
+                } else {
+                    summaryItems.add(summaryItem);
+                }
+                summaryItem.incrementItemTotal();
+                if(classItemRecord.getRecordId() != null) {
+                    summaryItem.incrementItemCount();
+                    boolean recordScores = classItem.getRecordScores();
+                    if (recordScores) {
+                        percentage = classItemRecord.getScore() / classItem.getPerfectScore();
+                        summaryItem.addPercentage(percentage);
+                    }
+                    if (classItem.getCheckAttendance()) {
+                        Boolean attendance = classItemRecord.getAttendance();
+                        if (attendance != null) {
+                            if (attendance) {
+                                if (!recordScores) {
+                                    summaryItem.addPercentage((float) 1.0);
+                                }
+                            } else {
+                                summaryItem.incrementAbsencesCount();
+                            }
+                        }
+                        summaryItem.incrementAttendanceCount();
+                    }
+                }
+            }
+            return summaryItems;
         }
 
         @Override
@@ -207,9 +293,33 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         }
 
         @Override
-        protected void onPostExecute(ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> list) {
-            // TODO cleanup loader on finish
+        protected void onPostExecute(ArrayList<SummaryItem> list) {
+            mItemList = list;
+            for(SummaryItem summaryItem : mItemList) {
+                mSummaryLinearLayout.addView(getSummaryItemView(mActivity.getLayoutInflater(), summaryItem));
+            }
         }
+    }
+
+    private View _getSummaryItemView(View rowView, SummaryItem summaryItem) {
+        RelativeLayout relativeLayout = (RelativeLayout) rowView.findViewById(R.id.summary_item_relative_layout_row);
+        relativeLayout.setBackgroundColor(summaryItem.mGradeBreakdown.getItemType().getColorInt());
+
+        ((TextView) rowView.findViewById(R.id.summary_item_text_view)).setText(summaryItem.mGradeBreakdown.getItemType().getDescription());
+        ((TextView) rowView.findViewById(R.id.count_text_view)).setText(mActivity.getString(R.string.count_label) + " " + summaryItem.mClassItemCount + "/" + summaryItem.mClassItemTotal);
+        ((TextView) rowView.findViewById(R.id.attendance_count_text_view)).setText(mActivity.getString(R.string.attendance_count_label) + " " + (summaryItem.mAttendanceCount - summaryItem.mAbsencesCount) + "/" + summaryItem.mAttendanceCount);
+        float breakdownPercentage = summaryItem.mGradeBreakdown.getPercentage();
+        float summaryPercentage = summaryItem.getPercentage() * 100;
+        ((TextView) rowView.findViewById(R.id.grade_breakdown_percentage_text_view)).setText(String.format("%s %.2f%%", mActivity.getString(R.string.percentage_label), breakdownPercentage));
+        ((TextView) rowView.findViewById(R.id.percentage_text_view)).setText(String.format("%.2f%%", summaryPercentage));
+        ((TextView) rowView.findViewById(R.id.subtotal_percentage_text_view)).setText(String.format("%s %.2f%%", mActivity.getString(R.string.subtotal_label), breakdownPercentage / 100 * summaryPercentage));
+
+        return rowView;
+    }
+
+    @SuppressLint("InflateParams")
+    private View getSummaryItemView(LayoutInflater inflater, SummaryItem summaryItem) {
+        return _getSummaryItemView(inflater.inflate(R.layout.summary_item_row, null), summaryItem);
     }
 
 }

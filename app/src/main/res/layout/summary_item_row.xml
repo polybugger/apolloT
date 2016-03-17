@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/summary_item_relative_layout_row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/summary_item_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/count_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/summary_item_text_view"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/attendance_count_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/count_text_view"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/grade_breakdown_percentage_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/attendance_count_text_view"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/percentage_text_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/subtotal_percentage_text_view"
+        android:layout_alignBottom="@id/grade_breakdown_percentage_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+</RelativeLayout>

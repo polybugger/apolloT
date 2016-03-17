@@ -237,4 +237,10 @@
     <string name="total_grade_breakdown">Total</string>
     <string name="percentage_hint">Percentage</string>
     <string name="fragment_status_percentage_required">Percentage cannot be blank.</string>
+
+    <string name="count_label">Count:</string>
+    <string name="percentage_label">Percentage:</string>
+    <string name="subtotal_label">Subtotal:</string>
+    <string name="attendance_count_label">Attendance:</string>
+    <string name="absences_label">Absences:</string>
 </resources>

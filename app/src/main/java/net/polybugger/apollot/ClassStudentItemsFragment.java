@@ -39,7 +39,7 @@ public class ClassStudentItemsFragment extends Fragment implements ClassItemReco
 
     private Activity mActivity;
     private ClassDbAdapter.Class mClass;
-    private ClassStudentDbAdapter.ClassStudent mStudent;
+    private ClassStudentDbAdapter.ClassStudent mClassStudent;
 
     private ListView mListView;
     private ListArrayAdapter mListAdapter;
@@ -82,7 +82,7 @@ public class ClassStudentItemsFragment extends Fragment implements ClassItemReco
 
         Bundle args = getArguments();
         mClass = (ClassDbAdapter.Class) args.getSerializable(CLASS_ARG);
-        mStudent = (ClassStudentDbAdapter.ClassStudent) args.getSerializable(STUDENT_ARG);
+        mClassStudent = (ClassStudentDbAdapter.ClassStudent) args.getSerializable(STUDENT_ARG);
 
         View view = inflater.inflate(R.layout.fragment_class_student_items, container, false);
         mListView = (ListView) view.findViewById(R.id.list_view);
@@ -94,18 +94,16 @@ public class ClassStudentItemsFragment extends Fragment implements ClassItemReco
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FragmentManager fm = getFragmentManager();
                 ClassItemRecordNewEditDialogFragment df = (ClassItemRecordNewEditDialogFragment) fm.findFragmentByTag(ClassItemRecordNewEditDialogFragment.TAG);
-                if(df == null) {
+                if (df == null) {
                     ClassItemRecordDbAdapter.ClassItemRecord record = (ClassItemRecordDbAdapter.ClassItemRecord) view.findViewById(R.id.description_text_view).getTag();
-                    record.setStudent(mStudent.getStudent());
+                    record.setStudent(mClassStudent.getStudent());
                     df = ClassItemRecordNewEditDialogFragment.newInstance(getString(R.string.edit_class_item_record), getString(R.string.save_button), record.getClassItem(), record, getTag());
                     df.show(fm, ClassItemRecordNewEditDialogFragment.TAG);
                 }
             }
         });
 
-        mTask = new DbQueryTask();
-        mTask.execute(mClass.getClassId());
-
+        requeryClassStudentItems();
         return view;
     }
 
@@ -146,7 +144,7 @@ public class ClassStudentItemsFragment extends Fragment implements ClassItemReco
 
     public void requeryClassStudentItems() {
         mTask = new DbQueryTask();
-        mTask.execute(mClass.getClassId());
+        mTask.execute(new ClassStudentActivity.TaskParams(mClass.getClassId(), mClassStudent.getStudentId()));
     }
 
     @Override
@@ -174,6 +172,12 @@ public class ClassStudentItemsFragment extends Fragment implements ClassItemReco
             }
         }
         mListAdapter.notifyDataSetChanged();
+        try {
+            ((ClassStudentActivity) mActivity).requerySummaryItems();
+        }
+        catch(ClassCastException e) {
+            throw new ClassCastException(mActivity.toString() + " must implement " + ClassStudentActivity.class.toString());
+        }
     }
 
     private class ListArrayAdapter extends ArrayAdapter<ClassItemRecordDbAdapter.ClassItemRecord> {
@@ -451,7 +455,7 @@ public class ClassStudentItemsFragment extends Fragment implements ClassItemReco
         }
     }
 
-    private class DbQueryTask extends AsyncTask<Long, Integer, ArrayList<ClassItemRecordDbAdapter.ClassItemRecord>> {
+    private class DbQueryTask extends AsyncTask<ClassStudentActivity.TaskParams, Integer, ArrayList<ClassItemRecordDbAdapter.ClassItemRecord>> {
 
         @Override
         protected void onPreExecute() {
@@ -459,8 +463,8 @@ public class ClassStudentItemsFragment extends Fragment implements ClassItemReco
         }
 
         @Override
-        protected ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> doInBackground(Long... classId) {
-            ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> classItems = ClassItemRecordDbAdapter.getClassStudentRecords(mClass.getClassId(), mStudent.getStudentId());
+        protected ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> doInBackground(ClassStudentActivity.TaskParams... taskParams) {
+            ArrayList<ClassItemRecordDbAdapter.ClassItemRecord> classItems = ClassItemRecordDbAdapter.getClassStudentRecords(taskParams[0].mClassId, taskParams[0].mStudentId);
             // TODO dbquery for student count and class items summary
             return classItems;
         }
