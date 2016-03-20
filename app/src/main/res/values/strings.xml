@@ -193,6 +193,8 @@
 
     <string name="new_student">New Student</string>
     <string name="edit_student">Edit Student</string>
+    <string name="remove_student">Remove Student</string>
+    <string name="remove_student_warning">Warning! All records associated with this student for this class will be deleted permanently. This action cannot be undone.</string>
     <string name="last_name_hint">Last Name</string>
     <string name="first_name_hint">First Name</string>
     <string name="middle_name_hint">Middle Name</string>
@@ -202,6 +204,7 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="fragment_status_last_name_required">Last Name cannot be blank.</string>
+    <string name="fragment_status_class_student_removed">Student and all records have been removed from this class.</string>
     <string name="existing_students">Students From Other Classes</string>
     <string name="fragment_status_no_student_selected">No student selected.</string>
     <string name="no_students_found">No students found.</string>

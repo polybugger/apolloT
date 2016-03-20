@@ -21,7 +21,8 @@ import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
 public class ClassStudentActivity extends AppCompatActivity implements ClassItemRecordNewEditDialogFragment.NewEditListener,
-        StudentNewEditDialogFragment.NewEditListener {
+        StudentNewEditDialogFragment.NewEditListener,
+        ClassStudentRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String STUDENT_ARG = "net.polybugger.apollot.student_arg";
@@ -34,6 +35,20 @@ public class ClassStudentActivity extends AppCompatActivity implements ClassItem
 
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    @Override
+    public void onRemoveStudent(ClassStudentDbAdapter.ClassStudent classStudent, String fragmentTag) {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment f = fm.findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassStudentRemoveDialogFragment.RemoveListener) f).onRemoveStudent(classStudent, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassStudentRemoveDialogFragment.RemoveListener.class.toString());
+            }
+        }
+    }
 
     public static class TaskParams {
         public long mClassId;

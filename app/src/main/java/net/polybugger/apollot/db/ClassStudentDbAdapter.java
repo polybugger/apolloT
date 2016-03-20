@@ -56,7 +56,16 @@ public class ClassStudentDbAdapter {
         ApolloDbAdapter.close();
         return id;
     }
-    
+
+    public static int delete(long classId, long studentId) {
+        String tableName = TABLE_NAME + String.valueOf(classId);
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        int rowsDeleted = db.delete(tableName, CLASS_ID.getName() + "=? AND " + STUDENT_ID.getName() + "=?",
+                new String[]{String.valueOf(classId), String.valueOf(studentId)});
+        ApolloDbAdapter.close();
+        return rowsDeleted;
+    }
+
     public static ArrayList<ClassStudent> getClassStudents(long classId) {
         ArrayList<ClassStudent> classStudents = new ArrayList<ClassStudent>();
         final SimpleDateFormat sdf = new SimpleDateFormat(SDF_DB_TEMPLATE, ApolloDbAdapter.getAppContext().getResources().getConfiguration().locale);
@@ -110,7 +119,7 @@ public class ClassStudentDbAdapter {
                 catch(Exception e) {
                     dateCreated = null;
                 }
-                classStudent = new ClassStudent(classId, cursor.getLong(0), 
+                classStudent = new ClassStudent(cursor.getLong(0), classId,
                         new StudentDbAdapter.Student(cursor.getLong(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7)),
                         dateCreated);
                 if(!cursor.isNull(11) && (cursor.getInt(14) == 1) && (cursor.getInt(11) == 0))

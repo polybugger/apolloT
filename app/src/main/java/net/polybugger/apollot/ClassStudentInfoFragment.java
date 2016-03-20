@@ -7,28 +7,27 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
-import net.polybugger.apollot.db.ClassItemTypeDbAdapter;
-import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
 import java.util.ArrayList;
 
-public class ClassStudentInfoFragment extends Fragment implements StudentNewEditDialogFragment.NewEditListener {
+public class ClassStudentInfoFragment extends Fragment implements StudentNewEditDialogFragment.NewEditListener,
+        ClassStudentRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String STUDENT_ARG = "net.polybugger.apollot.student_arg";
@@ -89,26 +88,23 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         view.findViewById(R.id.edit_class_student_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 FragmentManager fm = getFragmentManager();
                 StudentNewEditDialogFragment df = (StudentNewEditDialogFragment) fm.findFragmentByTag(StudentNewEditDialogFragment.TAG);
                 if(df == null) {
                     df = StudentNewEditDialogFragment.newInstance(getString(R.string.edit_student), getString(R.string.save_button), mClassStudent.getStudent(), getTag());
                     df.show(fm, StudentNewEditDialogFragment.TAG);
                 }
-
             }
         });
         view.findViewById(R.id.remove_class_student_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                RemoveDialog d = new RemoveDialog(mActivity);
-                mCurrentDialog = d.show();
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassStudentRemoveDialogFragment df = (ClassStudentRemoveDialogFragment) fm.findFragmentByTag(ClassStudentRemoveDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassStudentRemoveDialogFragment.newInstance(getString(R.string.remove_student), mClassStudent, getTag());
+                    df.show(fm, ClassStudentRemoveDialogFragment.TAG);
+                }
             }
         });
 
@@ -170,6 +166,12 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             }
             populateClassStudentViews();
         }
+    }
+
+    @Override
+    public void onRemoveStudent(ClassStudentDbAdapter.ClassStudent classStudent, String fragmentTag) {
+        DbRemoveStudentTask removeTask = new DbRemoveStudentTask();
+        removeTask.execute(classStudent);
     }
 
     private class SummaryItem {
@@ -298,6 +300,41 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             for(SummaryItem summaryItem : mItemList) {
                 mSummaryLinearLayout.addView(getSummaryItemView(mActivity.getLayoutInflater(), summaryItem));
             }
+        }
+    }
+
+    private class DbRemoveStudentTask extends AsyncTask<ClassStudentDbAdapter.ClassStudent, Integer, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO initialize loader
+        }
+
+        @Override
+        protected Integer doInBackground(ClassStudentDbAdapter.ClassStudent... classStudent) {
+            long classId = classStudent[0].getClassId();
+            long studentId = classStudent[0].getStudentId();
+            Integer rowsDeleted = ClassItemRecordDbAdapter.deleteStudentRecords(classId, studentId);
+            rowsDeleted = ClassStudentDbAdapter.delete(classId, studentId);
+            return rowsDeleted;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... percent) {
+            // TODO updates loader
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO cleanup loader on cancel
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            Toast toast = Toast.makeText(mActivity, R.string.fragment_status_class_student_removed, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            ((ClassStudentActivity) mActivity).onBackPressed();
         }
     }
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/top_normal_margin"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:textSize="@dimen/large_text_size"
+        android:textStyle="bold" />
+    <View style="@style/TitleBorderBottom"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_marginBottom="@dimen/bottom_normal_margin_3" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/top_normal_margin"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:text="@string/remove_student_warning"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/class_student_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_marginBottom="@dimen/bottom_normal_margin"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/no_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_text_size"
+            android:text="@string/no_button" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/yes_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_text_size"
+            android:text="@string/yes_button" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</android.support.v7.widget.LinearLayoutCompat>

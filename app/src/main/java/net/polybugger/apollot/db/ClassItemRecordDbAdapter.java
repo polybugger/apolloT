@@ -78,7 +78,7 @@ public class ClassItemRecordDbAdapter {
         return rowsDeleted;
     }
 
-    public static int delete(long classId, long itemId) {
+    public static int deleteItemRecords(long classId, long itemId) {
         String tableName = TABLE_NAME + String.valueOf(classId);
         SQLiteDatabase db = ApolloDbAdapter.open();
         int rowsDeleted = db.delete(tableName, CLASS_ID.getName() + "=? AND " + ITEM_ID.getName() + "=?",
@@ -86,7 +86,16 @@ public class ClassItemRecordDbAdapter {
         ApolloDbAdapter.close();
         return rowsDeleted;
     }
-    
+
+    public static int deleteStudentRecords(long classId, long studentId) {
+        String tableName = TABLE_NAME + String.valueOf(classId);
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        int rowsDeleted = db.delete(tableName, CLASS_ID.getName() + "=? AND " + STUDENT_ID.getName() + "=?",
+                new String[]{String.valueOf(classId), String.valueOf(studentId)});
+        ApolloDbAdapter.close();
+        return rowsDeleted;
+    }
+
     public static int update(long classId, long studentId, long itemId, long recordId, Boolean attendance, Float score, Date submissionDate, String remarks) {
         String tableName = TABLE_NAME + String.valueOf(classId);
         ContentValues values = new ContentValues();
