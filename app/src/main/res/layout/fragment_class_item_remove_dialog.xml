@@ -25,17 +25,64 @@
         android:layout_marginTop="@dimen/top_normal_margin"
         android:layout_marginLeft="@dimen/left_normal_margin"
         android:layout_marginRight="@dimen/right_normal_margin"
-        android:text="@string/remove_student_warning"
+        android:text="@string/remove_class_item_warning"
         android:textStyle="bold"
         android:textColor="@color/warning_color"
         android:textSize="@dimen/normal_text_size" />
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/class_student_text_view"
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/title_layout"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/description_text_view"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/normal_text_size" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/item_date_text_view"
+            android:gravity="right"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/normal_text_size" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/item_type_text_view"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/perfect_score_text_view"
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/perfect_score_hint"
+        android:textStyle="bold"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/due_date_text_view"
         android:layout_marginLeft="@dimen/left_normal_margin"
         android:layout_marginRight="@dimen/right_normal_margin"
         android:layout_marginBottom="@dimen/bottom_normal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/submission_due_date_hint"
         android:textStyle="bold"
         android:textSize="@dimen/normal_text_size" />
 

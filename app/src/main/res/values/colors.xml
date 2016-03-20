@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="warning_color">#ff0000</color>
+
     <drawable name="pressed_background_color">#82d0ec</drawable>
 </resources>

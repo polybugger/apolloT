@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +32,8 @@ import net.polybugger.apollot.db.ClassStudentDbAdapter;
 
 public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditDialogFragment.NewEditListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
-        ClassNoteNewEditDialogFragment.NewEditListener {
+        ClassNoteNewEditDialogFragment.NewEditListener,
+        ClassItemRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ITEM_ARG = "net.polybugger.apollot.class_item_arg";
 
@@ -107,13 +110,12 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
         view.findViewById(R.id.remove_class_item_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if(mDialogFragmentShown)
-                    return;
-                mDialogFragmentShown = true;
-                RemoveDialog d = new RemoveDialog(mActivity);
-                mCurrentDialog = d.show();
-                */
+                FragmentManager fm = getFragmentManager();
+                ClassItemRemoveDialogFragment df = (ClassItemRemoveDialogFragment) fm.findFragmentByTag(ClassItemRemoveDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassItemRemoveDialogFragment.newInstance(getString(R.string.remove_class_item), mClassItem, getTag());
+                    df.show(fm, ClassItemNewEditDialogFragment.TAG);
+                }
             }
         });
 
@@ -272,6 +274,12 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
         }
     }
 
+    @Override
+    public void onRemoveItem(ClassItemDbAdapter.ClassItem classItem, String fragmentTag) {
+        DbRemoveItemTask removeTask = new DbRemoveItemTask();
+        removeTask.execute(classItem);
+    }
+
     private class DbQueryNotesTask extends AsyncTask<ClassItemDbAdapter.ClassItem, Integer, ArrayList<ClassItemNoteDbAdapter.ClassItemNote>> {
 
         @Override
@@ -403,4 +411,39 @@ public class ClassItemInfoFragment extends Fragment implements ClassItemNewEditD
         return _getNoteView(inflater.inflate(R.layout.class_note_row, null), itemNote, editNoteClickListener, removeNoteClickListener);
     }
 
+    private class DbRemoveItemTask extends AsyncTask<ClassItemDbAdapter.ClassItem, Integer, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO initialize loader
+        }
+
+        @Override
+        protected Integer doInBackground(ClassItemDbAdapter.ClassItem... classItem) {
+            long classId = classItem[0].getClassId();
+            long itemId = classItem[0].getItemId();
+            Integer rowsDeleted = ClassItemRecordDbAdapter.deleteItemRecords(classId, itemId);
+            rowsDeleted = ClassItemNoteDbAdapter.delete(classId, itemId);
+            rowsDeleted = ClassItemDbAdapter.delete(classId, itemId);
+            return rowsDeleted;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... percent) {
+            // TODO updates loader
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO cleanup loader on cancel
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            Toast toast = Toast.makeText(mActivity, R.string.fragment_status_class_item_removed, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            mActivity.onBackPressed();
+        }
+    }
 }

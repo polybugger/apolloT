@@ -188,8 +188,9 @@
     <string name="fragment_status_item_date_required">Activity Date cannot be blank.</string>
     <string name="fragment_status_perfect_score_required">Perfect score cannot be blank.</string>
     <string name="fragment_status_submission_due_date_required">Due Date cannot be blank.</string>
-    <string name="remove_class_item">Remove Class Activity?</string>
+    <string name="remove_class_item">Remove Class Activity</string>
     <string name="remove_class_item_warning">Warning! All data associated with this activity will be deleted permanently. This action cannot be undone.</string>
+    <string name="fragment_status_class_item_removed">Activity and all records have been removed from this class.</string>
 
     <string name="new_student">New Student</string>
     <string name="edit_student">Edit Student</string>

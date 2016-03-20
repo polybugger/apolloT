@@ -334,7 +334,7 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             Toast toast = Toast.makeText(mActivity, R.string.fragment_status_class_student_removed, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-            ((ClassStudentActivity) mActivity).onBackPressed();
+            mActivity.onBackPressed();
         }
     }
 

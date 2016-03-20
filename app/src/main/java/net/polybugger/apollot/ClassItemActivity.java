@@ -24,7 +24,8 @@ import net.polybugger.apollot.db.StudentDbAdapter;
 public class ClassItemActivity extends AppCompatActivity implements ClassItemNewEditDialogFragment.NewEditListener,
         ClassNoteRemoveDialogFragment.RemoveListener,
         ClassNoteNewEditDialogFragment.NewEditListener,
-        ClassItemRecordNewEditDialogFragment.NewEditListener {
+        ClassItemRecordNewEditDialogFragment.NewEditListener,
+        ClassItemRemoveDialogFragment.RemoveListener {
 
     public static boolean REQUERY_CALLBACK = false;
 
@@ -190,6 +191,20 @@ public class ClassItemActivity extends AppCompatActivity implements ClassItemNew
                 throw new ClassCastException(iif.toString() + " must implement " + ClassItemInfoFragment.class.toString());
             }
         }
+    }
+
+    @Override
+    public void onRemoveItem(ClassItemDbAdapter.ClassItem classItem, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassItemRemoveDialogFragment.RemoveListener) f).onRemoveItem(classItem, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassItemRemoveDialogFragment.RemoveListener.class.toString());
+            }
+        }
+
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
