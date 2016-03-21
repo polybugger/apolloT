@@ -113,6 +113,13 @@
                 android:divider="?android:dividerHorizontal"
                 android:orientation="vertical" />
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/total_percentage_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="right"
+                android:textSize="@dimen/normal_text_size" />
         </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v7.widget.LinearLayoutCompat>

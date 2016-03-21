@@ -39,8 +39,10 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
     private TextView mGenderTextView;
     private TextView mEmailAddressTextView;
     private TextView mContactNoTextView;
+    private TextView mTotalPercentageTextView;
     private LinearLayout mSummaryLinearLayout;
     private DbQueryTask mSummaryTask;
+    private Float mTotalPercentage;
 
     private ArrayList<SummaryItem> mItemList;
 
@@ -84,6 +86,8 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         mGenderTextView = (TextView) view.findViewById(R.id.gender_text_view);
         mEmailAddressTextView = (TextView) view.findViewById(R.id.email_address_text_view);
         mContactNoTextView = (TextView) view.findViewById(R.id.contact_no_text_view);
+        mTotalPercentageTextView = (TextView) view.findViewById(R.id.total_percentage_text_view);
+        mTotalPercentageTextView.setText("Total:");
 
         view.findViewById(R.id.edit_class_student_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,9 +301,11 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         @Override
         protected void onPostExecute(ArrayList<SummaryItem> list) {
             mItemList = list;
+            mTotalPercentage = Float.valueOf(0);
             for(SummaryItem summaryItem : mItemList) {
                 mSummaryLinearLayout.addView(getSummaryItemView(mActivity.getLayoutInflater(), summaryItem));
             }
+            mTotalPercentageTextView.setText(String.format("%s %.2f%%", mActivity.getString(R.string.total_label), mTotalPercentage));
         }
     }
 
@@ -349,7 +355,9 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         float summaryPercentage = summaryItem.getPercentage() * 100;
         ((TextView) rowView.findViewById(R.id.grade_breakdown_percentage_text_view)).setText(String.format("%s %.2f%%", mActivity.getString(R.string.percentage_label), breakdownPercentage));
         ((TextView) rowView.findViewById(R.id.percentage_text_view)).setText(String.format("%.2f%%", summaryPercentage));
-        ((TextView) rowView.findViewById(R.id.subtotal_percentage_text_view)).setText(String.format("%s %.2f%%", mActivity.getString(R.string.subtotal_label), breakdownPercentage / 100 * summaryPercentage));
+        float subtotal = breakdownPercentage / 100 * summaryPercentage;
+        mTotalPercentage = mTotalPercentage + subtotal;
+        ((TextView) rowView.findViewById(R.id.subtotal_percentage_text_view)).setText(String.format("%s %.2f%%", mActivity.getString(R.string.subtotal_label), subtotal));
 
         return rowView;
     }

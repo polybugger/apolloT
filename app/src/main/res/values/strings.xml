@@ -248,6 +248,7 @@
     <string name="count_label">Count:</string>
     <string name="percentage_label">Percentage:</string>
     <string name="subtotal_label">Subtotal:</string>
+    <string name="total_label">Total:</string>
     <string name="attendance_count_label">Attendance:</string>
     <string name="absences_label">Absences:</string>
 </resources>
