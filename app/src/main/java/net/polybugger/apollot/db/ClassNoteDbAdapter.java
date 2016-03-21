@@ -50,6 +50,14 @@ public class ClassNoteDbAdapter {
         return rowsDeleted;
     }
 
+    public static int delete(long classId) {
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        int rowsDeleted = db.delete(TABLE_NAME, CLASS_ID.getName() + "=?",
+                new String[]{String.valueOf(classId)});
+        ApolloDbAdapter.close();
+        return rowsDeleted;
+    }
+
     public static int update(long classId, long noteId, String note, Date dateCreated) {
         ContentValues values = new ContentValues();
         values.put(NOTE.getName(), note);

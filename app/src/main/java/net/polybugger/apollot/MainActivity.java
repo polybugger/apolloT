@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
 
     // for backpress from class activity, to requery data on affected class, a hack
     public static boolean CLASS_REQUERY_CALLBACK = false;
+    public static boolean CLASS_REMOVE_CALLBACK = false;
     public static ClassDbAdapter.Class CLASS_REQUERY = null;
     public static boolean REQUERY_CALLBACK = false;
 
@@ -128,6 +129,17 @@ public class MainActivity extends AppCompatActivity implements UnlockPasswordDia
             currentFragment.requeryClasses();
             pastFragment.requeryClasses();
             REQUERY_CALLBACK = false;
+        }
+        if(CLASS_REMOVE_CALLBACK) {
+            ClassDbAdapter.Class class_ = CLASS_REQUERY;
+            if(class_ != null) {
+                if(currentFragment != null && pastFragment != null) {
+                    currentFragment.removeClass(class_);
+                    pastFragment.removeClass(class_);
+                }
+                CLASS_REQUERY = null;
+            }
+            CLASS_REMOVE_CALLBACK = false;
         }
     }
 

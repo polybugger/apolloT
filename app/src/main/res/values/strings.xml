@@ -111,6 +111,9 @@
     <string name="past">Past</string>
     <string name="fragment_status_code_required">Code cannot be blank.</string>
     <string name="fragment_status_description_required">Description cannot be blank.</string>
+    <string name="remove_class">Remove Class</string>
+    <string name="remove_class_warning">Warning! All data associated with this class will be deleted permanently. This action cannot be undone.</string>
+    <string name="fragment_status_class_removed">Class, activities, and all records have been removed.</string>
 
     <string name="new_class_schedule">New Class Schedule</string>
     <string name="edit_class_schedule">Edit Class Schedule</string>

@@ -34,7 +34,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
         StudentNewEditDialogFragment.NewEditListener,
         StudentExistingDialogFragment.ExistingListener,
         ClassGradeBreakdownNewEditDialogFragment.NewEditListener,
-        ClassGradeBreakdownRemoveDialogFragment.RemoveListener {
+        ClassGradeBreakdownRemoveDialogFragment.RemoveListener,
+        ClassRemoveDialogFragment.RemoveListener {
 
     public static boolean REQUERY_CALLBACK = false;
 
@@ -221,7 +222,8 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
 
     @Override
     public void onBackPressed() {
-        MainActivity.CLASS_REQUERY_CALLBACK = true;
+        if(!MainActivity.CLASS_REMOVE_CALLBACK)
+            MainActivity.CLASS_REQUERY_CALLBACK = true;
         MainActivity.CLASS_REQUERY = mClass;
         super.onBackPressed();
     }
@@ -354,6 +356,19 @@ public class ClassActivity extends AppCompatActivity implements ClassPasswordDia
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(f.toString() + " must implement " + ClassGradeBreakdownRemoveDialogFragment.RemoveListener.class.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onRemoveClass(ClassDbAdapter.Class class_, String fragmentTag) {
+        Fragment f = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if(f != null) {
+            try {
+                ((ClassRemoveDialogFragment.RemoveListener) f).onRemoveClass(class_, fragmentTag);
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(f.toString() + " must implement " + ClassRemoveDialogFragment.RemoveListener.class.toString());
             }
         }
     }

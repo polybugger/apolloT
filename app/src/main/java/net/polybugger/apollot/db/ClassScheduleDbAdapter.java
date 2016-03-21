@@ -82,6 +82,14 @@ public class ClassScheduleDbAdapter {
         return rowsDeleted;
     }
 
+    public static int delete(long classId) {
+        SQLiteDatabase db = ApolloDbAdapter.open();
+        int rowsDeleted = db.delete(TABLE_NAME, CLASS_ID.getName() + "=?",
+                new String[]{String.valueOf(classId)});
+        ApolloDbAdapter.close();
+        return rowsDeleted;
+    }
+
     public static ArrayList<ClassSchedule> getClassSchedules(long classId) {
         ArrayList<ClassSchedule> list = new ArrayList<ClassSchedule>();
         SimpleDateFormat sdf = new SimpleDateFormat(SDF_DB_TEMPLATE, ApolloDbAdapter.getAppContext().getResources().getConfiguration().locale);

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,9 +20,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
+import net.polybugger.apollot.db.ClassItemDbAdapter;
+import net.polybugger.apollot.db.ClassItemNoteDbAdapter;
+import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassNoteDbAdapter;
 import net.polybugger.apollot.db.ClassScheduleDbAdapter;
 
@@ -33,7 +38,8 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         ClassScheduleNewEditDialogFragment.NewEditListener,
         ClassNoteNewEditDialogFragment.NewEditListener,
         ClassGradeBreakdownNewEditDialogFragment.NewEditListener,
-        ClassGradeBreakdownRemoveDialogFragment.RemoveListener {
+        ClassGradeBreakdownRemoveDialogFragment.RemoveListener,
+        ClassRemoveDialogFragment.RemoveListener {
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
 
@@ -149,6 +155,18 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
                 if(df == null) {
                     df = ClassDetailsNewEditDialogFragment.newInstance(getString(R.string.edit_class_details), getString(R.string.save_button), mClass, getTag());
                     df.show(fm, ClassDetailsNewEditDialogFragment.TAG);
+                }
+            }
+        });
+
+        view.findViewById(R.id.remove_class_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                ClassRemoveDialogFragment df = (ClassRemoveDialogFragment) fm.findFragmentByTag(ClassRemoveDialogFragment.TAG);
+                if(df == null) {
+                    df = ClassRemoveDialogFragment.newInstance(getString(R.string.remove_class), mClass, getTag());
+                    df.show(fm, ClassRemoveDialogFragment.TAG);
                 }
             }
         });
@@ -388,6 +406,12 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
 
     }
 
+    @Override
+    public void onRemoveClass(ClassDbAdapter.Class class_, String fragmentTag) {
+        DbRemoveClassTask removeTask = new DbRemoveClassTask();
+        removeTask.execute(class_);
+    }
+
     private class DbQuerySchedulesTask extends AsyncTask<Long, Integer, ArrayList<ClassScheduleDbAdapter.ClassSchedule>> {
 
         @Override
@@ -551,4 +575,37 @@ public class ClassInfoFragment extends Fragment implements ClassDetailsNewEditDi
         return _getGradeBreakdownView(inflater.inflate(R.layout.class_grade_breakdown_row, null), gradeBreakdown, editGradeBreakdownClickListener, removeGradeBreakdownClickListener);
     }
 
+    private class DbRemoveClassTask extends AsyncTask<ClassDbAdapter.Class, Integer, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO initialize loader
+        }
+
+        @Override
+        protected Integer doInBackground(ClassDbAdapter.Class... class_) {
+            long classId = class_[0].getClassId();
+            Integer rowsDeleted = ClassDbAdapter.delete(classId);
+            return rowsDeleted;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... percent) {
+            // TODO updates loader
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO cleanup loader on cancel
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            Toast toast = Toast.makeText(mActivity, R.string.fragment_status_class_removed, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            MainActivity.CLASS_REMOVE_CALLBACK = true;
+            mActivity.onBackPressed();
+        }
+    }
 }

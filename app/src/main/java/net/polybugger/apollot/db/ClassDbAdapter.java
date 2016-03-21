@@ -56,6 +56,27 @@ public class ClassDbAdapter {
         return rowsUpdated;
     }
 
+    public static int delete(long classId) {
+        int rowsDeleted = ClassScheduleDbAdapter.delete(classId);
+        rowsDeleted = ClassNoteDbAdapter.delete(classId);
+        rowsDeleted = ClassPasswordDbAdapter.delete(classId);
+
+        SQLiteDatabase db = ApolloDbAdapter.open();
+
+        db.execSQL("DROP TABLE IF EXISTS " + ClassItemNoteDbAdapter.TABLE_NAME + String.valueOf(classId));
+        db.execSQL("DROP TABLE IF EXISTS " + ClassItemRecordDbAdapter.TABLE_NAME + String.valueOf(classId));
+        db.execSQL("DROP TABLE IF EXISTS " + ClassItemDbAdapter.TABLE_NAME + String.valueOf(classId));
+        db.execSQL("DROP TABLE IF EXISTS " + ClassNoteDbAdapter.TABLE_NAME + String.valueOf(classId));
+        db.execSQL("DROP TABLE IF EXISTS " + ClassGradeBreakdownDbAdapter.TABLE_NAME + String.valueOf(classId));
+        db.execSQL("DROP TABLE IF EXISTS " + ClassStudentDbAdapter.TABLE_NAME + String.valueOf(classId));
+
+        rowsDeleted = db.delete(TABLE_NAME, CLASS_ID.getName() + "=?",
+                new String[]{String.valueOf(classId)});
+
+        ApolloDbAdapter.close();
+        return rowsDeleted;
+    }
+
     public static int getClassesCount(boolean current) {
         SQLiteDatabase db = ApolloDbAdapter.open();
         Cursor cursor = db.query(TABLE_NAME, new String[]{"COUNT(" + CLASS_ID.getName() + ")"}, CURRENT.getName() + "=?", new String[]{(current ? "1" : "0")}, null, null, null);
