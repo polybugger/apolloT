@@ -25,6 +25,13 @@
             android:summary="@string/pref_time_start_summary"
             android:defaultValue="@string/default_time_start" />
 
+        <android.support.v7.preference.Preference
+            android:layout="@layout/pref_layout"
+            android:key="@string/pref_final_grade_calculation_key"
+            android:title="@string/pref_final_grade_calculation_title"
+            android:summary="@string/pref_final_grade_calculation_summary"
+            android:defaultValue="@integer/default_final_grade_calculation" />
+
         <net.polybugger.apollot.StudentNameDisplayFormatDialogPreference
             android:layout="@layout/pref_layout"
             android:key="@string/pref_student_name_display_format_key"

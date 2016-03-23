@@ -77,6 +77,17 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            Preference finalGradeCalcPref = findPreference(getString(R.string.pref_final_grade_calculation_key));
+            finalGradeCalcPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent finalGradeCalcIntent = new Intent(getActivity(), FinalGradeCalculationActivity.class);
+                    startActivity(finalGradeCalcIntent);
+                    return true;
+                }
+            });
+
         }
 
         @Override

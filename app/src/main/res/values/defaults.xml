@@ -2,6 +2,9 @@
 <resources>
 
     <integer name="default_student_name_display_format">0</integer>
+    <integer name="default_final_grade_calculation">0</integer>
+    <integer name="default_passing_grade_percentage">75</integer>
+
     <string name="default_unlock_password"></string>
     <string name="default_time_start">07:30:00</string>
 

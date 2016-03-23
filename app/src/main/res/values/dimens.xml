@@ -26,6 +26,11 @@
     <dimen name="right_normal_padding">5sp</dimen>
     <dimen name="bottom_normal_padding">2sp</dimen>
 
+    <dimen name="pref_top_normal_padding">20sp</dimen>
+    <dimen name="pref_left_normal_padding">15sp</dimen>
+    <dimen name="pref_right_normal_padding">15sp</dimen>
+    <dimen name="pref_bottom_normal_padding">20sp</dimen>
+
     <dimen name="ambilwarna_hsvHeight">180dp</dimen>
     <dimen name="ambilwarna_hsvWidth">180dp</dimen>
     <dimen name="ambilwarna_hueWidth">30dp</dimen>

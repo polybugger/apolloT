@@ -251,4 +251,14 @@
     <string name="total_label">Total:</string>
     <string name="attendance_count_label">Attendance:</string>
     <string name="absences_label">Absences:</string>
+
+    <string name="title_activity_final_grade_calculation">Final Grade Calculation</string>
+
+    <string name="pref_final_grade_calculation_key">net.polybugger.apollot.final_grade_calculation</string>
+    <string name="pref_final_grade_calculation_title">Final Grade Calculation</string>
+    <string name="pref_final_grade_calculation_summary">Global setting for how to calculate the final grade.</string>
+
+    <string name="pref_passing_grade_percentage_key">net.polybugger.apollot.passing_grade_percentage</string>
+    <string name="passing_grade_percentage_label">Passing Grade Percentage:</string>
+
 </resources>
