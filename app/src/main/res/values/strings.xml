@@ -259,6 +259,9 @@
     <string name="pref_final_grade_calculation_summary">Global setting for how to calculate the final grade.</string>
 
     <string name="pref_passing_grade_percentage_key">net.polybugger.apollot.passing_grade_percentage</string>
+    <string name="edit_passing_grade_percentage">Edit Passing Grade Percentage</string>
     <string name="passing_grade_percentage_label">Passing Grade Percentage:</string>
+    <string name="passing_grade_percentage_hint">Passing Grade Percentage</string>
+    <string name="fragment_status_passing_grade_percentage_required">Passing Grade Percentage cannot be blank.</string>
 
 </resources>

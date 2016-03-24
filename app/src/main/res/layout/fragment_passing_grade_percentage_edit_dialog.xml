@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="none"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_normal_margin"
+            android:layout_marginLeft="@dimen/left_normal_margin"
+            android:layout_marginRight="@dimen/right_normal_margin"
+            android:text="@string/edit_passing_grade_percentage"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+        <View style="@style/TitleBorderBottom"
+            android:layout_marginLeft="@dimen/left_normal_margin"
+            android:layout_marginRight="@dimen/right_normal_margin" />
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_normal_margin"
+            android:layout_marginLeft="@dimen/left_normal_margin"
+            android:layout_marginRight="@dimen/right_normal_margin"
+            android:layout_marginBottom="@dimen/bottom_normal_margin"
+            android:orientation="vertical" >
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/passing_grade_percentage_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="@string/passing_grade_percentage_hint"
+                android:textSize="@dimen/normal_text_size" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_text_size"
+                android:text="@string/cancel_button" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/save_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_text_size"
+                android:text="@string/save_button" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</ScrollView>
