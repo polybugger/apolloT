@@ -2,7 +2,6 @@ package net.polybugger.apollot.db;
 
 public class FinalGradeCalculationPrefAdapter {
 
-
     public enum FinalGradeCalculationType {
         ONE_TO_FIVE(0),
         A_TO_F(1),

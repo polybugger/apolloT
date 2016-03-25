@@ -43,29 +43,23 @@
     <string name="pref_category_security_title">Security</string>
     <string name="pref_category_app_data_title">Application Data</string>
 
-    <string name="pref_lock_enabled_key">net.polybugger.apollot.lock_enabled</string>
     <string name="pref_lock_enabled_title">Lock Enabled</string>
     <string name="pref_lock_enabled_summary">Require a password to unlock on startup.</string>
 
-    <string name="pref_academic_terms_key">net.polybugger.apollot.academic_terms</string>
     <string name="pref_academic_terms_title">Academic Terms</string>
     <string name="pref_academic_terms_summary">Academic terms for classes.</string>
     <string name="pref_academic_terms_dialog_title">Academic Term</string>
 
-    <string name="pref_class_item_types_key">net.polybugger.apollot.class_item_types</string>
     <string name="pref_class_item_types_title">Class Activities</string>
     <string name="pref_class_item_types_summary">Activities for classes.</string>
     <string name="pref_class_item_types_dialog_title">Class Activity</string>
 
-    <string name="pref_unlock_password_key">net.polybugger.apollot.unlock_password</string>
     <string name="pref_unlock_password_title">Unlock Password</string>
     <string name="pref_unlock_password_summary">Change unlock password.</string>
 
-    <string name="pref_time_start_key">net.polybugger.apollot.time_start</string>
     <string name="pref_time_start_title">Default Time Start</string>
     <string name="pref_time_start_summary">Default Time Start for schedules.</string>
 
-    <string name="pref_student_name_display_format_key">apollo.student_name_display_format</string>
     <string name="pref_student_name_display_format_title">Student Name Display Format</string>
     <string name="pref_student_name_display_format_summary">How student names are displayed.</string>
     <string name="pref_last_name_first_name">[Last Name], [First Name] [Middle Initial].</string>
@@ -254,14 +248,18 @@
 
     <string name="title_activity_final_grade_calculation">Final Grade Calculation</string>
 
-    <string name="pref_final_grade_calculation_key">net.polybugger.apollot.final_grade_calculation</string>
     <string name="pref_final_grade_calculation_title">Final Grade Calculation</string>
     <string name="pref_final_grade_calculation_summary">Global setting for how to calculate the final grade.</string>
 
-    <string name="pref_passing_grade_percentage_key">net.polybugger.apollot.passing_grade_percentage</string>
     <string name="edit_passing_grade_percentage">Edit Passing Grade Percentage</string>
     <string name="passing_grade_percentage_label">Passing Grade Percentage:</string>
     <string name="passing_grade_percentage_hint">Passing Grade Percentage</string>
     <string name="fragment_status_passing_grade_percentage_required">Passing Grade Percentage cannot be blank.</string>
+    <string name="grade_system">Grade System</string>
+
+    <string name="a_to_f">A to F</string>
+    <string name="one_to_five">1 to 5</string>
+    <string name="four_to_one">4 to 1</string>
+    <string name="title_activity_a_to_f">A To F Grade System</string>
 
 </resources>

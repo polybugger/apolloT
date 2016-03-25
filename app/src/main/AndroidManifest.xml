@@ -59,6 +59,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SettingsActivity" />
         </activity>
+        <activity android:name=".AToFActivity"
+            android:label="@string/title_activity_a_to_f"
+            android:parentActivityName=".FinalGradeCalculationActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FinalGradeCalculationActivity" />
+        </activity>
     </application>
 
 </manifest>

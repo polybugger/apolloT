@@ -59,12 +59,33 @@
 
         </RelativeLayout>
 
-        <ListView
-            android:id="@+id/list_view"
+        <android.support.v7.widget.LinearLayoutCompat
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:scrollbars="none" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/left_normal_padding"
+            android:paddingRight="@dimen/right_normal_padding"
+            android:paddingTop="@dimen/top_normal_padding"
+            android:paddingBottom="@dimen/bottom_normal_padding"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/grade_system"
+                android:textStyle="bold"
+                android:textSize="@dimen/large_text_size" />
+            <View style="@style/TitleBorderBottom"/>
+
+            <ListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:scrollbars="none" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v7.widget.LinearLayoutCompat>
 

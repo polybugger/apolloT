@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_lock_enabled_key">net.polybugger.apollot.lock_enabled</string>
+    <string name="pref_academic_terms_key">net.polybugger.apollot.academic_terms</string>
+    <string name="pref_class_item_types_key">net.polybugger.apollot.class_item_types</string>
+    <string name="pref_unlock_password_key">net.polybugger.apollot.unlock_password</string>
+    <string name="pref_time_start_key">net.polybugger.apollot.time_start</string>
+    <string name="pref_student_name_display_format_key">apollo.student_name_display_format</string>
+    <string name="pref_final_grade_calculation_key">net.polybugger.apollot.final_grade_calculation</string>
+    <string name="pref_passing_grade_percentage_key">net.polybugger.apollot.passing_grade_percentage</string>
+
+    <string name="pref_a_plus_percentage_key">net.polybugger.apollot.a_plus_percentage</string>
+    <string name="pref_a_plus_hidden_key">net.polybugger.apollot.a_plus_hidden</string>
+    <string name="pref_a_percentage_key">net.polybugger.apollot.a_percentage</string>
+    <string name="pref_a_hidden_key">net.polybugger.apollot.a_hidden</string>
+    <string name="pref_a_minus_percentage_key">net.polybugger.apollot.a_minus_percentage</string>
+    <string name="pref_a_minus_hidden_key">net.polybugger.apollot.a_minus_hidden</string>
+
+    <string name="pref_b_plus_percentage_key">net.polybugger.apollot.b_plus_percentage</string>
+    <string name="pref_b_plus_hidden_key">net.polybugger.apollot.b_plus_hidden</string>
+    <string name="pref_b_percentage_key">net.polybugger.apollot.b_percentage</string>
+    <string name="pref_b_hidden_key">net.polybugger.apollot.b_hidden</string>
+    <string name="pref_b_minus_percentage_key">net.polybugger.apollot.b_minus_percentage</string>
+    <string name="pref_b_minus_hidden_key">net.polybugger.apollot.b_minus_hidden</string>
+
+    <string name="pref_c_plus_percentage_key">net.polybugger.apollot.c_plus_percentage</string>
+    <string name="pref_c_plus_hidden_key">net.polybugger.apollot.c_plus_hidden</string>
+    <string name="pref_c_percentage_key">net.polybugger.apollot.c_percentage</string>
+    <string name="pref_c_hidden_key">net.polybugger.apollot.c_hidden</string>
+    <string name="pref_c_minus_percentage_key">net.polybugger.apollot.c_minus_percentage</string>
+    <string name="pref_c_minus_hidden_key">net.polybugger.apollot.c_minus_hidden</string>
+
+    <string name="pref_d_plus_percentage_key">net.polybugger.apollot.d_plus_percentage</string>
+    <string name="pref_d_plus_hidden_key">net.polybugger.apollot.d_plus_hidden</string>
+    <string name="pref_d_percentage_key">net.polybugger.apollot.d_percentage</string>
+    <string name="pref_d_hidden_key">net.polybugger.apollot.d_hidden</string>
+    <string name="pref_d_minus_percentage_key">net.polybugger.apollot.d_minus_percentage</string>
+    <string name="pref_d_minus_hidden_key">net.polybugger.apollot.d_minus_hidden</string>
+
+    <string name="pref_f_percentage_key">net.polybugger.apollot.f_percentage</string>
+    <string name="pref_f_hidden_key">net.polybugger.apollot.f_hidden</string>
+
+
+    <string name="pref_a_to_f_selected">net.polybugger.apollot.a_to_f_selected</string>
+    <string name="pref_one_to_five_selected">net.polybugger.apollot.one_to_five_selected</string>
+    <string name="pref_four_to_one_selected">net.polybugger.apollot.four_to_one_selected</string>
+
+</resources>

@@ -73,9 +73,6 @@ public class PassingGradePercentageDialogFragment extends DialogFragment {
                     return;
                 }
                 Float percentage = Float.parseFloat(strPercentage);
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mActivity);
-                sharedPref.edit().putFloat(getString(R.string.pref_passing_grade_percentage_key), percentage).apply();
-
                 try {
                     ((EditListener) mActivity).onEditPassingGradePercentage(percentage);
                 } catch (ClassCastException e) {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/check_box"
+        android:contentDescription="@null"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/normal_text_size" />
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/edit_button"
+        android:contentDescription="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_mode_edit_black_24dp" />
+
+</android.support.v7.widget.LinearLayoutCompat>
