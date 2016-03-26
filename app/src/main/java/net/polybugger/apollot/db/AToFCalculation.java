@@ -41,6 +41,8 @@ public class AToFCalculation {
     private Map<Integer, GradeMark> mGradeMarks;
     private Context mContext;
 
+    private boolean mSet = true;
+
     public void setmGradeMarks(Map<Integer, GradeMark> mGradeMarks) {
         this.mGradeMarks = mGradeMarks;
     }
@@ -50,6 +52,8 @@ public class AToFCalculation {
         mContext = context;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        mSet = sharedPref.getBoolean(mContext.getString(R.string.pref_a_to_f_selected_key), true);
 
         mGradeMarks = new HashMap<>();
         mGradeMarks.put(1, new GradeMark(A_PLUS, sharedPref.getFloat(mContext.getString(R.string.pref_a_plus_percentage_key), A_PLUS_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_a_plus_hidden_key), false)));
@@ -69,6 +73,10 @@ public class AToFCalculation {
         mGradeMarks.put(12, new GradeMark(D_MINUS, sharedPref.getFloat(mContext.getString(R.string.pref_d_minus_percentage_key), D_MINUS_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_d_minus_hidden_key), false)));
 
         mGradeMarks.put(13, new GradeMark(F, sharedPref.getFloat(mContext.getString(R.string.pref_f_percentage_key), F_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_f_hidden_key), false)));
+    }
+
+    public boolean isSet() {
+        return mSet;
     }
 
     public static class GradeMark {

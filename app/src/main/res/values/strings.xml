@@ -259,9 +259,12 @@
     <string name="grade_system">Grade System</string>
 
     <string name="a_to_f">A to F</string>
-    <string name="one_to_five">1 to 5</string>
+    <string name="a_to_f_label">A to F:</string>
+    <string name="one_to_five">1.0 to 5.0</string>
+    <string name="one_to_five_label">1.0 to 5.0:</string>
     <string name="one_to_five_instructions">Please enter a grade between 1.0 to 5.0.\r\n(Default is 3.0.)</string>
-    <string name="four_to_one">4 to 1</string>
+    <string name="four_to_one">4.0 to 1.0</string>
+    <string name="four_to_one_label">4.0 to 1.0:</string>
     <string name="four_to_one_instructions">Please enter a grade 4.0 to 1.0.\r\n(Default is 1.0.)</string>
     <string name="title_activity_a_to_f">A To F Grade System</string>
     <string name="passing_grade_mark_label">Passing Grade Mark:</string>

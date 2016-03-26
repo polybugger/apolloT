@@ -7,7 +7,7 @@ import android.support.v7.preference.PreferenceManager;
 import net.polybugger.apollot.FinalGradeCalculationActivity;
 import net.polybugger.apollot.R;
 
-public class OneToFiveCalculation {
+public class FourToOneCalculation {
 
     private Context mContext;
     private float mPassingGradePercentage;
@@ -18,7 +18,7 @@ public class OneToFiveCalculation {
 
     private boolean mSet = true;
 
-    public OneToFiveCalculation(Context context) {
+    public FourToOneCalculation(Context context) {
         refreshCalculationData(context);
     }
 
@@ -32,7 +32,7 @@ public class OneToFiveCalculation {
             finalGrade = ((rawPercentage - mPassingGradePercentage) * mHigherMarkMultiplier) + mPassingGradeMark;
         }
         else if(rawPercentage < mPassingGradePercentage) {
-            finalGrade = (rawPercentage * mLowerMarkMultiplier) + 5;
+            finalGrade = (rawPercentage * mLowerMarkMultiplier);
         }
         else {
             finalGrade = mPassingGradeMark;
@@ -44,13 +44,14 @@ public class OneToFiveCalculation {
         mContext = context;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         mPassingGradePercentage = sharedPref.getFloat(mContext.getString(R.string.pref_passing_grade_percentage_key), FinalGradeCalculationActivity.DEFAULT_PASSING_GRADE_PERCENTAGE);
-        mPassingGradeMark =  sharedPref.getFloat(mContext.getString(R.string.pref_one_to_five_passing_grade_mark_key), FinalGradeCalculationActivity.DEFAULT_ONE_TO_FIVE_PASSING_GRADE_MARK);
-        mHigherMarkMultiplier = (1 - mPassingGradeMark) / (100 - mPassingGradePercentage);
-        mLowerMarkMultiplier = (mPassingGradeMark - 5) / (mPassingGradePercentage);
-        mSet = sharedPref.getBoolean(mContext.getString(R.string.pref_one_to_five_selected_key), true);
+        mPassingGradeMark =  sharedPref.getFloat(mContext.getString(R.string.pref_four_to_one_passing_grade_mark_key), FinalGradeCalculationActivity.DEFAULT_FOUR_TO_ONE_PASSING_GRADE_MARK);
+        mHigherMarkMultiplier = (4 - mPassingGradeMark) / (100 - mPassingGradePercentage);
+        mLowerMarkMultiplier = (mPassingGradeMark) / (mPassingGradePercentage);
+        mSet = sharedPref.getBoolean(mContext.getString(R.string.pref_four_to_one_selected_key), true);
     }
 
     public float getPassingGradeMark() {
         return mPassingGradeMark;
     }
+
 }

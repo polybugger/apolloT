@@ -17,11 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.polybugger.apollot.db.AToFCalculation;
 import net.polybugger.apollot.db.ClassDbAdapter;
 import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
+import net.polybugger.apollot.db.FourToOneCalculation;
 import net.polybugger.apollot.db.OneToFiveCalculation;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
@@ -44,7 +46,13 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
     private LinearLayout mSummaryLinearLayout;
     private DbQueryTask mSummaryTask;
     private Float mTotalPercentage;
-    private TextView mFinalGradeTextView;
+
+    private TextView mOneToFiveFinalGradeTextView;
+    private RelativeLayout mOneToFiveRelativeLayout;
+    private TextView mAToFFinalGradeTextView;
+    private RelativeLayout mAToFRelativeLayout;
+    private TextView mFourToOneFinalGradeTextView;
+    private RelativeLayout mFourToOneRelativeLayout;
 
     private ArrayList<SummaryItem> mItemList;
 
@@ -96,7 +104,7 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             public void onClick(View view) {
                 FragmentManager fm = getFragmentManager();
                 StudentNewEditDialogFragment df = (StudentNewEditDialogFragment) fm.findFragmentByTag(StudentNewEditDialogFragment.TAG);
-                if(df == null) {
+                if (df == null) {
                     df = StudentNewEditDialogFragment.newInstance(getString(R.string.edit_student), getString(R.string.save_button), mClassStudent.getStudent(), getTag());
                     df.show(fm, StudentNewEditDialogFragment.TAG);
                 }
@@ -107,7 +115,7 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             public void onClick(View view) {
                 FragmentManager fm = getFragmentManager();
                 ClassStudentRemoveDialogFragment df = (ClassStudentRemoveDialogFragment) fm.findFragmentByTag(ClassStudentRemoveDialogFragment.TAG);
-                if(df == null) {
+                if (df == null) {
                     df = ClassStudentRemoveDialogFragment.newInstance(getString(R.string.remove_student), mClassStudent, getTag());
                     df.show(fm, ClassStudentRemoveDialogFragment.TAG);
                 }
@@ -116,9 +124,14 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
 
         mSummaryLinearLayout = (LinearLayout) view.findViewById(R.id.summary_linear_layout);
 
-        mFinalGradeTextView = (TextView) view.findViewById(R.id.final_grade_text_view);
+        mOneToFiveFinalGradeTextView = (TextView) view.findViewById(R.id.one_to_five_final_grade_text_view);
+        mOneToFiveRelativeLayout = (RelativeLayout) view.findViewById(R.id.one_to_five_relative_layout);
 
+        mAToFFinalGradeTextView = (TextView) view.findViewById(R.id.a_to_f_final_grade_text_view);
+        mAToFRelativeLayout = (RelativeLayout) view.findViewById(R.id.a_to_f_relative_layout);
 
+        mFourToOneFinalGradeTextView= (TextView) view.findViewById(R.id.four_to_one_final_grade_text_view);
+        mFourToOneRelativeLayout = (RelativeLayout) view.findViewById(R.id.four_to_one_relative_layout);
 
         updateSummary();
 
@@ -307,22 +320,53 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             }
             mTotalPercentageTextView.setText(String.format("%s %.2f%%", mActivity.getString(R.string.total_label), mTotalPercentage));
 
-            StringBuilder finalGrade = new StringBuilder();
             OneToFiveCalculation oneToFiveCalculation = new OneToFiveCalculation(mActivity);
             if(oneToFiveCalculation.isSet()) {
+                mOneToFiveRelativeLayout.setVisibility(View.VISIBLE);
+                StringBuilder oneToFiveFinalGrade = new StringBuilder("");
                 float oneToFiveGrade = oneToFiveCalculation.calculateFinalGrade(mTotalPercentage);
                 if(oneToFiveGrade > oneToFiveCalculation.getPassingGradeMark()) {
-                    finalGrade.append(String.format("%.2f", 5.0));
-                    finalGrade.append(" (");
-                    finalGrade.append(String.format("%.2f", oneToFiveGrade));
-                    finalGrade.append(")");
+                    oneToFiveFinalGrade.append(String.format("%.2f", 5.0));
+                    oneToFiveFinalGrade.append(" (");
+                    oneToFiveFinalGrade.append(String.format("%.2f", oneToFiveGrade));
+                    oneToFiveFinalGrade.append(")");
                 }
                 else {
-                    finalGrade.append(String.format("%.2f", oneToFiveGrade));
+                    oneToFiveFinalGrade.append(String.format("%.2f", oneToFiveGrade));
                 }
+                mOneToFiveFinalGradeTextView.setText(oneToFiveFinalGrade.toString());
+            }
+            else {
+                mOneToFiveRelativeLayout.setVisibility(View.GONE);
             }
 
-            mFinalGradeTextView.setText(finalGrade.toString());
+            AToFCalculation aToFCalculation = new AToFCalculation(mActivity);
+            if(aToFCalculation.isSet()) {
+                mAToFRelativeLayout.setVisibility(View.VISIBLE);
+
+            }
+            else {
+                mAToFRelativeLayout.setVisibility(View.GONE);
+            }
+
+            FourToOneCalculation fourToOneCalculation = new FourToOneCalculation(mActivity);
+            if(fourToOneCalculation.isSet()) {
+                StringBuilder fourToOneFinalGrade = new StringBuilder("");
+                float fourToOneGrade = fourToOneCalculation.calculateFinalGrade(mTotalPercentage);
+                if(fourToOneGrade < fourToOneCalculation.getPassingGradeMark()) {
+                    fourToOneFinalGrade.append(String.format("%.2f", 0.0));
+                    fourToOneFinalGrade.append(" (");
+                    fourToOneFinalGrade.append(String.format("%.2f", fourToOneGrade));
+                    fourToOneFinalGrade.append(")");
+                }
+                else {
+                    fourToOneFinalGrade.append(String.format("%.2f", fourToOneGrade));
+                }
+                mFourToOneFinalGradeTextView.setText(fourToOneFinalGrade.toString());
+            }
+            else {
+                mFourToOneRelativeLayout.setVisibility(View.GONE);
+            }
         }
     }
 
