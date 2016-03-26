@@ -73,6 +73,13 @@ public class PassingGradePercentageDialogFragment extends DialogFragment {
                     return;
                 }
                 Float percentage = Float.parseFloat(strPercentage);
+                if(!(percentage > 0.0 && percentage < 100.0)) {
+                    mPassingGradePercentageEditText.requestFocus();
+                    Toast toast = Toast.makeText(mActivity, R.string.fragment_status_passing_grade_percentage_error, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
                 try {
                     ((EditListener) mActivity).onEditPassingGradePercentage(percentage);
                 } catch (ClassCastException e) {

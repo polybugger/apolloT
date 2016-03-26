@@ -1,5 +1,6 @@
 package net.polybugger.apollot;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import net.polybugger.apollot.db.StudentDbAdapter;
 public class ClassStudentActivity extends AppCompatActivity implements ClassItemRecordNewEditDialogFragment.NewEditListener,
         StudentNewEditDialogFragment.NewEditListener,
         ClassStudentRemoveDialogFragment.RemoveListener {
+
+    public static boolean REQUERY_CALLBACK = false;
 
     public static final String CLASS_ARG = "net.polybugger.apollot.class_arg";
     public static final String STUDENT_ARG = "net.polybugger.apollot.student_arg";
@@ -106,6 +109,9 @@ public class ClassStudentActivity extends AppCompatActivity implements ClassItem
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -121,6 +127,15 @@ public class ClassStudentActivity extends AppCompatActivity implements ClassItem
     public void onBackPressed() {
         ClassActivity.REQUERY_CALLBACK = true;
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(REQUERY_CALLBACK) {
+            requerySummaryItems();
+            REQUERY_CALLBACK = false;
+        }
     }
 
     public void requerySummaryItems() {

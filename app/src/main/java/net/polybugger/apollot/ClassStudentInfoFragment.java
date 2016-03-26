@@ -22,6 +22,7 @@ import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
 import net.polybugger.apollot.db.ClassItemDbAdapter;
 import net.polybugger.apollot.db.ClassItemRecordDbAdapter;
 import net.polybugger.apollot.db.ClassStudentDbAdapter;
+import net.polybugger.apollot.db.OneToFiveCalculation;
 import net.polybugger.apollot.db.StudentDbAdapter;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
     private LinearLayout mSummaryLinearLayout;
     private DbQueryTask mSummaryTask;
     private Float mTotalPercentage;
+    private TextView mFinalGradeTextView;
 
     private ArrayList<SummaryItem> mItemList;
 
@@ -113,11 +115,9 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
         });
 
         mSummaryLinearLayout = (LinearLayout) view.findViewById(R.id.summary_linear_layout);
-        /*
-        mAttendanceSummaryTextView = (TextView) view.findViewById(R.id.attendance_summary_text_view);
-        mScoresSummaryTextView = (TextView) view.findViewById(R.id.scores_summary_text_view);
-        mSubmissionsSummaryTextView = (TextView) view.findViewById(R.id.submissions_summary_text_view);
-        */
+
+        mFinalGradeTextView = (TextView) view.findViewById(R.id.final_grade_text_view);
+
 
 
         updateSummary();
@@ -306,6 +306,23 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
                 mSummaryLinearLayout.addView(getSummaryItemView(mActivity.getLayoutInflater(), summaryItem));
             }
             mTotalPercentageTextView.setText(String.format("%s %.2f%%", mActivity.getString(R.string.total_label), mTotalPercentage));
+
+            StringBuilder finalGrade = new StringBuilder();
+            OneToFiveCalculation oneToFiveCalculation = new OneToFiveCalculation(mActivity);
+            if(oneToFiveCalculation.isSet()) {
+                float oneToFiveGrade = oneToFiveCalculation.calculateFinalGrade(mTotalPercentage);
+                if(oneToFiveGrade > oneToFiveCalculation.getPassingGradeMark()) {
+                    finalGrade.append(String.format("%.2f", 5.0));
+                    finalGrade.append(" (");
+                    finalGrade.append(String.format("%.2f", oneToFiveGrade));
+                    finalGrade.append(")");
+                }
+                else {
+                    finalGrade.append(String.format("%.2f", oneToFiveGrade));
+                }
+            }
+
+            mFinalGradeTextView.setText(finalGrade.toString());
         }
     }
 

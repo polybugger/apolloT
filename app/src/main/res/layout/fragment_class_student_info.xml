@@ -122,6 +122,27 @@
                 android:textSize="@dimen/normal_text_size" />
         </android.support.v7.widget.LinearLayoutCompat>
 
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/top_normal_margin" >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/final_grade_summary"
+                android:textStyle="bold"
+                android:textSize="@dimen/large_text_size" />
+            <View style="@style/TitleBorderBottom" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/final_grade_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_text_size" />
+        </android.support.v7.widget.LinearLayoutCompat>
+
     </android.support.v7.widget.LinearLayoutCompat>
 
 </ScrollView>
