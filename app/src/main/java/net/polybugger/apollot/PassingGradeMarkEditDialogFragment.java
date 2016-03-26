@@ -138,5 +138,4 @@ public class PassingGradeMarkEditDialogFragment extends DialogFragment {
         builder.setTitle(null).setView(view).setPositiveButton(null, null).setNegativeButton(null, null);
         return builder.create();
     }
-
 }

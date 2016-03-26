@@ -289,5 +289,8 @@
     <string name="d">D</string>
     <string name="d_minus">D-</string>
     <string name="f">F</string>
+    <string name="fragment_status_a_to_f_percentage_required">Percentage cannot be blank.</string>
+    <string name="fragment_status_a_to_f_percentage_error">Percentage must be greater than 0.0 and less than 100.0.</string>
+    <string name="edit_a_to_f_percentage">Edit A To F Grade System Percentage</string>
 
 </resources>
