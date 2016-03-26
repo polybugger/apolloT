@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
+import net.polybugger.apollot.FinalGradeCalculationActivity;
 import net.polybugger.apollot.R;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class AToFCalculation {
 
@@ -55,7 +56,7 @@ public class AToFCalculation {
 
         mSet = sharedPref.getBoolean(mContext.getString(R.string.pref_a_to_f_selected_key), true);
 
-        mGradeMarks = new HashMap<>();
+        mGradeMarks = new TreeMap<>();
         mGradeMarks.put(1, new GradeMark(A_PLUS, sharedPref.getFloat(mContext.getString(R.string.pref_a_plus_percentage_key), A_PLUS_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_a_plus_hidden_key), false)));
         mGradeMarks.put(2, new GradeMark(A, sharedPref.getFloat(mContext.getString(R.string.pref_a_percentage_key), A_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_a_hidden_key), false)));
         mGradeMarks.put(3, new GradeMark(A_MINUS, sharedPref.getFloat(mContext.getString(R.string.pref_a_minus_percentage_key), A_MINUS_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_a_minus_hidden_key), false)));
@@ -73,6 +74,18 @@ public class AToFCalculation {
         mGradeMarks.put(12, new GradeMark(D_MINUS, sharedPref.getFloat(mContext.getString(R.string.pref_d_minus_percentage_key), D_MINUS_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_d_minus_hidden_key), false)));
 
         mGradeMarks.put(13, new GradeMark(F, sharedPref.getFloat(mContext.getString(R.string.pref_f_percentage_key), F_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_f_hidden_key), false)));
+    }
+
+    public String getFinalGrade(float rawPercentage) {
+        String finalGrade = "";
+        for (Map.Entry<Integer, GradeMark> entry : mGradeMarks.entrySet()) {
+            GradeMark gradeMark = entry.getValue();
+            if(!gradeMark.getHidden() && rawPercentage >= gradeMark.getPercentage()) {
+                finalGrade = gradeMark.getGradeMark();
+                break;
+            }
+        }
+        return finalGrade;
     }
 
     public boolean isSet() {

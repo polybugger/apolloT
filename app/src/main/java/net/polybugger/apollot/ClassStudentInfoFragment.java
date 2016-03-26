@@ -343,7 +343,7 @@ public class ClassStudentInfoFragment extends Fragment implements StudentNewEdit
             AToFCalculation aToFCalculation = new AToFCalculation(mActivity);
             if(aToFCalculation.isSet()) {
                 mAToFRelativeLayout.setVisibility(View.VISIBLE);
-
+                mAToFFinalGradeTextView.setText(aToFCalculation.getFinalGrade(mTotalPercentage));
             }
             else {
                 mAToFRelativeLayout.setVisibility(View.GONE);
