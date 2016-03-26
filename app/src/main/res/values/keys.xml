@@ -41,8 +41,10 @@
     <string name="pref_f_hidden_key">net.polybugger.apollot.f_hidden</string>
 
 
-    <string name="pref_a_to_f_selected">net.polybugger.apollot.a_to_f_selected</string>
-    <string name="pref_one_to_five_selected">net.polybugger.apollot.one_to_five_selected</string>
-    <string name="pref_four_to_one_selected">net.polybugger.apollot.four_to_one_selected</string>
+    <string name="pref_a_to_f_selected_key">net.polybugger.apollot.a_to_f_selected</string>
+    <string name="pref_one_to_five_selected_key">net.polybugger.apollot.one_to_five_selected</string>
+    <string name="pref_four_to_one_selected_key">net.polybugger.apollot.four_to_one_selected</string>
+    <string name="pref_one_to_five_passing_grade_mark_key">net.polybugger.apollot.one_to_five_passing_grade_mark</string>
+    <string name="pref_four_to_one_passing_grade_mark_key">net.polybugger.apollot.four_to_one_passing_grade_mark</string>
 
 </resources>

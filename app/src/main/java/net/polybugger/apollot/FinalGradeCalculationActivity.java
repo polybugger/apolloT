@@ -18,14 +18,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ApolloDbAdapter;
+import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FinalGradeCalculationActivity extends AppCompatActivity implements PassingGradePercentageDialogFragment.EditListener {
+public class FinalGradeCalculationActivity extends AppCompatActivity implements PassingGradePercentageDialogFragment.EditListener,
+        PassingGradeMarkEditDialogFragment.EditListener {
 
     public static float DEFAULT_PASSING_GRADE_PERCENTAGE = (float) 75.0;
+    public static float DEFAULT_ONE_TO_FIVE_PASSING_GRADE_MARK = (float) 3.0;
+    public static float DEFAULT_FOUR_TO_ONE_PASSING_GRADE_MARK = (float) 1.0;
+
     private TextView mPassingGradePercentageTextView;
     private ListArrayAdapter mListAdapter;
     private ListView mListView;
@@ -61,9 +66,9 @@ public class FinalGradeCalculationActivity extends AppCompatActivity implements 
             }
         });
 
-        mList.add(new GradeSystem(getString(R.string.a_to_f), GradeSystemType.A_TO_F, sharedPref.getBoolean(getString(R.string.pref_a_to_f_selected), true)));
-        mList.add(new GradeSystem(getString(R.string.one_to_five), GradeSystemType.ONE_TO_FIVE, sharedPref.getBoolean(getString(R.string.pref_one_to_five_selected), false)));
-        mList.add(new GradeSystem(getString(R.string.four_to_one), GradeSystemType.FOUR_TO_ONE, sharedPref.getBoolean(getString(R.string.pref_four_to_one_selected), false)));
+        mList.add(new GradeSystem(getString(R.string.a_to_f), GradeSystemType.A_TO_F, sharedPref.getBoolean(getString(R.string.pref_a_to_f_selected_key), true)));
+        mList.add(new GradeSystem(getString(R.string.one_to_five), GradeSystemType.ONE_TO_FIVE, sharedPref.getBoolean(getString(R.string.pref_one_to_five_selected_key), false)));
+        mList.add(new GradeSystem(getString(R.string.four_to_one), GradeSystemType.FOUR_TO_ONE, sharedPref.getBoolean(getString(R.string.pref_four_to_one_selected_key), false)));
     }
 
     @Override
@@ -79,6 +84,19 @@ public class FinalGradeCalculationActivity extends AppCompatActivity implements 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.edit().putFloat(getString(R.string.pref_passing_grade_percentage_key), passingGradePercentage).apply();
         mPassingGradePercentageTextView.setText(String.format("%.2f%%", passingGradePercentage));
+    }
+
+    @Override
+    public void onEditPassingGradeMark(float passingGradeMark, GradeSystemType type) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        switch(type) {
+            case ONE_TO_FIVE:
+                sharedPref.edit().putFloat(getString(R.string.pref_one_to_five_passing_grade_mark_key), passingGradeMark).apply();
+                break;
+            case FOUR_TO_ONE:
+                sharedPref.edit().putFloat(getString(R.string.pref_four_to_one_passing_grade_mark_key), passingGradeMark).apply();
+                break;
+        }
     }
 
 
@@ -105,16 +123,16 @@ public class FinalGradeCalculationActivity extends AppCompatActivity implements 
                     gradeSystem.setSelected(selected);
                     switch(gradeSystem.getType()) {
                         case A_TO_F:
-                            sharedPref.edit().putBoolean(getString(R.string.pref_a_to_f_selected), selected).apply();
+                            sharedPref.edit().putBoolean(getString(R.string.pref_a_to_f_selected_key), selected).apply();
                             break;
                         case ONE_TO_FIVE:
-                            sharedPref.edit().putBoolean(getString(R.string.pref_one_to_five_selected), selected).apply();
+                            sharedPref.edit().putBoolean(getString(R.string.pref_one_to_five_selected_key), selected).apply();
                             break;
                         case FOUR_TO_ONE:
-                            sharedPref.edit().putBoolean(getString(R.string.pref_four_to_one_selected), selected).apply();
+                            sharedPref.edit().putBoolean(getString(R.string.pref_four_to_one_selected_key), selected).apply();
                             break;
                         default:
-                            sharedPref.edit().putBoolean(getString(R.string.pref_a_to_f_selected), selected).apply();
+                            sharedPref.edit().putBoolean(getString(R.string.pref_a_to_f_selected_key), selected).apply();
                     }
                 }
             };
@@ -123,20 +141,29 @@ public class FinalGradeCalculationActivity extends AppCompatActivity implements 
                 public void onClick(View view) {
                     GradeSystem gradeSystem = (GradeSystem) view.getTag();
                     Intent intent;
+                    FragmentManager fm = getSupportFragmentManager();
+                    PassingGradeMarkEditDialogFragment df;
                     switch(gradeSystem.getType()) {
                         case A_TO_F:
                             intent = new Intent(getContext(), AToFActivity.class);
                             startActivity(intent);
                             break;
                         case ONE_TO_FIVE:
-
+                            df = (PassingGradeMarkEditDialogFragment) fm.findFragmentByTag(PassingGradeMarkEditDialogFragment.TAG);
+                            if(df == null) {
+                                df = PassingGradeMarkEditDialogFragment.newInstance(gradeSystem.getType());
+                                df.show(fm, PassingGradeMarkEditDialogFragment.TAG);
+                            }
                             break;
                         case FOUR_TO_ONE:
-
+                            df = (PassingGradeMarkEditDialogFragment) fm.findFragmentByTag(PassingGradeMarkEditDialogFragment.TAG);
+                            if(df == null) {
+                                df = PassingGradeMarkEditDialogFragment.newInstance(gradeSystem.getType());
+                                df.show(fm, PassingGradeMarkEditDialogFragment.TAG);
+                            }
                             break;
                         default:
                     }
-
                 }
             };
         }

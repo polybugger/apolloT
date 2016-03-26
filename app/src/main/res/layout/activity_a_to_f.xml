@@ -23,11 +23,51 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.LinearLayoutCompat
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        <RelativeLayout
+            android:paddingLeft="@dimen/pref_left_normal_padding"
+            android:paddingRight="@dimen/pref_right_normal_padding"
+            android:paddingTop="@dimen/pref_top_normal_padding"
+            android:paddingBottom="@dimen/pref_bottom_normal_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="@string/passing_grade_mark_label"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/passing_grade_mark_spinner"
+                android:padding="2sp"
+                android:layout_marginTop="@dimen/normal_margin_spinner"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/left_normal_padding"
+            android:paddingRight="@dimen/right_normal_padding"
+            android:paddingTop="@dimen/top_normal_padding"
+            android:paddingBottom="@dimen/bottom_normal_padding"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v7.widget.LinearLayoutCompat>
 
