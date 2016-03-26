@@ -41,6 +41,7 @@ public class AToFCalculation {
 
     private Map<Integer, GradeMark> mGradeMarks;
     private Context mContext;
+    private float mPassingGradePercentage;
 
     private boolean mSet = true;
 
@@ -55,6 +56,7 @@ public class AToFCalculation {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         mSet = sharedPref.getBoolean(mContext.getString(R.string.pref_a_to_f_selected_key), true);
+        mPassingGradePercentage = sharedPref.getFloat(mContext.getString(R.string.pref_passing_grade_percentage_key), FinalGradeCalculationActivity.DEFAULT_PASSING_GRADE_PERCENTAGE);
 
         mGradeMarks = new TreeMap<>();
         mGradeMarks.put(1, new GradeMark(A_PLUS, sharedPref.getFloat(mContext.getString(R.string.pref_a_plus_percentage_key), A_PLUS_PERCENTAGE), sharedPref.getBoolean(mContext.getString(R.string.pref_a_plus_hidden_key), false)));
@@ -78,11 +80,16 @@ public class AToFCalculation {
 
     public String getFinalGrade(float rawPercentage) {
         String finalGrade = "";
-        for (Map.Entry<Integer, GradeMark> entry : mGradeMarks.entrySet()) {
-            GradeMark gradeMark = entry.getValue();
-            if(!gradeMark.getHidden() && rawPercentage >= gradeMark.getPercentage()) {
-                finalGrade = gradeMark.getGradeMark();
-                break;
+        if(rawPercentage < mPassingGradePercentage) {
+            finalGrade = "F";
+        }
+        else {
+            for (Map.Entry<Integer, GradeMark> entry : mGradeMarks.entrySet()) {
+                GradeMark gradeMark = entry.getValue();
+                if(!gradeMark.getHidden() && rawPercentage >= gradeMark.getPercentage()) {
+                    finalGrade = gradeMark.getGradeMark();
+                    break;
+                }
             }
         }
         return finalGrade;

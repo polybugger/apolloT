@@ -22,53 +22,425 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:scrollbars="none" >
+
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
-
-        <RelativeLayout
-            android:paddingLeft="@dimen/pref_left_normal_padding"
-            android:paddingRight="@dimen/pref_right_normal_padding"
-            android:paddingTop="@dimen/pref_top_normal_padding"
-            android:paddingBottom="@dimen/pref_bottom_normal_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:text="@string/passing_grade_mark_label"
-                android:textSize="@dimen/normal_text_size" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/passing_grade_mark_spinner"
-                android:padding="2sp"
-                android:layout_marginTop="@dimen/normal_margin_spinner"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="@dimen/normal_text_size" />
-
-        </RelativeLayout>
+        android:orientation="vertical" >
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/left_normal_padding"
-            android:paddingRight="@dimen/right_normal_padding"
-            android:paddingTop="@dimen/top_normal_padding"
-            android:paddingBottom="@dimen/bottom_normal_padding"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/a_plus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/a_plus"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/a_plus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/a_plus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/a_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/a"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/a_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/a_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/a_minus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/a_minus"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/a_minus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/a_minus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/b_plus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/b_plus"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/b_plus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/b_plus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/b_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/b"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/b_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/b_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/b_minus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/b_minus"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/b_minus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/b_minus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/c_plus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/c_plus"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/c_plus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/c_plus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/c_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/c"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/c_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/c_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/c_minus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/c_minus"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/c_minus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/c_minus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/d_plus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/d_plus"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/d_plus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/d_plus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/d_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/d"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/d_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/d_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/d_minus_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/d_minus"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/d_minus_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/d_minus_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+        <View style="@style/DividerBottom"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/f_check_box"
+                android:contentDescription="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/f"
+                android:textSize="@dimen/normal_text_size" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/f_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/normal_text_size" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/f_edit_button"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
 
         </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v7.widget.LinearLayoutCompat>
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

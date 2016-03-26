@@ -276,4 +276,18 @@
 
     <string name="final_grade_summary">Final Grade</string>
 
+    <string name="a_plus">A+</string>
+    <string name="a">A</string>
+    <string name="a_minus">A-</string>
+    <string name="b_plus">B+</string>
+    <string name="b">B</string>
+    <string name="b_minus">B-</string>
+    <string name="c_plus">C+</string>
+    <string name="c">C</string>
+    <string name="c_minus">C-</string>
+    <string name="d_plus">D+</string>
+    <string name="d">D</string>
+    <string name="d_minus">D-</string>
+    <string name="f">F</string>
+
 </resources>
