@@ -255,11 +255,22 @@
     <string name="passing_grade_percentage_label">Passing Grade Percentage:</string>
     <string name="passing_grade_percentage_hint">Passing Grade Percentage</string>
     <string name="fragment_status_passing_grade_percentage_required">Passing Grade Percentage cannot be blank.</string>
+    <string name="fragment_status_passing_grade_percentage_error">Passing Grade Percentage must be greater than 0 and less than 100.</string>
     <string name="grade_system">Grade System</string>
 
     <string name="a_to_f">A to F</string>
     <string name="one_to_five">1 to 5</string>
+    <string name="one_to_five_instructions">Please enter a grade between 1.0 to 5.0.\r\n(Default is 3.0.)</string>
     <string name="four_to_one">4 to 1</string>
+    <string name="four_to_one_instructions">Please enter a grade 4.0 to 1.0.\r\n(Default is 1.0.)</string>
     <string name="title_activity_a_to_f">A To F Grade System</string>
+    <string name="passing_grade_mark_label">Passing Grade Mark:</string>
+    <string name="passing_grade_mark_hint">Passing Grade Mark</string>
+    <string name="edit_passing_grade_mark">Edit Passing Grade Mark</string>
+    <string name="fragment_status_passing_grade_mark_required">Passing Grade Mark cannot be blank.</string>
+    <string name="fragment_status_passing_grade_mark_one_to_five_error">Passing Grade Mark must be greater than 1.0 and less than 5.0.</string>
+    <string name="fragment_status_passing_grade_mark_four_to_one_error">Passing Grade Mark must be less than 4.0 and greater than 0.0.</string>
+
+    <string name="final_grade_summary">Final Grade</string>
 
 </resources>

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -18,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.polybugger.apollot.db.ApolloDbAdapter;
-import net.polybugger.apollot.db.ClassGradeBreakdownDbAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -99,6 +99,22 @@ public class FinalGradeCalculationActivity extends AppCompatActivity implements 
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        ClassStudentActivity.REQUERY_CALLBACK = true;
+        super.onBackPressed();
+    }
 
     private class ListArrayAdapter extends ArrayAdapter<GradeSystem> {
 
