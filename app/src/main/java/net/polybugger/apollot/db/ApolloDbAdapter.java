@@ -125,16 +125,16 @@ public class ApolloDbAdapter {
             db.execSQL(CREATE_TABLE_STUDENTS);
 
             _insertDefaultAcademicTerms(db);
-            long itemTypeId = _insertDefaultClassItemTypes(db);
+            _insertDefaultClassItemTypes(db);
 
             long classId = _insertDummyClass1(db);
             _insertDummyNotes(db, classId);
             _insertDummyItems(db, classId);
             _insertDummyStudents(db, classId);
-            _insertDummyGradeBreakdowns(db, classId, itemTypeId);
+            _insertDummyGradeBreakdowns(db, classId);
 
-            classId = _insertDummyClass2(db);
-            _insertDummyClassPassword(db, classId, "test");
+            //classId = _insertDummyClass2(db);
+            //_insertDummyClassPassword(db, classId, "test");
 
         }
 
@@ -160,8 +160,8 @@ public class ApolloDbAdapter {
         AcademicTermDbAdapter._insert(db, sAppContext.getString(R.string.default_academic_term_12), null);
     }
 
-    private static long _insertDefaultClassItemTypes(SQLiteDatabase db) {
-        long id = ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0), sAppContext.getString(R.string.default_class_item_type_color_0));
+    private static void _insertDefaultClassItemTypes(SQLiteDatabase db) {
+        ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_0), sAppContext.getString(R.string.default_class_item_type_color_0));
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_1), sAppContext.getString(R.string.default_class_item_type_color_1));
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_2), sAppContext.getString(R.string.default_class_item_type_color_2));
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_3), sAppContext.getString(R.string.default_class_item_type_color_3));
@@ -172,7 +172,6 @@ public class ApolloDbAdapter {
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_8), sAppContext.getString(R.string.default_class_item_type_color_8));
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_9), sAppContext.getString(R.string.default_class_item_type_color_9));
         ClassItemTypeDbAdapter._insert(db, sAppContext.getString(R.string.default_class_item_type_10), sAppContext.getString(R.string.default_class_item_type_color_10));
-        return id;
     }
 
     private static long _insertDummyClass1(SQLiteDatabase db) {
@@ -523,8 +522,14 @@ public class ApolloDbAdapter {
         ClassStudentDbAdapter._insert(db, classId, studentId, dateCreated);
     }
 
-    private static void _insertDummyGradeBreakdowns(SQLiteDatabase db, long classId, long itemTypeId) {
-        ClassGradeBreakdownDbAdapter._insert(db, classId, itemTypeId, (float) 50.00);
+    private static void _insertDummyGradeBreakdowns(SQLiteDatabase db, long classId) {
+        ClassGradeBreakdownDbAdapter._insert(db, classId, 1, (float) 20.00); // lesson
+        ClassGradeBreakdownDbAdapter._insert(db, classId, 2, (float) 20.00); // homework
+        ClassGradeBreakdownDbAdapter._insert(db, classId, 8, (float) 10.00); // report
+        ClassGradeBreakdownDbAdapter._insert(db, classId, 10, (float) 25.00); // midterm
+        ClassGradeBreakdownDbAdapter._insert(db, classId, 11, (float) 25.00); // final
+
+
     }
 
 }

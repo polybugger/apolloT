@@ -60,4 +60,16 @@
 
     </android.support.v7.preference.PreferenceCategory>
 
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/pref_category_misc_title" >
+
+        <android.support.v7.preference.Preference
+            android:layout="@layout/pref_layout"
+            android:key="@string/pref_about_key"
+            android:title="@string/pref_about_title"
+            android:summary="@string/pref_about_summary"
+            android:defaultValue="" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
 </android.support.v7.preference.PreferenceScreen>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="none"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_marginLeft="@dimen/left_normal_margin"
+        android:layout_marginRight="@dimen/right_normal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <android.support.v7.widget.AppCompatImageView
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/bottom_normal_margin_3"
+            android:layout_marginBottom="@dimen/bottom_normal_margin_3"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_apollo_launcher" />
+        <View style="@style/TitleBorderBottom"
+            android:layout_marginBottom="@dimen/bottom_normal_margin_3" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/large_text_size" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/bottom_normal_margin_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/developer_name"
+            android:textStyle="bold"
+            android:textSize="@dimen/normal_text_size" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginBottom="@dimen/bottom_normal_margin_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/poly_bug"
+            android:textSize="@dimen/normal_text_size" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/bottom_normal_margin_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/developer_email"
+            android:textStyle="bold"
+            android:textSize="@dimen/normal_text_size" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginBottom="@dimen/bottom_normal_margin_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gmail"
+            android:textSize="@dimen/normal_text_size" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/bottom_normal_margin_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_site"
+            android:textStyle="bold"
+            android:textSize="@dimen/normal_text_size" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginBottom="@dimen/bottom_normal_margin_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/appengine_site"
+            android:textSize="@dimen/normal_text_size" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/close_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_text_size"
+            android:text="@string/close_button" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</ScrollView>

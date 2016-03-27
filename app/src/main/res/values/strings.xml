@@ -42,6 +42,10 @@
 
     <string name="pref_category_security_title">Security</string>
     <string name="pref_category_app_data_title">Application Data</string>
+    <string name="pref_category_misc_title">Misc.</string>
+
+    <string name="pref_about_title">About</string>
+    <string name="pref_about_summary">About this app.</string>
 
     <string name="pref_lock_enabled_title">Lock Enabled</string>
     <string name="pref_lock_enabled_summary">Require a password to unlock on startup.</string>
@@ -292,5 +296,12 @@
     <string name="fragment_status_a_to_f_percentage_required">Percentage cannot be blank.</string>
     <string name="fragment_status_a_to_f_percentage_error">Percentage must be greater than 0.0 and less than 100.0.</string>
     <string name="edit_a_to_f_percentage">Edit A To F Grade System Percentage</string>
+
+    <string name="developer_name">Developer:</string>
+    <string name="poly_bug">Poly Bug</string>
+    <string name="developer_email">Email:</string>
+    <string name="gmail">polybugger@gmail.com</string>
+    <string name="app_site">App Website:</string>
+    <string name="appengine_site">https://apollo-1263.appspot.com/</string>
 
 </resources>

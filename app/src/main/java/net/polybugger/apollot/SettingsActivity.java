@@ -3,6 +3,7 @@ package net.polybugger.apollot;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -84,6 +85,20 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent finalGradeCalcIntent = new Intent(getActivity(), FinalGradeCalculationActivity.class);
                     startActivity(finalGradeCalcIntent);
+                    return true;
+                }
+            });
+
+            Preference aboutPref = findPreference(getString(R.string.pref_about_key));
+            aboutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    FragmentManager fm = getFragmentManager();
+                    AboutDialogFragment df = (AboutDialogFragment) fm.findFragmentByTag(AboutDialogFragment.TAG);
+                    if(df == null) {
+                        df = AboutDialogFragment.newInstance();
+                        df.show(fm, AboutDialogFragment.TAG);
+                    }
                     return true;
                 }
             });
